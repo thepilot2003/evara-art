@@ -57,7 +57,12 @@
 				$custom_logo_id = get_theme_mod( 'custom_logo' );
 				$logo_url = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : EVARA_URI . '/assets/images/evara-logo.png';
 				?>
-				<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="brand-logo-img">
+				<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="brand-logo-img" onerror="this.style.display='none'; document.getElementById('theme-logo-fallback').style.display='flex';">
+				<div class="brand-fallback-mark" id="theme-logo-fallback" style="display: none;">
+					<span class="brand-fallback-feather">✦</span>
+					<span class="brand-fallback-name">EVARA</span>
+					<span class="brand-fallback-sub">ART</span>
+				</div>
 			</a>
 		</div>
 
