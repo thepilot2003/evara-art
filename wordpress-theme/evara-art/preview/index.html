@@ -1,0 +1,4128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Evara Art | Handmade Canvas Paintings & Lippan Art Home Decor</title>
+	
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	
+	<!-- FontAwesome Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	
+	<!-- Core Theme Stylesheets -->
+	
+
+	
+
+
+
+<style>
+
+/* STRICT VIEW ISOLATION FOR SPA PREVIEW */
+.view-page {
+    display: none !important;
+}
+.view-page.active-view {
+    display: block !important;
+    animation: fadeIn 0.35s ease-out;
+}
+
+/* ==========================================================================
+   Evara Art - Main Design System & Layout (Full-Width, Fluid & Responsive)
+   Warm Editorial & Minimalist Art Gallery Theme
+   ========================================================================== */
+
+:root {
+	/* Palette */
+	--evara-bg: #FAF8F5;
+	--evara-surface: #FFFFFF;
+	--evara-surface-muted: #F4EFEB;
+	--evara-sand: #EAE4DA;
+	--evara-text-primary: #1C1B19;
+	--evara-text-secondary: #4A4641;
+	--evara-text-muted: #7A756E;
+	--evara-terracotta: #B85D43;
+	--evara-terracotta-dark: #964730;
+	--evara-terracotta-light: rgba(184, 93, 67, 0.08);
+	--evara-peacock: #2B6E7F;
+	--evara-peacock-light: rgba(43, 110, 127, 0.08);
+	--evara-gold: #C5A059;
+	--evara-gold-light: rgba(197, 160, 89, 0.12);
+	--evara-border: rgba(28, 27, 25, 0.09);
+	--evara-border-focus: rgba(184, 93, 67, 0.4);
+	
+	/* Typography */
+	--font-serif: 'Cormorant Garamond', Garamond, Georgia, serif;
+	--font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	
+	/* Layout & Spacing (Expansive Full-Width) */
+	--max-width: 1600px;
+	--radius-xs: 4px;
+	--radius-sm: 8px;
+	--radius-md: 14px;
+	--radius-lg: 24px;
+	--radius-full: 9999px;
+	
+	/* Shadows */
+	--shadow-subtle: 0 4px 20px rgba(28, 27, 25, 0.04);
+	--shadow-card: 0 10px 30px rgba(28, 27, 25, 0.06);
+	--shadow-floating: 0 20px 50px rgba(28, 27, 25, 0.12);
+	
+	/* Transitions */
+	--transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Reset */
+*, *::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 16px;
+	scroll-behavior: smooth;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: var(--font-sans);
+	background-color: var(--evara-bg);
+	color: var(--evara-text-primary);
+	line-height: 1.6;
+	overflow-x: hidden;
+	width: 100%;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	transition: color 0.25s ease;
+}
+
+ul {
+	list-style: none;
+}
+
+button, input, select, textarea {
+	font-family: inherit;
+	outline: none;
+	border: none;
+	background: none;
+}
+
+/* Expansive Full-Width Container */
+.evara-container {
+	width: 100%;
+	max-width: var(--max-width);
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: clamp(16px, 3.5vw, 48px);
+	padding-right: clamp(16px, 3.5vw, 48px);
+}
+
+/* Typography Helpers */
+.italic-serif {
+	font-family: var(--font-serif);
+	font-style: italic;
+	font-weight: 400;
+}
+
+.highlight-text {
+	color: var(--evara-terracotta);
+}
+
+.sub-heading {
+	display: inline-block;
+	font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	font-weight: 700;
+	color: var(--evara-peacock);
+	margin-bottom: 8px;
+}
+
+.main-heading {
+	font-family: var(--font-serif);
+	font-size: clamp(1.85rem, 3.5vw, 3rem);
+	font-weight: 600;
+	line-height: 1.2;
+	color: var(--evara-text-primary);
+	margin-bottom: 12px;
+}
+
+.section-desc {
+	font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+	color: var(--evara-text-secondary);
+	max-width: 760px;
+	margin: 0 auto;
+	line-height: 1.7;
+}
+
+.text-center {
+	text-align: center;
+}
+
+/* Button Primitives */
+.evara-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 12px 24px;
+	border-radius: var(--radius-full);
+	font-size: 0.925rem;
+	font-weight: 600;
+	cursor: pointer;
+	min-height: 46px;
+	transition: all 0.3s var(--transition-smooth);
+	white-space: nowrap;
+}
+
+.btn-primary {
+	background-color: var(--evara-text-primary);
+	color: #FFFFFF;
+}
+
+.btn-primary:hover {
+	background-color: var(--evara-terracotta);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 20px rgba(184, 93, 67, 0.25);
+}
+
+.btn-outline {
+	border: 1.5px solid var(--evara-text-primary);
+	color: var(--evara-text-primary);
+}
+
+.btn-outline:hover {
+	background-color: var(--evara-text-primary);
+	color: #FFFFFF;
+	transform: translateY(-2px);
+}
+
+.btn-lg {
+	padding: 14px 30px;
+	font-size: 0.985rem;
+	min-height: 50px;
+}
+
+.btn-whatsapp {
+	background-color: #25D366;
+	color: #FFFFFF;
+}
+
+.btn-whatsapp:hover {
+	background-color: #20BA5A;
+}
+
+.btn-whatsapp-lg {
+	background-color: #25D366;
+	color: #FFFFFF;
+	padding: 14px 28px;
+	border-radius: var(--radius-full);
+	font-weight: 600;
+	box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp-lg:hover {
+	background-color: #1EB855;
+	transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Header: Full-Width & Centered Logo Across All Devices
+   ========================================================================== */
+
+.evara-announcement-bar {
+	background-color: var(--evara-text-primary);
+	color: #F5EFEB;
+	font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+	padding: 9px 0;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	font-weight: 500;
+}
+
+.announcement-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	text-align: center;
+	line-height: 1.4;
+}
+
+.announcement-sparkle {
+	color: var(--evara-gold);
+}
+
+.announcement-text-desktop {
+	display: inline-block;
+}
+
+.announcement-text-mobile {
+	display: none;
+}
+
+.evara-header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	background-color: rgba(250, 248, 245, 0.96);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border-bottom: 1px solid var(--evara-border);
+	transition: all 0.3s ease;
+	width: 100%;
+}
+
+.evara-header.is-scrolled {
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+	background-color: rgba(255, 255, 255, 0.98);
+}
+
+.header-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 82px;
+	position: relative;
+	width: 100%;
+}
+
+/* Left: Desktop Nav or Mobile Hamburger */
+.header-left {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	justify-content: flex-start;
+	z-index: 2;
+}
+
+.evara-mobile-toggle {
+	display: none;
+	flex-direction: column;
+	gap: 5px;
+	cursor: pointer;
+	padding: 10px;
+	border-radius: var(--radius-sm);
+	margin-left: -6px;
+}
+
+.evara-mobile-toggle:hover {
+	background-color: var(--evara-surface-muted);
+}
+
+.toggle-line {
+	width: 22px;
+	height: 2px;
+	background-color: var(--evara-text-primary);
+	transition: transform 0.3s ease;
+}
+
+.evara-desktop-nav .nav-links {
+	display: flex;
+	align-items: center;
+	gap: clamp(16px, 2vw, 32px);
+}
+
+.evara-desktop-nav .nav-links a {
+	font-size: 0.925rem;
+	font-weight: 500;
+	color: var(--evara-text-secondary);
+	position: relative;
+	padding: 6px 0;
+	white-space: nowrap;
+}
+
+.evara-desktop-nav .nav-links a:hover,
+.evara-desktop-nav .nav-links a.active {
+	color: var(--evara-text-primary);
+}
+
+.evara-desktop-nav .nav-links a::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0%;
+	height: 2px;
+	background-color: var(--evara-peacock);
+	transition: width 0.3s var(--transition-smooth);
+}
+
+.evara-desktop-nav .nav-links a:hover::after,
+.evara-desktop-nav .nav-links a.active::after {
+	width: 100%;
+}
+
+.nav-highlight {
+	color: var(--evara-terracotta) !important;
+	font-weight: 600 !important;
+}
+
+/* Dead-Center Brand Logo (Desktop + Mobile) */
+.evara-brand {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+	pointer-events: auto;
+}
+
+.brand-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.brand-logo-img {
+	height: clamp(44px, 5.5vw, 60px);
+	width: auto;
+	object-fit: contain;
+	transition: transform 0.25s ease;
+}
+
+.brand-link:hover .brand-logo-img {
+	transform: scale(1.03);
+}
+
+/* Right: Actions */
+.evara-header-actions {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	justify-content: flex-end;
+	gap: 12px;
+	z-index: 2;
+}
+
+.action-btn {
+	width: 42px;
+	height: 42px;
+	border-radius: var(--radius-full);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.1rem;
+	color: var(--evara-text-primary);
+	cursor: pointer;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.action-btn:hover {
+	background-color: var(--evara-surface-muted);
+	transform: scale(1.05);
+}
+
+.cart-icon-wrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cart-count-badge {
+	position: absolute;
+	top: -8px;
+	right: -10px;
+	background-color: var(--evara-terracotta);
+	color: #FFFFFF;
+	font-size: 0.7rem;
+	font-weight: 700;
+	min-width: 19px;
+	height: 19px;
+	border-radius: var(--radius-full);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 4px;
+}
+
+/* ==========================================================================
+   Hero Section: Full-Width & High-Impact
+   ========================================================================== */
+
+.evara-hero-section {
+	position: relative;
+	padding: clamp(20px, 3vw, 44px) 0 clamp(36px, 6vw, 70px);
+	overflow: hidden;
+	width: 100%;
+}
+
+.hero-banner-card {
+	position: relative;
+	width: 100%;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background-color: #F8F4EE;
+	box-shadow: var(--shadow-card);
+	border: 1px solid var(--evara-border);
+}
+
+.hero-banner-img {
+	width: 100%;
+	height: auto;
+	display: block;
+	object-fit: cover;
+	max-height: 540px;
+}
+
+.hero-editorial-wrap {
+	display: grid;
+	grid-template-columns: 1.2fr 0.8fr;
+	gap: clamp(24px, 4vw, 54px);
+	align-items: center;
+	margin-top: clamp(24px, 3.5vw, 48px);
+}
+
+.hero-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background-color: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	padding: 6px 14px;
+	border-radius: var(--radius-full);
+	font-size: clamp(0.72rem, 1.5vw, 0.8rem);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--evara-peacock);
+	margin-bottom: 16px;
+	box-shadow: var(--shadow-subtle);
+}
+
+.badge-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background-color: var(--evara-terracotta);
+}
+
+.hero-title {
+	font-family: var(--font-serif);
+	font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+	line-height: 1.12;
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	margin-bottom: 16px;
+}
+
+.hero-subtitle {
+	font-size: clamp(1rem, 1.8vw, 1.15rem);
+	color: var(--evara-text-secondary);
+	line-height: 1.7;
+	max-width: 620px;
+	margin-bottom: 30px;
+}
+
+.hero-cta-group {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	margin-bottom: 36px;
+}
+
+.hero-stats-row {
+	display: flex;
+	align-items: center;
+	gap: clamp(16px, 3vw, 32px);
+	padding-top: 22px;
+	border-top: 1px solid var(--evara-border);
+	flex-wrap: wrap;
+}
+
+.stat-item {
+	display: flex;
+	flex-direction: column;
+}
+
+.stat-number {
+	font-family: var(--font-serif);
+	font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+	font-weight: 700;
+	color: var(--evara-text-primary);
+	line-height: 1.1;
+}
+
+.stat-label {
+	font-size: 0.78rem;
+	color: var(--evara-text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	margin-top: 3px;
+}
+
+.stat-divider {
+	width: 1px;
+	height: 32px;
+	background-color: var(--evara-border);
+}
+
+.hero-art-showcase-card {
+	background: #FFFFFF;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: var(--shadow-card);
+	border: 1px solid var(--evara-border);
+	transition: transform 0.4s var(--transition-smooth), box-shadow 0.4s var(--transition-smooth);
+	cursor: pointer;
+}
+
+.showcase-card-link {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
+.hero-art-showcase-card:hover {
+	transform: translateY(-5px);
+	box-shadow: var(--shadow-floating);
+}
+
+.showcase-thumb-wrap {
+	position: relative;
+	width: 100%;
+	height: clamp(260px, 32vw, 380px);
+	overflow: hidden;
+	background-color: var(--evara-surface-muted);
+}
+
+.showcase-thumb-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.6s var(--transition-smooth);
+}
+
+.hero-art-showcase-card:hover .showcase-thumb-img {
+	transform: scale(1.05);
+}
+
+.showcase-info-box {
+	padding: clamp(16px, 2.5vw, 24px);
+	background: #FFFFFF;
+}
+
+.showcase-tag {
+	font-size: 0.72rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--evara-terracotta);
+	display: block;
+	margin-bottom: 4px;
+}
+
+.showcase-title {
+	font-family: var(--font-serif);
+	font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	line-height: 1.3;
+	margin-bottom: 8px;
+}
+
+.showcase-price-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 10px;
+	border-top: 1px solid var(--evara-border);
+}
+
+.showcase-price {
+	font-weight: 700;
+	font-size: 1.15rem;
+	color: var(--evara-text-primary);
+}
+
+.showcase-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--evara-peacock);
+}
+
+/* ==========================================================================
+   Artist Divine Philosophy Section
+   ========================================================================== */
+
+.evara-philosophy-section {
+	padding: clamp(40px, 6vw, 80px) 0;
+	background: linear-gradient(180deg, var(--evara-bg) 0%, #F5F0E8 100%);
+	border-top: 1px solid var(--evara-border);
+	border-bottom: 1px solid var(--evara-border);
+	width: 100%;
+}
+
+.philosophy-card {
+	background: #FFFFFF;
+	border-radius: var(--radius-lg);
+	padding: clamp(24px, 4vw, 54px);
+	box-shadow: var(--shadow-card);
+	border: 1px solid var(--evara-border);
+	position: relative;
+	overflow: hidden;
+}
+
+.philosophy-decor-feather {
+	position: absolute;
+	top: -20px;
+	right: -20px;
+	width: 180px;
+	opacity: 0.08;
+	pointer-events: none;
+}
+
+.philosophy-header {
+	text-align: center;
+	max-width: 780px;
+	margin: 0 auto clamp(20px, 3.5vw, 36px);
+}
+
+.philosophy-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background-color: var(--evara-gold-light);
+	color: #8A651E;
+	padding: 5px 14px;
+	border-radius: var(--radius-full);
+	font-size: 0.78rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	margin-bottom: 12px;
+}
+
+.philosophy-quote-lead {
+	font-family: var(--font-serif);
+	font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+	line-height: 1.55;
+	font-weight: 500;
+	color: var(--evara-text-primary);
+	font-style: italic;
+	margin-bottom: 20px;
+}
+
+.philosophy-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: clamp(18px, 2.8vw, 32px);
+	margin-top: 28px;
+	padding-top: 28px;
+	border-top: 1px solid var(--evara-border);
+}
+
+.philosophy-col {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.col-icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background-color: var(--evara-peacock-light);
+	color: var(--evara-peacock);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.15rem;
+	margin-bottom: 6px;
+}
+
+.col-title {
+	font-family: var(--font-serif);
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--evara-text-primary);
+}
+
+.philosophy-desc {
+	font-size: 0.925rem;
+	color: var(--evara-text-secondary) !important;
+	line-height: 1.65;
+	display: block !important;
+}
+
+/* ==========================================================================
+   Trust Strip
+   ========================================================================== */
+
+.evara-trust-strip {
+	background-color: #FFFFFF;
+	border-bottom: 1px solid var(--evara-border);
+	padding: clamp(20px, 3.5vw, 36px) 0;
+	width: 100%;
+}
+
+.trust-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: clamp(16px, 2.5vw, 32px);
+}
+
+.trust-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+}
+
+.trust-icon {
+	width: 44px;
+	height: 44px;
+	border-radius: var(--radius-full);
+	background-color: var(--evara-surface-muted);
+	color: var(--evara-peacock);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.2rem;
+	flex-shrink: 0;
+}
+
+.trust-text h4 {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	margin-bottom: 4px;
+}
+
+.trust-text p {
+	font-size: 0.825rem;
+	color: var(--evara-text-secondary);
+	line-height: 1.5;
+}
+
+/* ==========================================================================
+   Curated Collections Grid
+   ========================================================================== */
+
+.evara-collections-section {
+	padding: clamp(40px, 6vw, 80px) 0;
+	width: 100%;
+}
+
+.collections-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: clamp(18px, 2.5vw, 32px);
+	margin-top: 36px;
+}
+
+.collection-card {
+	position: relative;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background-color: #FFFFFF;
+	box-shadow: var(--shadow-subtle);
+	height: clamp(320px, 34vw, 440px);
+}
+
+.collection-link {
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.collection-img-wrap {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.collection-img-wrap img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.8s var(--transition-smooth);
+}
+
+.collection-card:hover .collection-img-wrap img {
+	transform: scale(1.06);
+}
+
+.collection-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(28, 27, 25, 0.88) 0%, rgba(28, 27, 25, 0.3) 55%, transparent 100%);
+}
+
+.collection-info {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: clamp(20px, 3vw, 32px);
+	color: #FFFFFF;
+	z-index: 2;
+}
+
+.col-count {
+	font-size: 0.78rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--evara-gold);
+	font-weight: 700;
+}
+
+.collection-card .col-title {
+	font-family: var(--font-serif);
+	font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+	font-weight: 600;
+	margin: 6px 0 8px;
+	color: #FFFFFF;
+}
+
+.collection-card .col-desc {
+	font-size: 0.9rem;
+	color: rgba(255, 255, 255, 0.88);
+	line-height: 1.55;
+	margin-bottom: 14px;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.col-action {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 0.88rem;
+	font-weight: 600;
+	color: #FFFFFF;
+	border-bottom: 1.5px solid rgba(255, 255, 255, 0.5);
+	padding-bottom: 2px;
+	transition: gap 0.25s ease;
+}
+
+.collection-card:hover .col-action {
+	gap: 12px;
+	border-color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Full-Width Artworks Grid (Responsive for all display widths)
+   ========================================================================== */
+
+.evara-artworks-section {
+	padding: clamp(40px, 6vw, 80px) 0;
+	background-color: var(--evara-surface-muted);
+	width: 100%;
+}
+
+.artworks-header-flex {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	margin-bottom: 32px;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.view-all-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: var(--evara-peacock);
+	border-bottom: 1.5px solid var(--evara-peacock);
+	padding-bottom: 4px;
+	transition: gap 0.25s ease;
+}
+
+.view-all-link:hover {
+	gap: 12px;
+}
+
+/* Full Width Fluid Grid */
+.artworks-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: clamp(18px, 2.5vw, 28px);
+	width: 100%;
+}
+
+.artwork-card {
+	background-color: #FFFFFF;
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	box-shadow: var(--shadow-subtle);
+	border: 1px solid var(--evara-border);
+	transition: transform 0.35s var(--transition-smooth), box-shadow 0.35s var(--transition-smooth);
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.artwork-card:hover {
+	transform: translateY(-5px);
+	box-shadow: var(--shadow-card);
+}
+
+.art-thumbnail-wrap {
+	position: relative;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	background-color: var(--evara-surface-muted);
+	cursor: pointer;
+}
+
+.art-img-primary {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.6s var(--transition-smooth);
+}
+
+.artwork-card:hover .art-img-primary {
+	transform: scale(1.05);
+}
+
+.art-badge {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background: rgba(255, 255, 255, 0.94);
+	backdrop-filter: blur(8px);
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	padding: 4px 9px;
+	border-radius: var(--radius-full);
+	color: var(--evara-text-primary);
+	box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+	z-index: 2;
+}
+
+.art-quick-actions {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+	opacity: 0;
+	transform: translateY(8px);
+	transition: all 0.3s var(--transition-smooth);
+	z-index: 2;
+}
+
+.artwork-card:hover .art-quick-actions {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.quick-view-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	background: rgba(28, 27, 25, 0.9);
+	color: #FFFFFF;
+	font-size: 0.8rem;
+	font-weight: 600;
+	padding: 8px;
+	border-radius: var(--radius-sm);
+	backdrop-filter: blur(8px);
+}
+
+.quick-view-btn:hover {
+	background: var(--evara-text-primary);
+}
+
+.art-card-details {
+	padding: clamp(14px, 2vw, 18px);
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	justify-content: space-between;
+}
+
+.art-title {
+	font-family: var(--font-serif);
+	font-size: clamp(1.08rem, 1.6vw, 1.25rem);
+	font-weight: 600;
+	line-height: 1.35;
+	color: var(--evara-text-primary);
+	margin-bottom: 12px;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.art-title:hover {
+	color: var(--evara-peacock);
+}
+
+.art-price-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 10px;
+	border-top: 1px solid var(--evara-border);
+}
+
+.price-val {
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--evara-text-primary);
+}
+
+.add-to-bag-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background-color: var(--evara-surface-muted);
+	color: var(--evara-text-primary);
+	font-size: 0.825rem;
+	font-weight: 600;
+	padding: 8px 14px;
+	border-radius: var(--radius-full);
+	cursor: pointer;
+	transition: all 0.25s ease;
+}
+
+.add-to-bag-btn:hover {
+	background-color: var(--evara-terracotta);
+	color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Footer: Full-Width & Expansive Layout
+   ========================================================================== */
+
+.evara-footer {
+	background-color: #161514;
+	color: #ECE8E3;
+	padding-top: clamp(48px, 6vw, 80px);
+	width: 100%;
+}
+
+.footer-content-grid {
+	display: grid;
+	grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
+	gap: clamp(28px, 4vw, 56px);
+	padding-bottom: 48px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	width: 100%;
+}
+
+.footer-logo {
+	height: clamp(46px, 5.5vw, 64px);
+	filter: brightness(0) invert(1);
+	margin-bottom: 18px;
+}
+
+.brand-bio {
+	font-size: 0.9rem;
+	color: rgba(255, 255, 255, 0.72);
+	line-height: 1.7;
+	margin-bottom: 22px;
+}
+
+.social-links {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.social-links a {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.08);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #FFFFFF;
+	font-size: 0.95rem;
+	transition: all 0.25s ease;
+}
+
+.social-links a:hover {
+	background: var(--evara-terracotta);
+	transform: translateY(-2px);
+}
+
+.footer-heading {
+	font-family: var(--font-serif);
+	font-size: 1.2rem;
+	color: #FFFFFF;
+	margin-bottom: 20px;
+}
+
+.footer-links li {
+	margin-bottom: 10px;
+}
+
+.footer-links a {
+	font-size: 0.88rem;
+	color: rgba(255, 255, 255, 0.65);
+	transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+	color: #FFFFFF;
+}
+
+.contact-details li {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	font-size: 0.88rem;
+	color: rgba(255, 255, 255, 0.75);
+	margin-bottom: 14px;
+}
+
+.contact-details li i {
+	color: var(--evara-gold);
+	margin-top: 4px;
+}
+
+.footer-bottom {
+	padding: 24px 0;
+	background-color: #100F0E;
+	font-size: 0.825rem;
+	color: rgba(255, 255, 255, 0.5);
+	width: 100%;
+}
+
+.footer-bottom-flex {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 16px;
+	width: 100%;
+}
+
+.payment-badges {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.payment-pill {
+	color: #10B981;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* Floating WhatsApp */
+.evara-floating-whatsapp {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 999;
+	width: 52px;
+	height: 52px;
+	background-color: #25D366;
+	color: #FFFFFF;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.65rem;
+	box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+	transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.evara-floating-whatsapp:hover {
+	transform: scale(1.1) rotate(6deg);
+	background-color: #1EB855;
+}
+
+.whatsapp-tooltip {
+	position: absolute;
+	right: 64px;
+	background: rgba(28, 27, 25, 0.92);
+	color: #FFFFFF;
+	padding: 6px 14px;
+	border-radius: var(--radius-full);
+	font-size: 0.8rem;
+	font-weight: 600;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.25s ease, transform 0.25s ease;
+	transform: translateX(6px);
+}
+
+.evara-floating-whatsapp:hover .whatsapp-tooltip {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* ==========================================================================
+   Drawers, Modals & Cart Overlays (Strictly Hidden by Default)
+   ========================================================================== */
+
+/* Toast Message Notification */
+.evara-toast {
+	position: fixed;
+	bottom: 30px;
+	left: 50%;
+	transform: translateX(-50%) translateY(100px);
+	background: #1C1B19;
+	color: #FFFFFF;
+	padding: 12px 24px;
+	border-radius: var(--radius-full);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 0.9rem;
+	font-weight: 500;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+	z-index: 10000;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.evara-toast.show {
+	transform: translateX(-50%) translateY(0);
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* View Page Routing (Strict Isolation: Only the active view displays!) */
+.view-page {
+	display: none !important;
+}
+
+.view-page.active-view {
+	display: block !important;
+	animation: fadeIn 0.35s ease;
+}
+
+/* Cart Drawer */
+.evara-cart-drawer-wrapper {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 9999 !important;
+	display: none !important;
+}
+
+.evara-cart-drawer-wrapper.is-open {
+	display: block !important;
+}
+
+.cart-drawer-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+
+.cart-drawer-panel {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	max-width: 440px;
+	background: #FFFFFF;
+	box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
+	display: flex;
+	flex-direction: column;
+	z-index: 10;
+	animation: slideLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideLeft {
+	from {
+		transform: translateX(100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+.drawer-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 18px 22px;
+	border-bottom: 1px solid var(--evara-border);
+}
+
+.header-title-wrap {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+}
+
+.drawer-title {
+	font-family: var(--font-serif);
+	font-size: 1.4rem;
+	font-weight: 600;
+	color: var(--evara-text-primary);
+}
+
+.drawer-count {
+	font-size: 0.9rem;
+	color: var(--evara-text-muted);
+}
+
+.drawer-close-btn {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: var(--evara-text-secondary);
+	font-size: 1.15rem;
+	transition: background-color 0.2s ease;
+}
+
+.drawer-close-btn:hover {
+	background-color: var(--evara-surface-muted);
+	color: var(--evara-text-primary);
+}
+
+.shipping-threshold-banner {
+	background-color: var(--evara-surface-muted);
+	padding: 12px 22px;
+	border-bottom: 1px solid var(--evara-border);
+}
+
+.threshold-msg {
+	font-size: 0.8rem;
+	color: var(--evara-text-secondary);
+	margin-bottom: 6px;
+}
+
+.threshold-msg.success {
+	color: #059669;
+	font-weight: 600;
+}
+
+.threshold-progress-bar {
+	width: 100%;
+	height: 6px;
+	background-color: var(--evara-sand);
+	border-radius: var(--radius-full);
+	overflow: hidden;
+}
+
+.threshold-progress-fill {
+	height: 100%;
+	background: linear-gradient(90deg, var(--evara-peacock), var(--evara-terracotta));
+	border-radius: var(--radius-full);
+	transition: width 0.4s ease;
+}
+
+.evara-cart-drawer-items {
+	flex-grow: 1;
+	overflow-y: auto;
+	padding: 18px 22px;
+}
+
+.cart-items-list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.cart-item-row {
+	display: flex;
+	gap: 14px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid var(--evara-border);
+	align-items: center;
+}
+
+.item-thumb {
+	width: 68px;
+	height: 68px;
+	border-radius: var(--radius-sm);
+	overflow: hidden;
+	flex-shrink: 0;
+	background: var(--evara-surface-muted);
+}
+
+.item-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.item-details {
+	flex-grow: 1;
+}
+
+.item-title {
+	font-family: var(--font-serif);
+	font-size: 1.05rem;
+	font-weight: 600;
+	line-height: 1.3;
+	margin-bottom: 4px;
+	color: var(--evara-text-primary);
+}
+
+.item-price {
+	font-weight: 700;
+	color: var(--evara-text-primary);
+	font-size: 0.95rem;
+	margin-bottom: 6px;
+}
+
+.item-qty-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.qty-pill {
+	font-size: 0.78rem;
+	color: var(--evara-text-muted);
+	background: var(--evara-surface-muted);
+	padding: 2px 8px;
+	border-radius: var(--radius-full);
+}
+
+.remove-cart-item {
+	font-size: 0.8rem;
+	color: #DC2626;
+	cursor: pointer;
+}
+
+.empty-cart-state {
+	text-align: center;
+	padding: 40px 16px;
+}
+
+.empty-icon-wrap {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	background: var(--evara-surface-muted);
+	color: var(--evara-peacock);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.4rem;
+	margin: 0 auto 14px;
+}
+
+.empty-cart-state h4 {
+	font-family: var(--font-serif);
+	font-size: 1.3rem;
+	margin-bottom: 6px;
+}
+
+.empty-cart-state p {
+	font-size: 0.85rem;
+	color: var(--evara-text-secondary);
+	margin-bottom: 18px;
+}
+
+.drawer-footer {
+	padding: 18px 22px;
+	border-top: 1px solid var(--evara-border);
+	background: #FFFFFF;
+}
+
+.subtotal-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 1.1rem;
+	font-weight: 700;
+	margin-bottom: 4px;
+}
+
+.shipping-calc-note {
+	font-size: 0.75rem;
+	color: var(--evara-text-muted);
+	margin-bottom: 14px;
+}
+
+.drawer-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.btn-checkout {
+	width: 100%;
+	padding: 14px;
+	font-size: 0.95rem;
+}
+
+/* Mobile Off-Canvas Drawer */
+.evara-mobile-drawer {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 9999 !important;
+	display: none !important;
+}
+
+.evara-mobile-drawer.is-open {
+	display: block !important;
+}
+
+.mobile-drawer-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+
+.mobile-drawer-panel {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 85%;
+	max-width: 320px;
+	background: #FFFFFF;
+	display: flex;
+	flex-direction: column;
+	padding: 24px;
+	z-index: 10;
+	animation: slideRight 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideRight {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+.mobile-nav-list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 24px;
+	flex-grow: 1;
+}
+
+.mobile-nav-list a {
+	font-size: 1.05rem;
+	font-weight: 500;
+	color: var(--evara-text-primary);
+	display: block;
+	padding: 4px 0;
+}
+
+.mobile-nav-list .highlight-link {
+	color: var(--evara-terracotta);
+	font-weight: 600;
+}
+
+.mobile-drawer-footer {
+	padding-top: 18px;
+	border-top: 1px solid var(--evara-border);
+}
+
+.contact-prompt {
+	font-size: 0.85rem;
+	color: var(--evara-text-secondary);
+	margin-bottom: 12px;
+}
+
+/* Search Modal */
+.evara-search-modal {
+	position: fixed !important;
+	inset: 0 !important;
+	z-index: 9999 !important;
+	display: none !important;
+	align-items: flex-start;
+	justify-content: center;
+	padding-top: clamp(60px, 12vw, 100px);
+}
+
+.evara-search-modal.is-open {
+	display: flex !important;
+}
+
+.search-modal-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+
+.search-modal-content {
+	position: relative;
+	width: 90%;
+	max-width: 600px;
+	background: #FFFFFF;
+	border-radius: var(--radius-lg);
+	padding: clamp(24px, 4vw, 32px);
+	box-shadow: var(--shadow-floating);
+	z-index: 10;
+	animation: popDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popDown {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.search-close-btn {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	font-size: 1.25rem;
+	color: var(--evara-text-muted);
+	cursor: pointer;
+}
+
+.search-input-wrap {
+	display: flex;
+	align-items: center;
+	border: 2px solid var(--evara-border);
+	border-radius: var(--radius-full);
+	padding: 8px 18px;
+	margin-top: 10px;
+	transition: border-color 0.25s ease;
+}
+
+.search-input-wrap:focus-within {
+	border-color: var(--evara-peacock);
+}
+
+.search-field {
+	flex-grow: 1;
+	padding: 8px 12px;
+	font-size: 1rem;
+}
+
+.search-submit {
+	background: var(--evara-text-primary);
+	color: #FFFFFF;
+	padding: 8px 18px;
+	border-radius: var(--radius-full);
+	font-weight: 600;
+	font-size: 0.875rem;
+	cursor: pointer;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints & Mobile-First Luxury Refinements
+   ========================================================================== */
+
+/* Tablet & Smaller Laptops (<= 1024px) */
+@media (max-width: 1024px) {
+	.evara-desktop-nav {
+		display: none;
+	}
+	.evara-mobile-toggle {
+		display: flex;
+	}
+	.hero-editorial-wrap {
+		grid-template-columns: 1fr;
+		gap: 36px;
+	}
+	.trust-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+	.collections-grid {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+	.collection-card {
+		height: 300px;
+	}
+	.philosophy-grid {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 20px;
+	}
+	.artworks-grid {
+		grid-template-columns: repeat(3, 1fr);
+		gap: 18px;
+	}
+	.footer-content-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 32px;
+	}
+}
+
+/* Tablets Portrait & Large Handsets (<= 768px) */
+@media (max-width: 768px) {
+	.header-inner {
+		height: 64px;
+	}
+	.brand-logo-img {
+		height: 38px;
+		max-width: 150px;
+	}
+	.hero-banner-card {
+		border-radius: var(--radius-md);
+		aspect-ratio: 16 / 9;
+		max-height: 320px;
+	}
+	.hero-banner-img {
+		height: 100%;
+		object-fit: cover;
+		object-position: center 30%;
+	}
+	.philosophy-decor-feather {
+		display: none !important;
+	}
+	.philosophy-card {
+		padding: 28px 20px;
+	}
+	.philosophy-grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+	.philosophy-col {
+		display: grid !important;
+		grid-template-columns: 40px 1fr !important;
+		column-gap: 14px !important;
+		row-gap: 4px !important;
+		text-align: left !important;
+	}
+	.philosophy-col .col-icon {
+		grid-row: 1 / span 2 !important;
+		width: 40px !important;
+		height: 40px !important;
+		min-width: 40px !important;
+		font-size: 1rem !important;
+		margin-bottom: 0 !important;
+	}
+	.philosophy-col .col-title {
+		grid-column: 2 !important;
+		font-size: 1.1rem !important;
+		margin-bottom: 0 !important;
+	}
+	.philosophy-desc {
+		grid-column: 2 !important;
+		font-size: 0.88rem !important;
+		line-height: 1.5 !important;
+	}
+	.collections-grid {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+	.collection-card {
+		height: 260px;
+		border-radius: var(--radius-md);
+	}
+	.artworks-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 14px;
+	}
+}
+
+/* Mobile Devices & Phones (<= 640px) */
+@media (max-width: 640px) {
+	/* Announcement Ribbon: Single Sleek Line */
+	.evara-announcement-bar {
+		padding: 7px 0;
+	}
+	.announcement-text-desktop {
+		display: none !important;
+	}
+	.announcement-text-mobile {
+		display: inline-block !important;
+		font-size: 0.72rem;
+		letter-spacing: 0.05em;
+		font-weight: 600;
+	}
+	.announcement-content {
+		gap: 8px;
+	}
+
+	/* Sticky Header */
+	.header-inner {
+		height: 58px;
+	}
+	.brand-logo-img {
+		height: 34px;
+		max-width: 130px;
+	}
+	.evara-mobile-toggle {
+		padding: 8px;
+	}
+	.toggle-line {
+		width: 20px;
+	}
+	.evara-header-actions {
+		gap: 6px;
+	}
+	.action-btn {
+		width: 38px;
+		height: 38px;
+		font-size: 1rem;
+	}
+	.cart-count-badge {
+		min-width: 17px;
+		height: 17px;
+		font-size: 0.65rem;
+		top: -6px;
+		right: -8px;
+	}
+
+	/* Hero Section */
+	.evara-hero-section {
+		padding: 14px 0 32px;
+	}
+	.hero-banner-card {
+		border-radius: var(--radius-md);
+		aspect-ratio: 16 / 9;
+		max-height: 220px;
+		margin-bottom: 4px;
+	}
+	.hero-banner-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 30%;
+	}
+	.hero-editorial-wrap {
+		margin-top: 18px;
+		gap: 20px;
+	}
+	.hero-badge {
+		font-size: 0.68rem;
+		padding: 4px 10px;
+		margin-bottom: 10px;
+		gap: 6px;
+	}
+	.hero-title {
+		font-size: clamp(1.85rem, 7.2vw, 2.35rem);
+		line-height: 1.15;
+		margin-bottom: 10px;
+	}
+	.hero-subtitle {
+		font-size: 0.92rem;
+		line-height: 1.6;
+		margin-bottom: 20px;
+	}
+
+	/* CTA Buttons: Full-width, Touch-friendly */
+	.hero-cta-group {
+		flex-direction: column;
+		width: 100%;
+		gap: 10px;
+		margin-bottom: 22px;
+	}
+	.hero-cta-group .evara-btn {
+		width: 100%;
+		justify-content: center;
+		height: 48px;
+		font-size: 0.92rem;
+		border-radius: var(--radius-full);
+	}
+
+	/* Stats: 3 Balanced Equal Columns */
+	.hero-stats-row {
+		display: grid !important;
+		grid-template-columns: repeat(3, 1fr) !important;
+		gap: 0 !important;
+		padding-top: 16px !important;
+		border-top: 1px solid var(--evara-border);
+		text-align: center;
+		width: 100%;
+	}
+	.stat-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		padding: 0 4px;
+	}
+	.stat-divider {
+		display: none !important;
+	}
+	.stat-item:not(:last-child)::after {
+		content: "";
+		position: absolute;
+		right: 0;
+		top: 15%;
+		height: 70%;
+		width: 1px;
+		background-color: var(--evara-border);
+	}
+	.stat-number {
+		font-size: 1.25rem !important;
+		font-weight: 700;
+		line-height: 1.15;
+	}
+	.stat-label {
+		font-size: 0.64rem !important;
+		letter-spacing: 0.04em !important;
+		margin-top: 3px;
+	}
+
+	/* Featured Creation Showcase: Sleek Compact Editorial Spotlight */
+	.hero-art-showcase-card {
+		margin-top: 8px;
+		border-radius: var(--radius-md);
+		border: 1px solid var(--evara-border);
+		box-shadow: var(--shadow-subtle);
+		background: #FFFFFF;
+		overflow: hidden;
+	}
+	.showcase-card-link {
+		display: flex !important;
+		flex-direction: row;
+		align-items: center;
+		padding: 10px;
+		gap: 12px;
+		text-decoration: none;
+	}
+	.showcase-thumb-wrap {
+		width: 82px !important;
+		height: 82px !important;
+		min-width: 82px !important;
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		background: var(--evara-surface-muted);
+	}
+	.showcase-thumb-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.showcase-info-box {
+		padding: 0 !important;
+		flex: 1;
+		min-width: 0;
+	}
+	.showcase-tag {
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		color: var(--evara-terracotta);
+		display: block;
+		margin-bottom: 2px;
+	}
+	.showcase-title {
+		font-family: var(--font-serif);
+		font-size: 0.88rem;
+		font-weight: 600;
+		color: var(--evara-text-primary);
+		line-height: 1.25;
+		margin-bottom: 4px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.showcase-price-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 2px;
+		border-top: none;
+	}
+	.showcase-price {
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: var(--evara-text-primary);
+	}
+	.showcase-cta {
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: var(--evara-peacock);
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	/* Artist Philosophy Section */
+	.evara-philosophy-section {
+		padding: 30px 0;
+	}
+	.philosophy-card {
+		padding: 22px 14px;
+		border-radius: var(--radius-md);
+	}
+	.philosophy-decor-feather {
+		display: none !important;
+	}
+	.philosophy-badge {
+		font-size: 0.68rem;
+		padding: 4px 10px;
+		margin-bottom: 8px;
+	}
+	.philosophy-card .main-heading {
+		font-size: clamp(1.35rem, 5.5vw, 1.55rem);
+		line-height: 1.22;
+		margin-bottom: 12px;
+	}
+	.philosophy-quote-lead {
+		font-size: 0.95rem;
+		line-height: 1.6;
+		margin-bottom: 16px;
+		padding: 0 4px;
+	}
+	.philosophy-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin-top: 16px;
+		padding-top: 16px;
+		border-top: 1px solid var(--evara-border);
+	}
+	.philosophy-col {
+		display: grid !important;
+		grid-template-columns: 36px 1fr !important;
+		column-gap: 12px !important;
+		row-gap: 3px !important;
+		text-align: left !important;
+	}
+	.philosophy-col .col-icon {
+		grid-row: 1 / span 2 !important;
+		width: 36px !important;
+		height: 36px !important;
+		min-width: 36px !important;
+		font-size: 0.95rem !important;
+		margin-bottom: 0 !important;
+	}
+	.philosophy-col .col-title {
+		grid-column: 2 !important;
+		font-size: 1.05rem !important;
+		margin-bottom: 0 !important;
+		line-height: 1.25 !important;
+	}
+	.philosophy-desc {
+		grid-column: 2 !important;
+		font-size: 0.82rem !important;
+		line-height: 1.45 !important;
+	}
+
+	/* Trust Strip: 2x2 Clean Balanced Tiles */
+	.evara-trust-strip {
+		padding: 18px 0;
+	}
+	.trust-grid {
+		display: grid !important;
+		grid-template-columns: repeat(2, 1fr) !important;
+		gap: 10px !important;
+	}
+	.trust-item {
+		padding: 12px 10px;
+		background: #FFFFFF;
+		border: 1px solid var(--evara-border);
+		border-radius: var(--radius-sm);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 4px;
+	}
+	.trust-icon {
+		width: 32px;
+		height: 32px;
+		min-width: 32px;
+		font-size: 0.9rem;
+		margin-bottom: 2px;
+	}
+	.trust-text h4 {
+		font-size: 0.82rem;
+		font-weight: 700;
+		line-height: 1.25;
+		margin-bottom: 2px;
+	}
+	.trust-text p {
+		font-size: 0.72rem;
+		line-height: 1.35;
+		color: var(--evara-text-muted);
+	}
+
+	/* Curated Collections: Full-Width Cinematic Banners */
+	.evara-collections-section {
+		padding: 32px 0;
+	}
+	.collections-grid {
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 14px !important;
+		margin-top: 18px !important;
+	}
+	.collection-card {
+		width: 100% !important;
+		height: 240px !important;
+		border-radius: var(--radius-md) !important;
+		overflow: hidden;
+		box-shadow: var(--shadow-card);
+	}
+	.collection-overlay {
+		background: linear-gradient(to top, rgba(16, 14, 12, 0.94) 0%, rgba(16, 14, 12, 0.45) 55%, rgba(0,0,0,0.1) 100%) !important;
+	}
+	.collection-info {
+		padding: 16px 14px !important;
+	}
+	.col-count {
+		font-size: 0.68rem !important;
+		letter-spacing: 0.08em !important;
+	}
+	.collection-card .col-title {
+		font-size: 1.3rem !important;
+		margin: 3px 0 5px !important;
+		line-height: 1.2 !important;
+	}
+	.collection-card .col-desc {
+		font-size: 0.8rem !important;
+		line-height: 1.35 !important;
+		margin-bottom: 8px !important;
+		-webkit-line-clamp: 2 !important;
+	}
+	.col-action {
+		font-size: 0.8rem !important;
+	}
+
+	/* Masterpiece Artworks Grid: 2-Column Luxury Mobile Layout */
+	.evara-artworks-section {
+		padding: 32px 0;
+	}
+	.artworks-header-flex {
+		margin-bottom: 16px;
+	}
+	.artworks-grid {
+		display: grid !important;
+		grid-template-columns: repeat(2, 1fr) !important;
+		gap: 10px !important;
+		margin-top: 14px !important;
+	}
+	.artwork-card {
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		border: 1px solid var(--evara-border);
+		background: #FFFFFF;
+		box-shadow: var(--shadow-subtle);
+		display: flex;
+		flex-direction: column;
+	}
+	.art-thumbnail-wrap {
+		aspect-ratio: 1 / 1;
+		width: 100%;
+		overflow: hidden;
+		position: relative;
+		background: var(--evara-surface-muted);
+	}
+	.art-img-primary {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.art-badge {
+		top: 6px;
+		left: 6px;
+		font-size: 0.62rem;
+		padding: 2px 7px;
+		font-weight: 700;
+	}
+	.art-quick-actions {
+		display: none !important;
+	}
+	.art-card-details {
+		padding: 8px 8px 10px !important;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		justify-content: space-between;
+	}
+	.art-title {
+		font-size: 0.85rem !important;
+		font-weight: 600;
+		line-height: 1.25 !important;
+		min-height: 2.1em;
+		margin-bottom: 6px !important;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.art-title a {
+		color: var(--evara-text-primary);
+	}
+	.art-price-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 4px;
+		padding-top: 6px !important;
+		border-top: 1px solid var(--evara-border);
+	}
+	.price-val {
+		font-size: 0.92rem !important;
+		font-weight: 700;
+	}
+	.add-to-bag-btn {
+		padding: 5px 10px !important;
+		font-size: 0.72rem !important;
+		border-radius: var(--radius-full) !important;
+		background: var(--evara-terracotta) !important;
+		color: #FFFFFF !important;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		font-weight: 600;
+		border: none;
+	}
+
+	/* Footer */
+	.evara-footer {
+		padding-top: 36px;
+		padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+	}
+	.footer-content-grid {
+		display: grid !important;
+		grid-template-columns: 1fr !important;
+		gap: 24px !important;
+	}
+	.footer-col {
+		text-align: center;
+	}
+	.brand-col .footer-brand-link {
+		display: inline-block;
+	}
+	.brand-col .social-links {
+		justify-content: center;
+	}
+	.contact-details {
+		display: inline-block;
+		text-align: left;
+	}
+	.footer-bottom-flex {
+		flex-direction: column;
+		text-align: center;
+		gap: 12px;
+	}
+
+	/* WhatsApp Floating Button with iOS Safe Area */
+	.evara-floating-whatsapp {
+		bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+		right: 14px !important;
+		width: 46px !important;
+		height: 46px !important;
+		font-size: 1.4rem !important;
+		box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4) !important;
+	}
+	.whatsapp-tooltip {
+		display: none !important;
+	}
+}
+
+/* Extra Compact Mobile Devices (<= 360px, e.g. iPhone SE 1st Gen) */
+@media (max-width: 360px) {
+	.hero-title {
+		font-size: 1.65rem !important;
+	}
+	.hero-subtitle {
+		font-size: 0.86rem !important;
+	}
+	.stat-number {
+		font-size: 1.1rem !important;
+	}
+	.stat-label {
+		font-size: 0.58rem !important;
+	}
+	.trust-grid {
+		grid-template-columns: 1fr !important;
+	}
+	.artworks-grid {
+		gap: 8px !important;
+	}
+	.art-card-details {
+		padding: 6px 6px 8px !important;
+	}
+	.art-title {
+		font-size: 0.8rem !important;
+	}
+	.price-val {
+		font-size: 0.85rem !important;
+	}
+	.add-to-bag-btn {
+		padding: 4px 8px !important;
+		font-size: 0.68rem !important;
+	}
+}
+
+
+/* ==========================================================================
+   Evara Art - Animations & Micro-interactions
+   ========================================================================== */
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pulseSubtle {
+	0%, 100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.04);
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+/* Scroll reveal utility */
+.reveal-on-scroll {
+	opacity: 0;
+	transform: translateY(30px);
+	transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.is-revealed {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Badge dot gentle breathing animation */
+.badge-dot {
+	animation: pulseSubtle 2.5s infinite ease-in-out;
+}
+
+/* Magnetic subtle hover for art images */
+.hero-art-img,
+.collection-img-wrap img,
+.art-img-primary {
+	will-change: transform;
+}
+
+/* Button ripple / active feedback */
+.evara-btn:active {
+	transform: scale(0.97) !important;
+}
+
+/* Shimmer placeholder loading state */
+.skeleton-loader {
+	background: linear-gradient(90deg, #F3EFEA 25%, #FAF8F5 50%, #F3EFEA 75%);
+	background-size: 200% 100%;
+	animation: shimmer 1.8s infinite;
+}
+
+
+/* ==========================================================================
+   Evara Art - WooCommerce Styling
+   ========================================================================== */
+
+/* Shop & Product Archive Header */
+.evara-shop-hero {
+	background-color: var(--evara-surface-muted);
+	padding: 50px 0 40px;
+	border-bottom: 1px solid var(--evara-border);
+	margin-bottom: 40px;
+}
+
+.shop-page-title {
+	font-family: var(--font-serif);
+	font-size: clamp(2rem, 3.5vw, 2.75rem);
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	margin-bottom: 8px;
+}
+
+.evara-breadcrumbs {
+	font-size: 0.85rem;
+	color: var(--evara-text-muted);
+}
+
+.evara-breadcrumbs a {
+	color: var(--evara-text-secondary);
+}
+
+.evara-breadcrumbs a:hover {
+	color: var(--evara-terracotta);
+}
+
+.evara-shop-container {
+	padding-bottom: 90px;
+}
+
+/* WooCommerce Result Count & Ordering */
+.woocommerce .woocommerce-result-count {
+	font-size: 0.9rem;
+	color: var(--evara-text-secondary);
+	margin-bottom: 24px;
+}
+
+.woocommerce .woocommerce-ordering {
+	margin-bottom: 24px;
+}
+
+.woocommerce .woocommerce-ordering select {
+	padding: 8px 16px;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-full);
+	background: #FFFFFF;
+	font-size: 0.875rem;
+	color: var(--evara-text-primary);
+}
+
+/* Products Grid */
+.woocommerce ul.products {
+	display: grid !important;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+	gap: 28px !important;
+	margin: 0 0 40px !important;
+	padding: 0 !important;
+}
+
+.woocommerce ul.products::before,
+.woocommerce ul.products::after {
+	display: none !important;
+}
+
+.woocommerce ul.products li.product {
+	width: 100% !important;
+	margin: 0 !important;
+	background: #FFFFFF;
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	box-shadow: var(--shadow-subtle);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding-bottom: 16px;
+}
+
+.woocommerce ul.products li.product:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--shadow-card);
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__link {
+	display: block;
+}
+
+.woocommerce ul.products li.product img {
+	width: 100% !important;
+	aspect-ratio: 1 / 1 !important;
+	object-fit: cover !important;
+	margin: 0 0 14px 0 !important;
+	transition: transform 0.6s var(--transition-smooth);
+}
+
+.woocommerce ul.products li.product:hover img {
+	transform: scale(1.05);
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+	font-family: var(--font-serif) !important;
+	font-size: 1.15rem !important;
+	font-weight: 600 !important;
+	padding: 0 16px !important;
+	margin: 0 0 8px 0 !important;
+	color: var(--evara-text-primary) !important;
+}
+
+.woocommerce ul.products li.product .price {
+	font-size: 1.05rem !important;
+	font-weight: 700 !important;
+	color: var(--evara-text-primary) !important;
+	padding: 0 16px !important;
+	margin-bottom: 14px !important;
+}
+
+.woocommerce ul.products li.product .button {
+	margin: 0 16px !important;
+	background-color: var(--evara-text-primary) !important;
+	color: #FFFFFF !important;
+	border-radius: var(--radius-full) !important;
+	padding: 10px 18px !important;
+	font-size: 0.85rem !important;
+	font-weight: 600 !important;
+	text-align: center;
+	transition: background-color 0.25s ease !important;
+}
+
+.woocommerce ul.products li.product .button:hover {
+	background-color: var(--evara-terracotta) !important;
+}
+
+/* Single Product Detail Page */
+.woocommerce div.product {
+	padding: 40px 0 80px;
+}
+
+.woocommerce div.product div.images {
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: var(--shadow-card);
+}
+
+.woocommerce div.product .product_title {
+	font-family: var(--font-serif);
+	font-size: clamp(2.2rem, 3.5vw, 3rem);
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	line-height: 1.2;
+	margin-bottom: 12px;
+}
+
+.woocommerce div.product p.price {
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--evara-terracotta);
+	margin-bottom: 24px;
+}
+
+.woocommerce div.product form.cart {
+	margin: 28px 0;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.woocommerce div.product form.cart .quantity input.qty {
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-full);
+	padding: 12px;
+	width: 70px;
+	text-align: center;
+	font-weight: 600;
+}
+
+.woocommerce div.product form.cart .single_add_to_cart_button {
+	background-color: var(--evara-text-primary);
+	color: #FFFFFF;
+	padding: 14px 36px;
+	border-radius: var(--radius-full);
+	font-size: 1rem;
+	font-weight: 600;
+	transition: all 0.3s ease;
+}
+
+.woocommerce div.product form.cart .single_add_to_cart_button:hover {
+	background-color: var(--evara-terracotta);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 20px rgba(184, 93, 67, 0.25);
+}
+
+/* Modern Checkout & Forms */
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row select,
+.woocommerce form .form-row textarea {
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-sm);
+	padding: 12px 14px;
+	background: #FFFFFF;
+	font-size: 0.95rem;
+	transition: border-color 0.2s ease;
+}
+
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row select:focus,
+.woocommerce form .form-row textarea:focus {
+	border-color: var(--evara-terracotta);
+}
+
+#payment {
+	background: var(--evara-surface-muted) !important;
+	border-radius: var(--radius-md) !important;
+	border: 1px solid var(--evara-border) !important;
+	padding: 24px !important;
+}
+
+#payment ul.payment_methods {
+	border-bottom: 1px solid var(--evara-border) !important;
+	padding-bottom: 16px !important;
+}
+
+#place_order {
+	background-color: var(--evara-terracotta) !important;
+	color: #FFFFFF !important;
+	padding: 16px 36px !important;
+	border-radius: var(--radius-full) !important;
+	font-size: 1.05rem !important;
+	font-weight: 700 !important;
+	transition: background-color 0.25s ease !important;
+}
+
+#place_order:hover {
+	background-color: var(--evara-terracotta-dark) !important;
+}
+
+</style>
+</head>
+<body>
+
+	<!-- Top Announcement Ribbon -->
+	<aside class="evara-announcement-bar">
+		<div class="evara-container">
+			<div class="announcement-content">
+				<span class="announcement-sparkle">✦</span>
+				<span class="announcement-text-desktop">Pan-India Insured Express Delivery &bull; Free Shipping on Orders Above &#8377;2,999 &bull; 100% Handcrafted Authenticity</span>
+				<span class="announcement-text-mobile">Pan-India Delivery &bull; Free Shipping Over &#8377;2,999</span>
+				<span class="announcement-sparkle">✦</span>
+			</div>
+		</div>
+	</aside>
+
+	<!-- Main Sticky Header -->
+	<header id="site-header" class="evara-header">
+		<div class="evara-container header-inner">
+			
+			<!-- Left: Mobile Toggle or Desktop Nav -->
+			<div class="header-left">
+				<button class="evara-mobile-toggle" id="evara-menu-open" aria-label="Open Navigation Menu">
+					<span class="toggle-line"></span>
+					<span class="toggle-line"></span>
+					<span class="toggle-line"></span>
+				</button>
+
+				<nav class="evara-desktop-nav" aria-label="Primary Menu">
+					<ul class="nav-links">
+						<li><a href="#home" class="nav-route" data-route="home">Home</a></li>
+						<li><a href="#canvas-paintings" class="nav-route" data-route="canvas-paintings">Canvas Paintings</a></li>
+						<li><a href="#lippan-art" class="nav-route" data-route="lippan-art">Lippan &amp; Clay Art</a></li>
+						<li><a href="#custom-art" class="nav-route nav-highlight" data-route="custom-art">Custom Art</a></li>
+						<li><a href="#contact" class="nav-route" data-route="contact">About</a></li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- Center: Centered Brand Logo on Both Desktop & Mobile -->
+			<div class="evara-brand">
+				<a href="#home" class="brand-link nav-route" data-route="home">
+					<img src="images/evara-logo.png" alt="Evara Art Logo" class="brand-logo-img">
+				</a>
+			</div>
+
+			<!-- Right: Action Icons (Search, Bag) -->
+			<div class="evara-header-actions">
+				<button class="action-btn" id="evara-search-trigger" aria-label="Search Artworks">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
+				<button class="action-btn cart-trigger" id="evara-cart-open" aria-label="View Cart">
+					<span class="cart-icon-wrap">
+						<i class="fa-solid fa-bag-shopping"></i>
+						<span class="cart-count-badge" id="evara-cart-badge">0</span>
+					</span>
+				</button>
+			</div>
+
+		</div>
+	</header>
+
+	<!-- Mobile Navigation Drawer -->
+	<div class="evara-mobile-drawer" id="evara-mobile-menu" aria-hidden="true">
+		<div class="mobile-drawer-overlay" id="evara-menu-close-overlay"></div>
+		<div class="mobile-drawer-panel">
+			<div class="drawer-header">
+				<span class="drawer-title">Navigation</span>
+				<button class="drawer-close-btn" id="evara-menu-close" aria-label="Close Navigation Menu">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+			</div>
+			<ul class="mobile-nav-list">
+				<li><a href="#home" class="nav-route" data-route="home">Home</a></li>
+				<li><a href="#canvas-paintings" class="nav-route" data-route="canvas-paintings">Canvas Paintings Home Decor</a></li>
+				<li><a href="#lippan-art" class="nav-route" data-route="lippan-art">Lippan Art Home Decor</a></li>
+				<li><a href="#custom-art" class="nav-route highlight-link" data-route="custom-art">✦ Request Custom Commission</a></li>
+				<li><a href="#contact" class="nav-route" data-route="contact">About &amp; Studio Contact</a></li>
+			</ul>
+			<div class="mobile-drawer-footer">
+				<p class="contact-prompt">Direct Studio Inquiries:</p>
+				<a href="https://wa.me/919328143036" target="_blank" class="evara-btn btn-whatsapp">
+					<i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Instant Search Modal -->
+	<div class="evara-search-modal" id="evara-search-modal" aria-hidden="true">
+		<div class="search-modal-backdrop" id="evara-search-close-backdrop"></div>
+		<div class="search-modal-content">
+			<button class="search-close-btn" id="evara-search-close" aria-label="Close search">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+			<form class="evara-search-form" onsubmit="event.preventDefault();">
+				<div class="search-input-wrap">
+					<i class="fa-solid fa-magnifying-glass search-icon"></i>
+					<input type="search" id="evara-search-input" class="search-field" placeholder="Search paintings, Krishna, Ganpati, Lippan..." autocomplete="off" />
+				</div>
+			</form>
+			<div id="search-live-results" style="margin-top: 20px; max-height: 320px; overflow-y: auto;"></div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 1: HOME PAGE
+	     ========================================================================= -->
+	<div id="view-home" class="view-page active-view">
+		
+		<!-- Hero Section with Authentic Krishna & Lotus Artwork Banner -->
+		<section class="evara-hero-section">
+			<div class="evara-container">
+				
+				<!-- Authentic Visual Banner -->
+				<div class="hero-banner-card">
+					<img src="images/hero-banner-krishna.png" 
+					     alt="Art that connects to your heart - Evara Art" 
+					     class="hero-banner-img">
+				</div>
+
+				<!-- Fluid Editorial Intro (Never overlaps or hides text) -->
+				<div class="hero-editorial-wrap">
+					<div class="hero-text-content">
+						<div class="hero-badge">
+							<span class="badge-dot"></span>
+							<span>Handmade in India &bull; Bespoke Fine Art</span>
+						</div>
+						
+						<h1 class="hero-title">
+							Art that <span class="italic-serif">connects</span> to your <span class="highlight-text">Heart.</span>
+						</h1>
+						
+						<p class="hero-subtitle">
+							Welcome to <strong>Evara Art</strong> – where creativity comes to life through every brushstroke. “Evara” means <em>Gift of God</em>, turning sacred imagination into meaningful, handcrafted wall art for your sanctuary.
+						</p>
+						
+						<div class="hero-cta-group">
+							<a href="#canvas-paintings" class="evara-btn btn-primary btn-lg nav-route" data-route="canvas-paintings">
+								<span>Explore Canvas Paintings</span>
+								<i class="fa-solid fa-arrow-right"></i>
+							</a>
+							<a href="#lippan-art" class="evara-btn btn-outline btn-lg nav-route" data-route="lippan-art">
+								<span>Explore Lippan Art</span>
+							</a>
+						</div>
+
+						<div class="hero-stats-row">
+							<div class="stat-item">
+								<span class="stat-number">100%</span>
+								<span class="stat-label">Handmade</span>
+							</div>
+							<div class="stat-divider"></div>
+							<div class="stat-item">
+								<span class="stat-number">500+</span>
+								<span class="stat-label">Homes Adorned</span>
+							</div>
+							<div class="stat-divider"></div>
+							<div class="stat-item">
+								<span class="stat-number">4.9 ★</span>
+								<span class="stat-label">Collector Love</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Featured Showcase Card (Clear margins, zero overlapping bugs) -->
+					<div class="hero-art-showcase-card" onclick="navigateToProduct('eternal-devotion-meera-krishna')">
+						<div class="showcase-card-link">
+							<div class="showcase-thumb-wrap">
+								<img src="https://evaraart.in/wp-content/uploads/2026/04/12-500x500.jpg" alt="Eternal Devotion Meera & Krishna" class="showcase-thumb-img">
+							</div>
+							<div class="showcase-info-box">
+								<span class="showcase-tag">✦ Featured Creation</span>
+								<h3 class="showcase-title">ETERNAL DEVOTION: MEERA &amp; KRISHNA</h3>
+								<div class="showcase-price-row">
+									<span class="showcase-price">&#8377;3,499</span>
+									<span class="showcase-cta">View Details <i class="fa-solid fa-arrow-right"></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<!-- Artist Divine Philosophy Section (Enhanced with User's Exact Words) -->
+		<section class="evara-philosophy-section">
+			<div class="evara-container">
+				<div class="philosophy-card">
+					<div class="philosophy-header">
+						<span class="philosophy-badge">✦ The Sacred Heart of Evara</span>
+						<h2 class="main-heading">“Evara” — A Gift of God, Painted From The Soul</h2>
+						<p class="philosophy-quote-lead">
+							&ldquo;Welcome to Evara Art – where creativity comes to life through every brushstroke. &lsquo;Evara&rsquo; means Gift of God and I believe the art I create is truly a blessing and a form of divine expression.&rdquo;
+						</p>
+					</div>
+
+					<div class="philosophy-grid">
+						<div class="philosophy-col">
+							<div class="col-icon"><i class="fa-solid fa-paintbrush"></i></div>
+							<h3 class="col-title">Crafted with Passion</h3>
+							<p class="philosophy-desc">Each piece is crafted with passion, turning imagination into meaningful and beautiful artwork that honors divine patience.</p>
+						</div>
+						<div class="philosophy-col">
+							<div class="col-icon"><i class="fa-solid fa-spa"></i></div>
+							<h3 class="col-title">Emotion &amp; Inspiration</h3>
+							<p class="philosophy-desc">My goal is to bring emotion, inspiration, and uniqueness into every space, creating a calm spiritual focal point for your home.</p>
+						</div>
+						<div class="philosophy-col">
+							<div class="col-icon"><i class="fa-solid fa-heart"></i></div>
+							<h3 class="col-title">Connecting with Your Soul</h3>
+							<p class="philosophy-desc">Discover art that connects with your soul — timeless handmade canvas paintings and sacred Gujarat Lippan mirror craft.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Trust Strip -->
+		<section class="evara-trust-strip">
+			<div class="evara-container trust-grid">
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+					<div class="trust-text">
+						<h4>100% Original Handwork</h4>
+						<p>Hand-painted brushstrokes &amp; authentic clay dough. Never mass prints.</p>
+					</div>
+				</div>
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-solid fa-box-archive"></i></div>
+					<div class="trust-text">
+						<h4>Armored Wooden Packing</h4>
+						<p>Reinforced foam edge guards and hardboard crating for 0% transit damage.</p>
+					</div>
+				</div>
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-solid fa-palette"></i></div>
+					<div class="trust-text">
+						<h4>Custom Wall Sizing</h4>
+						<p>Tailored canvas dimensions and palettes to match your home interior.</p>
+					</div>
+				</div>
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-solid fa-truck-fast"></i></div>
+					<div class="trust-text">
+						<h4>Insured Pan-India Delivery</h4>
+						<p>Safe doorstep delivery across all Indian pin codes with live tracking.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Curated Collections Spotlight -->
+		<section class="evara-collections-section">
+			<div class="evara-container">
+				<div class="section-header text-center">
+					<span class="sub-heading">Curated Portfolios</span>
+					<h2 class="main-heading">Signature Studio Collections</h2>
+					<p class="section-desc">Click below to browse each collection with dedicated artwork catalogs.</p>
+				</div>
+
+				<div class="collections-grid">
+					
+					<!-- Collection 1: Canvas Paintings -->
+					<div class="collection-card">
+						<a href="#canvas-paintings" class="collection-link nav-route" data-route="canvas-paintings">
+							<div class="collection-img-wrap">
+								<img src="https://evaraart.in/wp-content/uploads/2026/04/10-500x500.jpg" alt="Canvas Paintings Home Decor">
+								<div class="collection-overlay"></div>
+							</div>
+							<div class="collection-info">
+								<span class="col-count">11 Original Artworks</span>
+								<h3 class="col-title">Canvas Paintings &bull; Home Decor</h3>
+								<p class="col-desc">Krishna, Shiv Shakti, Ganesha, and serene modern abstract portraits.</p>
+								<span class="col-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></span>
+							</div>
+						</a>
+					</div>
+
+					<!-- Collection 2: Lippan Art -->
+					<div class="collection-card">
+						<a href="#lippan-art" class="collection-link nav-route" data-route="lippan-art">
+							<div class="collection-img-wrap">
+								<img src="https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01-500x500.jpg" alt="Lippan Art Home Decor">
+								<div class="collection-overlay"></div>
+							</div>
+							<div class="collection-info">
+								<span class="col-count">10 Handcrafted Pieces</span>
+								<h3 class="col-title">Lippan Art &bull; Home Decor</h3>
+								<p class="col-desc">Intricate clay dough patterns and sparkling hand-cut mirrors for auspicious walls.</p>
+								<span class="col-action">Explore Collection <i class="fa-solid fa-arrow-right"></i></span>
+							</div>
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<!-- Home Featured Artworks Preview -->
+		<section class="evara-artworks-section">
+			<div class="evara-container">
+				<div class="artworks-header-flex">
+					<div>
+						<span class="sub-heading">Exquisite Pieces</span>
+						<h2 class="main-heading">Featured Creations</h2>
+					</div>
+					<a href="#canvas-paintings" class="view-all-link nav-route" data-route="canvas-paintings">
+						<span>View All Artworks</span>
+						<i class="fa-solid fa-arrow-right"></i>
+					</a>
+				</div>
+
+				<div class="artworks-grid" id="home-featured-grid">
+					<!-- Injected by JavaScript -->
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 2: CANVAS PAINTINGS PAGE (/canvas-paintings-home-decor/)
+	     ========================================================================= -->
+	<div id="view-canvas-paintings" class="view-page">
+		<div class="category-header-banner">
+			<div class="evara-container">
+				<div class="evara-breadcrumbs" style="margin-bottom: 12px;">
+					<a href="#home" class="nav-route" data-route="home">Home</a> &rsaquo; <span>Canvas Paintings Home Decor</span>
+				</div>
+				<h1 class="category-title">Canvas Paintings &bull; Home Decor</h1>
+				<p class="section-desc" style="margin: 0; max-width: 720px;">
+					Hand-painted on premium 380 GSM stretched cotton duck canvas. Featuring devotional spiritual iconography and contemporary modern minimalism for soulful home interiors.
+				</p>
+			</div>
+		</div>
+
+		<div class="evara-container" style="padding-bottom: 90px;">
+			<div class="filter-bar-flex">
+				<span class="catalog-count" id="canvas-count">Showing 11 Artworks</span>
+				<div style="display: flex; gap: 12px;">
+					<select id="canvas-sort" class="pill-btn" onchange="sortCategory('Canvas Paintings', this.value)">
+						<option value="featured">Featured First</option>
+						<option value="price-low">Price: Low to High</option>
+						<option value="price-high">Price: High to Low</option>
+						<option value="name">Alphabetical</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="artworks-grid" id="canvas-gallery-grid">
+				<!-- Injected by JavaScript -->
+			</div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 3: LIPPAN ART PAGE (/lippan-art-home-decor/)
+	     ========================================================================= -->
+	<div id="view-lippan-art" class="view-page">
+		<div class="category-header-banner">
+			<div class="evara-container">
+				<div class="evara-breadcrumbs" style="margin-bottom: 12px;">
+					<a href="#home" class="nav-route" data-route="home">Home</a> &rsaquo; <span>Lippan Art Home Decor</span>
+				</div>
+				<h1 class="category-title">Lippan Art &bull; Home Decor</h1>
+				<p class="section-desc" style="margin: 0; max-width: 720px;">
+					Traditional clay and hand-trimmed mirror wall hangings from Gujarat. Symbolizing prosperity, purity, and light reflection to elevate your living room, foyer, and prayer space.
+				</p>
+			</div>
+		</div>
+
+		<div class="evara-container" style="padding-bottom: 90px;">
+			<div class="filter-bar-flex">
+				<span class="catalog-count" id="lippan-count">Showing 10 Artworks</span>
+				<div style="display: flex; gap: 12px;">
+					<select id="lippan-sort" class="pill-btn" onchange="sortCategory('Lippan & Clay Art', this.value)">
+						<option value="featured">Featured First</option>
+						<option value="price-low">Price: Low to High</option>
+						<option value="price-high">Price: High to Low</option>
+						<option value="name">Alphabetical</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="artworks-grid" id="lippan-gallery-grid">
+				<!-- Injected by JavaScript -->
+			</div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 4: DEDICATED INDIVIDUAL PRODUCT PAGE (Every product has its own page!)
+	     ========================================================================= -->
+	<div id="view-product-detail" class="view-page">
+		<div class="evara-container">
+			
+			<div class="evara-breadcrumbs" style="padding-top: 28px;">
+				<a href="#home" class="nav-route" data-route="home">Home</a> &rsaquo; 
+				<a href="#" id="detail-category-link" class="nav-route">Category</a> &rsaquo; 
+				<span id="detail-breadcrumb-title">Artwork Title</span>
+			</div>
+
+			<div class="product-detail-grid">
+				
+				<!-- Left: Gallery & Interactive Room Simulator -->
+				<div class="gallery-display">
+					
+					<!-- Normal Canvas View -->
+					<div class="main-product-img-wrap" id="standard-gallery-wrap">
+						<img id="detail-img" src="" alt="" class="main-product-img">
+						<button class="room-toggle-btn" onclick="toggleRoomView()">
+							<i class="fa-solid fa-couch"></i> <span id="toggle-room-label">See on Living Room Wall</span>
+						</button>
+					</div>
+
+					<!-- Interactive Room Simulator View -->
+					<div class="room-simulator" id="room-simulator-wrap" style="display: none;">
+						<img id="simulated-wall-img" src="" alt="" class="simulated-wall-art">
+						<div class="room-couch">
+							<div class="couch-cushion"></div>
+							<div class="couch-cushion"></div>
+						</div>
+						<div class="room-floor"></div>
+						<button class="room-toggle-btn" onclick="toggleRoomView()">
+							<i class="fa-solid fa-image"></i> Close Room Simulator
+						</button>
+					</div>
+
+				</div>
+
+				<!-- Right: Purchasing, Sizing & Artisan Specs -->
+				<div class="product-info-column">
+					
+					<span class="sub-heading" id="detail-badge">100% Handcrafted Original</span>
+					<h1 class="main-heading" id="detail-title" style="font-size: clamp(1.8rem, 3vw, 2.35rem); margin-bottom: 12px;">Artwork Title</h1>
+					
+					<div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px;">
+						<span style="color: #F59E0B; font-size: 1.1rem;">★★★★★</span>
+						<span style="font-size: 0.85rem; font-weight: 600; color: var(--evara-text-muted);">4.9 (24 Verified Collector Reviews)</span>
+					</div>
+
+					<div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; flex-wrap: wrap;">
+						<span class="price-val" id="detail-price" style="font-size: 2rem; color: var(--evara-terracotta);">&#8377;3,499</span>
+						<span id="detail-old-price" style="font-size: 1.2rem; text-decoration: line-through; color: var(--evara-text-muted);">&#8377;4,499</span>
+						<span class="art-badge" style="position: static; background: #ECFDF5; color: #065F46;">Free Pan-India Delivery</span>
+					</div>
+
+					<!-- Size Selection -->
+					<div class="option-group">
+						<label class="option-label">Select Canvas Dimensions (Inches):</label>
+						<div class="pill-options" id="size-options">
+							<button class="pill-btn active" onclick="selectSize(this, 0)">12" &times; 18" (Standard)</button>
+							<button class="pill-btn" onclick="selectSize(this, 600)">18" &times; 24" (Popular)</button>
+							<button class="pill-btn" onclick="selectSize(this, 1400)">24" &times; 36" (Statement)</button>
+						</div>
+					</div>
+
+					<!-- Frame Selection -->
+					<div class="option-group">
+						<label class="option-label">Mounting &amp; Framing Style:</label>
+						<div class="pill-options">
+							<button class="pill-btn active" onclick="selectFrame(this, 'Gallery Stretched Wrap')">Gallery Stretched Wrap (Ready to Hang)</button>
+							<button class="pill-btn" onclick="selectFrame(this, 'Natural Teak Floating Frame')">Natural Teak Floating Frame</button>
+						</div>
+					</div>
+
+					<!-- Action Buttons -->
+					<div style="display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap;">
+						<button class="evara-btn btn-primary btn-lg" id="detail-add-bag-btn" style="flex-grow: 1;" onclick="addCurrentProductToBag()">
+							<i class="fa-solid fa-bag-shopping"></i> Add to Art Bag
+						</button>
+						<a href="#" id="detail-whatsapp-btn" target="_blank" class="evara-btn btn-whatsapp-lg" style="flex-grow: 1;">
+							<i class="fa-brands fa-whatsapp"></i> Chat with Artist
+						</a>
+					</div>
+
+					<!-- Pincode Checker -->
+					<div class="pincode-box">
+						<span style="font-size: 0.88rem; font-weight: 600; color: var(--evara-text-primary);">Check Delivery Availability to Your City:</span>
+						<div class="pincode-form">
+							<input type="text" id="pincode-input" class="pincode-input" placeholder="Enter 6-digit Pincode (e.g. 380015)" maxlength="6">
+							<button type="button" class="pincode-btn" onclick="checkPincode()">Check</button>
+						</div>
+						<div id="pincode-result" class="pincode-result"></div>
+					</div>
+
+					<!-- Detailed Accordion -->
+					<div class="details-accordion">
+						<div class="accordion-item">
+							<button class="accordion-btn" onclick="toggleAccordion(this)">
+								<span>Artisan Craftsmanship &bull; Materials</span>
+								<i class="fa-solid fa-chevron-down"></i>
+							</button>
+							<div class="accordion-body open">
+								Hand-stretched on seasoned wooden frames. Layered with heavy-body acrylic pigments, non-yellowing satin protective varnish, and museum-grade durability. Kutch Lippan artworks utilize durable clay dough and hand-trimmed mirror facets.
+							</div>
+						</div>
+						<div class="accordion-item">
+							<button class="accordion-btn" onclick="toggleAccordion(this)">
+								<span>Secure Wooden Box Packaging</span>
+								<i class="fa-solid fa-chevron-down"></i>
+							</button>
+							<div class="accordion-body">
+								Packed in a 5-layer armored wooden hardboard frame with shock-absorbing foam edge protectors and water-tight shrink film. 100% damage-free delivery guarantee across all Indian states.
+							</div>
+						</div>
+						<div class="accordion-item">
+							<button class="accordion-btn" onclick="toggleAccordion(this)">
+								<span>Care &amp; Cleaning</span>
+								<i class="fa-solid fa-chevron-down"></i>
+							</button>
+							<div class="accordion-body">
+								Gently dust with a dry microfiber cloth or soft feathered brush. Keep away from prolonged direct outdoor sunlight and harsh chemical sprays.
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 5: CUSTOM COMMISSION PAGE
+	     ========================================================================= -->
+	<div id="view-custom-art" class="view-page">
+		<div class="category-header-banner">
+			<div class="evara-container text-center">
+				<span class="sub-heading">✦ Tailored For Your Wall</span>
+				<h1 class="category-title">Bespoke Wall Commissions</h1>
+				<p class="section-desc" style="max-width: 640px; margin: 0 auto;">
+					Have a specific wall size, prayer room theme, or interior color palette? Work directly with lead artist Shraddha to craft your one-of-a-kind original.
+				</p>
+			</div>
+		</div>
+
+		<div class="evara-container" style="padding-bottom: 90px; max-width: 800px;">
+			<div style="background: #FFFFFF; border-radius: var(--radius-lg); padding: clamp(24px, 4vw, 40px); box-shadow: var(--shadow-card);">
+				<form onsubmit="handleCommissionSubmit(event)">
+					<div class="option-group">
+						<label class="option-label">Your Full Name:</label>
+						<input type="text" class="pincode-input" required placeholder="e.g. Pooja Sharma">
+					</div>
+					<div class="option-group">
+						<label class="option-label">WhatsApp Number / Email:</label>
+						<input type="text" class="pincode-input" required placeholder="e.g. +91 98765 43210">
+					</div>
+					<div class="option-group">
+						<label class="option-label">Preferred Medium &amp; Art Style:</label>
+						<select class="pincode-input">
+							<option>Lippan &amp; Clay Mirror Art</option>
+							<option>Devotional Canvas Painting (Krishna, Shiv-Shakti, Ganesha)</option>
+							<option>Modern Abstract &amp; Texture Wall Art</option>
+						</select>
+					</div>
+					<div class="option-group">
+						<label class="option-label">Approximate Wall Dimensions &amp; Room Notes:</label>
+						<textarea class="pincode-input" style="height: 110px;" placeholder="e.g. 4 feet by 3 feet wall above living room sofa, neutral beige background..."></textarea>
+					</div>
+					<button type="submit" class="evara-btn btn-primary btn-lg" style="width: 100%;">
+						<span>Submit Commission Request</span>
+						<i class="fa-solid fa-paper-plane"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 6: ABOUT & CONTACT PAGE
+	     ========================================================================= -->
+	<div id="view-contact" class="view-page">
+		<div class="category-header-banner">
+			<div class="evara-container text-center">
+				<span class="sub-heading">Artisan Studio</span>
+				<h1 class="category-title">About Evara Art &bull; Contact</h1>
+				<p class="section-desc" style="max-width: 640px; margin: 0 auto;">
+					Handcrafted in Gujarat, India &bull; Direct connection with our creators.
+				</p>
+			</div>
+		</div>
+
+		<div class="evara-container" style="padding-bottom: 90px;">
+			<div class="trust-grid" style="margin-bottom: 50px;">
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-solid fa-phone"></i></div>
+					<div class="trust-text">
+						<h4>Direct Phone</h4>
+						<p><a href="tel:+919328143036">+91 93281 43036</a></p>
+					</div>
+				</div>
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-solid fa-envelope"></i></div>
+					<div class="trust-text">
+						<h4>Studio Email</h4>
+						<p><a href="mailto:support@evaraart.in">support@evaraart.in</a></p>
+					</div>
+				</div>
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-brands fa-instagram"></i></div>
+					<div class="trust-text">
+						<h4>Instagram Gallery</h4>
+						<p><a href="https://www.instagram.com/evaraart.in/" target="_blank">@evaraart.in</a></p>
+					</div>
+				</div>
+				<div class="trust-item">
+					<div class="trust-icon"><i class="fa-solid fa-location-dot"></i></div>
+					<div class="trust-text">
+						<h4>Studio Location</h4>
+						<p>Gujarat, India (Pan-India Insured Dispatch)</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Toast Message Notification -->
+	<div id="evara-toast" class="evara-toast">
+		<i class="fa-solid fa-circle-check" style="color: #10B981;"></i>
+		<span id="toast-text">Item added to your art bag</span>
+	</div>
+
+	<!-- Side Cart Drawer -->
+	<div class="evara-cart-drawer-wrapper" id="evara-cart-drawer" aria-hidden="true">
+		<div class="cart-drawer-overlay" id="evara-cart-close-overlay"></div>
+		<aside class="cart-drawer-panel">
+			<div class="drawer-header">
+				<div class="header-title-wrap">
+					<h3 class="drawer-title">Your Art Bag</h3>
+					<span class="drawer-count" id="cart-drawer-count">(0)</span>
+				</div>
+				<button class="drawer-close-btn" id="evara-cart-close" aria-label="Close cart">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+			</div>
+
+			<div class="shipping-threshold-banner">
+				<p class="threshold-msg success" id="shipping-msg">
+					Add artworks to calculate shipping.
+				</p>
+				<div class="threshold-progress-bar">
+					<div class="threshold-progress-fill" id="shipping-progress" style="width: 0%;"></div>
+				</div>
+			</div>
+
+			<div class="evara-cart-drawer-items" id="cart-items-container">
+				<ul class="cart-items-list" id="cart-list"></ul>
+			</div>
+
+			<div class="drawer-footer">
+				<div class="subtotal-row">
+					<span class="subtotal-label">Subtotal</span>
+					<span class="subtotal-amount" id="cart-subtotal">&#8377;0.00</span>
+				</div>
+				<p class="shipping-calc-note">Insured Pan-India shipping &bull; 100% Handcrafted Originals.</p>
+				<div class="drawer-actions">
+					<button class="evara-btn btn-primary btn-checkout" onclick="openCheckoutModal()">
+						<span>Proceed to Checkout</span>
+						<i class="fa-solid fa-arrow-right"></i>
+					</button>
+				</div>
+			</div>
+		</aside>
+	</div>
+
+	<!-- Checkout Modal -->
+	<div class="evara-search-modal" id="checkout-modal" aria-hidden="true">
+		<div class="search-modal-backdrop" onclick="closeCheckoutModal()"></div>
+		<div class="search-modal-content" style="max-width: 600px;">
+			<button class="search-close-btn" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
+			<h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 8px;">Secure Checkout &bull; Razorpay</h3>
+			<p style="font-size: 0.85rem; color: var(--evara-text-secondary); margin-bottom: 24px;">Complete your delivery details for Pan-India insured crating.</p>
+			
+			<form onsubmit="handleOrderComplete(event)">
+				<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+					<input type="text" class="pincode-input" required placeholder="Full Name">
+					<input type="tel" class="pincode-input" required placeholder="Phone (for delivery tracking)">
+				</div>
+				<input type="email" class="pincode-input" required placeholder="Email address" style="margin-bottom: 12px; width: 100%;">
+				<input type="text" class="pincode-input" required placeholder="Shipping Address & Flat / House No." style="margin-bottom: 12px; width: 100%;">
+				<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+					<input type="text" class="pincode-input" required placeholder="City">
+					<input type="text" class="pincode-input" required placeholder="PIN Code">
+				</div>
+
+				<div style="background: var(--evara-surface-muted); padding: 16px; border-radius: var(--radius-sm); margin-bottom: 20px;">
+					<div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 6px;">
+						<span>Order Total:</span>
+						<span id="checkout-total-val">&#8377;0.00</span>
+					</div>
+					<div style="font-size: 0.8rem; color: #10B981;"><i class="fa-solid fa-shield-check"></i> Supported via Razorpay: UPI, GPay, PhonePe, Cards, NetBanking</div>
+				</div>
+
+				<button type="submit" class="evara-btn btn-primary" style="width: 100%; padding: 14px;">
+					Pay Securely via Razorpay
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="evara-footer">
+		<div class="evara-container footer-content-grid">
+			<div class="footer-col brand-col">
+				<a href="#home" class="nav-route" data-route="home">
+					<img src="images/evara-logo.png" alt="Evara Art" class="footer-logo">
+				</a>
+				<p class="brand-bio">
+					<strong>&ldquo;Evara&rdquo;</strong> means <em>Gift of God</em>. We believe art is a sacred bridge connecting emotion, soul, and sacred living spaces. Handcrafted in India with exquisite devotion.
+				</p>
+				<div class="social-links">
+					<a href="https://www.instagram.com/evaraart.in/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+					<a href="https://www.facebook.com/people/Evara-Art/61574370844039/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+					<a href="https://www.linkedin.com/company/evara-art/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+					<a href="https://wa.me/919328143036" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+				</div>
+			</div>
+
+			<div class="footer-col">
+				<h4 class="footer-heading">Collections</h4>
+				<ul class="footer-links">
+					<li><a href="#canvas-paintings" class="nav-route" data-route="canvas-paintings">Canvas Paintings Home Decor</a></li>
+					<li><a href="#lippan-art" class="nav-route" data-route="lippan-art">Lippan Art Home Decor</a></li>
+					<li><a href="#custom-art" class="nav-route" data-route="custom-art">Custom Art Commissions</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col">
+				<h4 class="footer-heading">Client Care</h4>
+				<ul class="footer-links">
+					<li><a href="#contact" class="nav-route" data-route="contact">About Our Studio</a></li>
+					<li><a href="#contact" class="nav-route" data-route="contact">Pan-India Delivery Policy</a></li>
+					<li><a href="#contact" class="nav-route" data-route="contact">Returns &amp; Refund Policy</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col contact-col">
+				<h4 class="footer-heading">Art Studio</h4>
+				<ul class="contact-details">
+					<li>
+						<i class="fa-solid fa-phone"></i>
+						<a href="tel:+919328143036">+91 93281 43036</a>
+					</li>
+					<li>
+						<i class="fa-solid fa-envelope"></i>
+						<a href="mailto:support@evaraart.in">support@evaraart.in</a>
+					</li>
+					<li>
+						<i class="fa-solid fa-location-dot"></i>
+						<span>Gujarat, India &bull; Pan-India Insured Dispatch</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<div class="evara-container footer-bottom-flex">
+				<p class="copyright-text">&copy; 2026 Evara Art. Handcrafted with reverence. All rights reserved.</p>
+				<div class="payment-badges">
+					<span class="payment-pill"><i class="fa-solid fa-shield-halved"></i> 100% Secure Checkout via Razorpay</span>
+					<span class="payment-methods">UPI &bull; RuPay &bull; Visa &bull; Mastercard &bull; NetBanking</span>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Floating WhatsApp -->
+	<a href="https://wa.me/919328143036" class="evara-floating-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
+		<i class="fa-brands fa-whatsapp"></i>
+		<span class="whatsapp-tooltip">Chat with Art Studio</span>
+	</a>
+
+	<!-- =========================================================================
+	     APPLICATION DATA & SCRIPT ENGINE
+	     ========================================================================= -->
+	<script>
+		// All 21 Real Evara Art Products
+		const products = [
+			{
+				id: 1,
+				slug: "eternal-devotion-meera-krishna",
+				title: "ETERNAL DEVOTION: MEERA & KRISHNA",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3499,
+				old_price: 4999,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/12-500x500.jpg",
+				desc: "Devotional acrylic masterpiece depicting the eternal sacred bond of Meera Bai and Lord Krishna in soft divine hues."
+			},
+			{
+				id: 2,
+				slug: "15-inch-ganpati-lippan-art-set-of-2-wall-hanging",
+				title: "15 Inch Ganpati Lippan Art (Set of 2) Wall Hanging",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 3999,
+				old_price: 4999,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/15-Inch-Ganpati-Lippan-Art-Set-of-2-Wall-Hanging-01-1-500x500.jpg",
+				desc: "Auspicious Lord Ganesha Lippan mud-mirror art handcrafted on durable board with precision hand-cut mirrors."
+			},
+			{
+				id: 3,
+				slug: "shiva-shakti",
+				title: "SHIVA SHAKTI",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3900,
+				old_price: 4500,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/6-500x500.jpg",
+				desc: "Cosmic balance of masculine and feminine divine energies represented in ethereal textures and sacred tones."
+			},
+			{
+				id: 4,
+				slug: "18-inch-lotus-pichwai-lippan-wall-hanging",
+				title: "18 Inch Lotus Pichwai Lippan Wall Hanging",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 3999,
+				old_price: 4999,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/15-Inch-Ganpati-Lippan-Art-Set-of-2-Wall-Hanging-02-2-500x500.jpg",
+				desc: "Traditional Pichwai lotus motif blended with Kutch Lippan mud relief work and radiant mirror patterns."
+			},
+			{
+				id: 5,
+				slug: "divine-melody-of-krishna",
+				title: "DIVINE MELODY OF KRISHNA",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3500,
+				old_price: 4500,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/6-1-500x500.jpg",
+				desc: "Captivating flute rendition of Shri Krishna evoking meditative stillness and spiritual bliss."
+			},
+			{
+				id: 6,
+				slug: "annapakshi-lippan-wall-hanging-set-of-2",
+				title: "Annapakshi Lippan Wall Hanging (Set of 2)",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 7999,
+				old_price: 9999,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01-500x500.jpg",
+				desc: "Set of 2 heritage royal Annapakshi bird Lippan wall plates handcrafted with high-density clay and mirrors."
+			},
+			{
+				id: 7,
+				slug: "divine-universe-within-krishna",
+				title: "DIVINE UNIVERSE WITHIN KRISHNA",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3500,
+				old_price: 4800,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/10-500x500.jpg",
+				desc: "The cosmic Vishwaroop concept painted in swirling nebular pigments on stretched canvas."
+			},
+			{
+				id: 8,
+				slug: "colourful-flower-rangoli-lippan-wall-hanging",
+				title: "Colourful Flower Rangoli Lippan Wall Hanging",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 3999,
+				old_price: 4500,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/Colourful-Flower-Rangoli-Lippan-Wall-Hanging-01-500x500.jpg",
+				desc: "Vibrant floral Rangoli geometric mirror work radiating welcoming positive vibrations to your entryway."
+			},
+			{
+				id: 9,
+				slug: "eternal-blossom-of-divine-union",
+				title: "ETERNAL BLOSSOM OF DIVINE UNION",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 5000,
+				old_price: 5999,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/14-500x500.jpg",
+				desc: "Rich emotional palette of blooming devotion celebrating unconditional spiritual love."
+			},
+			{
+				id: 10,
+				slug: "cow-lippan-wall-hanging-set-of-2",
+				title: "Cow Lippan Wall Hanging Set of 2",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 5499,
+				old_price: 6999,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/Cow-Lippan-Wall-Hanging-Set-of-02-500x500.jpg",
+				desc: "Sacred Kamadhenu inspired set of 2 Lippan wall plates with intricate relief border and mirror work."
+			},
+			{
+				id: 11,
+				slug: "ganesha-in-bloom",
+				title: "GANESHA IN BLOOM",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 2999,
+				old_price: 3800,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/4-1-500x500.jpg",
+				desc: "Contemporary Lord Ganesha portrait surrounded by blooming lotus petals in calming earthy ochres."
+			},
+			{
+				id: 12,
+				slug: "peacock-harmony",
+				title: "Peacock Harmony",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 1499,
+				old_price: 2000,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/Peacock-Harmony-02-500x500.jpg",
+				desc: "Majestic peacock plumage depicted in traditional Kutch mud and mirror technique."
+			},
+			{
+				id: 13,
+				slug: "divine-darshan-of-lord-jagannath",
+				title: "DIVINE DARSHAN OF LORD JAGANNATH",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3800,
+				old_price: 4900,
+				img: "https://evaraart.in/wp-content/uploads/2026/07/19-500x500.jpg",
+				desc: "Bold, iconic eyes of Mahaprabhu Jagannath capturing deep compassion and universal surrender."
+			},
+			{
+				id: 14,
+				slug: "regal-mayur-jharokha",
+				title: "Regal Mayur Jharokha",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 3999,
+				old_price: 4999,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/1-01-500x500.jpg",
+				desc: "Architectural royal Rajasthani Jharokha window with detailed peacock Lippan mirror inlay."
+			},
+			{
+				id: 15,
+				slug: "lotus-embrace-of-divine-love",
+				title: "LOTUS EMBRACE OF DIVINE LOVE",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3250,
+				old_price: 4200,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/EVARA-PRODUCT-PHHOTOS2-500x500.jpg",
+				desc: "Radha Krishna emerging from golden sacred lotus blossoms in serene harmony."
+			},
+			{
+				id: 16,
+				slug: "the-forever-frame",
+				title: "The Forever Frame",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 2499,
+				old_price: 3200,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/1-01-1-500x500.jpg",
+				desc: "Symmetric geometric mirror wall frame designed to reflect and brighten interior living rooms."
+			},
+			{
+				id: 17,
+				slug: "crimson-grace",
+				title: "CRIMSON GRACE",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3200,
+				old_price: 4000,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/4-500x500.jpg",
+				desc: "Modern minimalist textured portrait in bold crimson palette and fine impasto strokes."
+			},
+			{
+				id: 18,
+				slug: "peacock-lippanart",
+				title: "Peacock lippanart",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 1999,
+				old_price: 2500,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/peacock-lippa",
+				desc: "Graceful peacock silhouette with shimmering diamond mirrors and rich earthy clay relief."
+			},
+			{
+				id: 19,
+				slug: "floral-illusion",
+				title: "FLORAL ILLUSION",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 2900,
+				old_price: 3500,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/8-500x500.jpg",
+				desc: "Abstract butterfly and floral metamorphoses symbolizing personal transformation and hope."
+			},
+			{
+				id: 20,
+				slug: "eternal-grace-lord-jagannath",
+				title: "ETERNAL GRACE: LORD JAGANNATH",
+				category: "Lippan & Clay Art",
+				category_slug: "lippan-art",
+				price: 2500,
+				old_price: 3200,
+				img: "https://evaraart.in/wp-content/uploads/2026/06/16-500x500.jpg",
+				desc: "Lord Jagannath face crafted with traditional Lippan mud relief and sparkling round mirrors."
+			},
+			{
+				id: 21,
+				slug: "sunset-whispers-by-the-lake",
+				title: "SUNSET WHISPERS BY THE LAKE",
+				category: "Canvas Paintings",
+				category_slug: "canvas-paintings",
+				price: 3150,
+				old_price: 3900,
+				img: "https://evaraart.in/wp-content/uploads/2026/04/2-1-500x500.jpg",
+				desc: "Warm golden-hour lakeside landscape reflecting gentle evening sunlight across water."
+			}
+		];
+
+		// Cart State
+		let cart = [];
+		let currentProduct = null;
+		let sizePriceOffset = 0;
+		let isRoomView = false;
+
+		// Client-Side Router
+		function handleRoute() {
+			const hash = window.location.hash.replace('#', '') || 'home';
+			
+			if (hash.startsWith('product/')) {
+				const slug = hash.replace('product/', '');
+				const prod = products.find(p => p.slug === slug);
+				if (prod) {
+					renderProductDetail(prod);
+					showView('product-detail');
+					window.scrollTo(0, 0);
+					return;
+				}
+			}
+
+			if (hash === 'canvas-paintings') {
+				renderCategoryGrid('Canvas Paintings', 'canvas-gallery-grid');
+				showView('canvas-paintings');
+			} else if (hash === 'lippan-art') {
+				renderCategoryGrid('Lippan & Clay Art', 'lippan-gallery-grid');
+				showView('lippan-art');
+			} else if (hash === 'custom-art') {
+				showView('custom-art');
+			} else if (hash === 'contact') {
+				showView('contact');
+			} else {
+				renderHomeFeatured();
+				showView('home');
+			}
+			window.scrollTo(0, 0);
+		}
+
+		function showView(viewId) {
+			document.querySelectorAll('.view-page').forEach(v => v.classList.remove('active-view'));
+			const activeEl = document.getElementById('view-' + viewId);
+			if (activeEl) activeEl.classList.add('active-view');
+
+			document.querySelectorAll('.nav-links a').forEach(a => {
+				a.classList.toggle('active', a.getAttribute('data-route') === viewId);
+			});
+		}
+
+		window.addEventListener('hashchange', handleRoute);
+		if (document.readyState === 'loading') {
+			window.addEventListener('DOMContentLoaded', () => {
+				handleRoute();
+				renderCart();
+			});
+		} else {
+			handleRoute();
+			renderCart();
+		}
+
+		// Render Product Cards
+		function createProductCardHTML(p) {
+			return `
+				<div class="artwork-card">
+					<div class="art-thumbnail-wrap" onclick="navigateToProduct('${p.slug}')">
+						<img src="${p.img}" alt="${p.title}" class="art-img-primary">
+						<span class="art-badge">${p.category === 'Lippan & Clay Art' ? 'Lippan Craft' : 'Original Canvas'}</span>
+						<div class="art-quick-actions">
+							<span class="quick-view-btn"><i class="fa-regular fa-eye"></i> View Artwork Details</span>
+						</div>
+					</div>
+					<div class="art-card-details">
+						<h3 class="art-title" onclick="navigateToProduct('${p.slug}')">
+							${p.title}
+						</h3>
+						<div class="art-price-row">
+							<div>
+								<span class="price-val">&#8377;${p.price.toLocaleString('en-IN')}</span>
+								${p.old_price ? `<span style="font-size: 0.85rem; text-decoration: line-through; color: var(--evara-text-muted); margin-left: 6px;">&#8377;${p.old_price.toLocaleString('en-IN')}</span>` : ''}
+							</div>
+							<button class="add-to-bag-btn" onclick="addToCart(${p.id})">
+								<i class="fa-solid fa-plus"></i> Add
+							</button>
+						</div>
+					</div>
+				</div>
+			`;
+		}
+
+		function renderHomeFeatured() {
+			const container = document.getElementById('home-featured-grid');
+			if (!container) return;
+			container.innerHTML = products.slice(0, 8).map(createProductCardHTML).join('');
+		}
+
+		function renderCategoryGrid(catName, containerId) {
+			const container = document.getElementById(containerId);
+			if (!container) return;
+			const filtered = products.filter(p => p.category === catName);
+			container.innerHTML = filtered.map(createProductCardHTML).join('');
+		}
+
+		function sortCategory(catName, sortType) {
+			let filtered = products.filter(p => p.category === catName);
+			if (sortType === 'price-low') filtered.sort((a,b) => a.price - b.price);
+			else if (sortType === 'price-high') filtered.sort((a,b) => b.price - a.price);
+			else if (sortType === 'name') filtered.sort((a,b) => a.title.localeCompare(b.title));
+			
+			const targetId = catName === 'Canvas Paintings' ? 'canvas-gallery-grid' : 'lippan-gallery-grid';
+			document.getElementById(targetId).innerHTML = filtered.map(createProductCardHTML).join('');
+		}
+
+		function navigateToProduct(slug) {
+			window.location.hash = 'product/' + slug;
+		}
+
+		function renderProductDetail(prod) {
+			currentProduct = prod;
+			sizePriceOffset = 0;
+			isRoomView = false;
+
+			document.getElementById('detail-breadcrumb-title').innerText = prod.title;
+			const catLink = document.getElementById('detail-category-link');
+			catLink.innerText = prod.category;
+			catLink.href = '#' + prod.category_slug;
+			catLink.setAttribute('data-route', prod.category_slug);
+
+			document.getElementById('detail-title').innerText = prod.title;
+			document.getElementById('detail-price').innerText = '₹' + prod.price.toLocaleString('en-IN');
+			document.getElementById('detail-old-price').innerText = prod.old_price ? '₹' + prod.old_price.toLocaleString('en-IN') : '';
+			document.getElementById('detail-badge').innerText = prod.category === 'Lippan & Clay Art' ? '100% Handcrafted Lippan Mirror Craft' : 'Original Hand-Painted Acrylic Canvas';
+
+			document.getElementById('detail-img').src = prod.img;
+			document.getElementById('detail-img').alt = prod.title;
+			document.getElementById('simulated-wall-img').src = prod.img;
+
+			document.getElementById('standard-gallery-wrap').style.display = 'block';
+			document.getElementById('room-simulator-wrap').style.display = 'none';
+
+			document.getElementById('detail-whatsapp-btn').href = `https://wa.me/919328143036?text=Hi%20Shraddha,%20I'm%20inquiring%20about%20the%20${encodeURIComponent(prod.title)}%20(₹${prod.price})`;
+
+			document.getElementById('pincode-result').innerText = '';
+			document.getElementById('pincode-input').value = '';
+
+			document.querySelectorAll('#size-options .pill-btn').forEach((btn, idx) => {
+				btn.classList.toggle('active', idx === 0);
+			});
+		}
+
+		function toggleRoomView() {
+			isRoomView = !isRoomView;
+			const stdWrap = document.getElementById('standard-gallery-wrap');
+			const roomWrap = document.getElementById('room-simulator-wrap');
+			if (isRoomView) {
+				stdWrap.style.display = 'none';
+				roomWrap.style.display = 'flex';
+			} else {
+				stdWrap.style.display = 'block';
+				roomWrap.style.display = 'none';
+			}
+		}
+
+		function selectSize(btn, offset) {
+			document.querySelectorAll('#size-options .pill-btn').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			sizePriceOffset = offset;
+			if (currentProduct) {
+				const newPrice = currentProduct.price + offset;
+				document.getElementById('detail-price').innerText = '₹' + newPrice.toLocaleString('en-IN');
+			}
+		}
+
+		function selectFrame(btn, styleName) {
+			btn.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			showToast(`Selected Frame: ${styleName}`);
+		}
+
+		function checkPincode() {
+			const pin = document.getElementById('pincode-input').value.trim();
+			const res = document.getElementById('pincode-result');
+			if (!/^\d{6}$/.test(pin)) {
+				res.className = 'pincode-result';
+				res.style.color = '#DC2626';
+				res.innerText = 'Please enter a valid 6-digit Indian PIN code.';
+				return;
+			}
+			res.className = 'pincode-result success';
+			res.innerHTML = `<i class="fa-solid fa-circle-check"></i> Standard Insured Delivery available to PIN ${pin} in 3-5 business days. Zero transit damage guarantee.`;
+		}
+
+		function toggleAccordion(btn) {
+			const body = btn.nextElementSibling;
+			const icon = btn.querySelector('i');
+			body.classList.toggle('open');
+			if (body.classList.contains('open')) {
+				icon.className = 'fa-solid fa-chevron-up';
+			} else {
+				icon.className = 'fa-solid fa-chevron-down';
+			}
+		}
+
+		function addToCart(productId) {
+			const prod = products.find(p => p.id === productId);
+			if (!prod) return;
+			
+			const existing = cart.find(item => item.id === prod.id && item.sizeOffset === 0);
+			if (existing) {
+				existing.qty += 1;
+			} else {
+				cart.push({ ...prod, qty: 1, sizeOffset: 0, finalPrice: prod.price });
+			}
+			renderCart();
+			openCart();
+			showToast(`Added "${prod.title}" to your art bag`);
+		}
+
+		function addCurrentProductToBag() {
+			if (!currentProduct) return;
+			const calculatedPrice = currentProduct.price + sizePriceOffset;
+			const existing = cart.find(item => item.id === currentProduct.id && item.sizeOffset === sizePriceOffset);
+			if (existing) {
+				existing.qty += 1;
+			} else {
+				cart.push({
+					...currentProduct,
+					qty: 1,
+					sizeOffset: sizePriceOffset,
+					finalPrice: calculatedPrice
+				});
+			}
+			renderCart();
+			openCart();
+			showToast(`Added "${currentProduct.title}" to your art bag`);
+		}
+
+		function removeCartItem(idx) {
+			cart.splice(idx, 1);
+			renderCart();
+		}
+
+		function renderCart() {
+			const list = document.getElementById('cart-list');
+			const badge = document.getElementById('evara-cart-badge');
+			const count = document.getElementById('cart-drawer-count');
+			const subtotalEl = document.getElementById('cart-subtotal');
+			const progress = document.getElementById('shipping-progress');
+			const msg = document.getElementById('shipping-msg');
+
+			const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+			badge.innerText = totalQty;
+			count.innerText = '(' + totalQty + ')';
+
+			if (cart.length === 0) {
+				list.innerHTML = `
+					<div class="empty-cart-state">
+						<div class="empty-icon-wrap"><i class="fa-solid fa-paintbrush"></i></div>
+						<h4>Your art bag is empty</h4>
+						<p>Bring sacred beauty and modern grace to your living space.</p>
+					</div>
+				`;
+				subtotalEl.innerText = '₹0.00';
+				progress.style.width = '0%';
+				msg.innerHTML = 'Add <strong>₹2,999</strong> more to unlock <strong>Free Pan-India Delivery</strong>!';
+				msg.className = 'threshold-msg';
+				return;
+			}
+
+			let subtotal = 0;
+			list.innerHTML = cart.map((item, idx) => {
+				const itemTotal = item.finalPrice * item.qty;
+				subtotal += itemTotal;
+				return `
+					<li class="cart-item-row">
+						<div class="item-thumb"><img src="${item.img}" alt="${item.title}"></div>
+						<div class="item-details">
+							<h5 class="item-title">${item.title}</h5>
+							<div class="item-price">&#8377;${item.finalPrice.toLocaleString('en-IN')}</div>
+							<div class="item-qty-row">
+								<span class="qty-pill">Qty: ${item.qty}</span>
+								<a href="#" class="remove-cart-item" onclick="removeCartItem(${idx})"><i class="fa-regular fa-trash-can"></i> Remove</a>
+							</div>
+						</div>
+					</li>
+				`;
+			}).join('');
+
+			subtotalEl.innerText = '₹' + subtotal.toLocaleString('en-IN') + '.00';
+			document.getElementById('checkout-total-val').innerText = '₹' + subtotal.toLocaleString('en-IN') + '.00';
+
+			if (subtotal >= 2999) {
+				progress.style.width = '100%';
+				msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> Congratulations! You unlocked <strong>Free Pan-India Delivery</strong>';
+				msg.className = 'threshold-msg success';
+			} else {
+				const rem = 2999 - subtotal;
+				progress.style.width = Math.min(100, Math.round((subtotal / 2999) * 100)) + '%';
+				msg.innerHTML = `Add <strong>₹${rem.toLocaleString('en-IN')}</strong> more to unlock <strong>Free Pan-India Delivery</strong>!`;
+				msg.className = 'threshold-msg';
+			}
+		}
+
+		function showToast(text) {
+			const toast = document.getElementById('evara-toast');
+			document.getElementById('toast-text').innerText = text;
+			toast.classList.add('show');
+			setTimeout(() => toast.classList.remove('show'), 3200);
+		}
+
+		const cartDrawer = document.getElementById('evara-cart-drawer');
+		function openCart() {
+			cartDrawer.classList.add('is-open');
+			document.body.style.overflow = 'hidden';
+		}
+		function closeCart() {
+			cartDrawer.classList.remove('is-open');
+			document.body.style.overflow = '';
+		}
+		document.getElementById('evara-cart-open').onclick = openCart;
+		document.getElementById('evara-cart-close').onclick = closeCart;
+		document.getElementById('evara-cart-close-overlay').onclick = closeCart;
+
+		const mobileMenu = document.getElementById('evara-mobile-menu');
+		document.getElementById('evara-menu-open').onclick = () => {
+			mobileMenu.classList.add('is-open');
+			document.body.style.overflow = 'hidden';
+		};
+		const closeMobile = () => {
+			mobileMenu.classList.remove('is-open');
+			document.body.style.overflow = '';
+		};
+		document.getElementById('evara-menu-close').onclick = closeMobile;
+		document.getElementById('evara-menu-close-overlay').onclick = closeMobile;
+
+		// Close mobile menu on click link
+		document.querySelectorAll('.mobile-nav-list a').forEach(a => {
+			a.addEventListener('click', closeMobile);
+		});
+
+		const searchModal = document.getElementById('evara-search-modal');
+		const searchInput = document.getElementById('evara-search-input');
+		const searchResults = document.getElementById('search-live-results');
+
+		document.getElementById('evara-search-trigger').onclick = () => {
+			searchModal.classList.add('is-open');
+			searchInput.value = '';
+			searchResults.innerHTML = '';
+			searchInput.focus();
+			document.body.style.overflow = 'hidden';
+		};
+		const closeSearch = () => {
+			searchModal.classList.remove('is-open');
+			document.body.style.overflow = '';
+		};
+		document.getElementById('evara-search-close').onclick = closeSearch;
+		document.getElementById('evara-search-close-backdrop').onclick = closeSearch;
+
+		searchInput.addEventListener('input', (e) => {
+			const q = e.target.value.toLowerCase().trim();
+			if (!q) {
+				searchResults.innerHTML = '';
+				return;
+			}
+			const matches = products.filter(p => p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+			if (matches.length === 0) {
+				searchResults.innerHTML = `<p style="padding: 12px; font-size: 0.9rem; color: var(--evara-text-muted);">No artworks found for "${q}".</p>`;
+				return;
+			}
+			searchResults.innerHTML = matches.map(m => `
+				<div style="display: flex; gap: 12px; align-items: center; padding: 10px; border-bottom: 1px solid var(--evara-border); cursor: pointer;" onclick="navigateToProduct('${m.slug}'); closeSearch();">
+					<img src="${m.img}" alt="${m.title}" style="width: 44px; height: 44px; border-radius: 4px; object-fit: cover;">
+					<div>
+						<h5 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 2px;">${m.title}</h5>
+						<span style="font-size: 0.85rem; color: var(--evara-terracotta); font-weight: 700;">&#8377;${m.price.toLocaleString('en-IN')} &bull; ${m.category}</span>
+					</div>
+				</div>
+			`).join('');
+		});
+
+		const checkoutModal = document.getElementById('checkout-modal');
+		function openCheckoutModal() {
+			if (cart.length === 0) {
+				showToast('Please add an artwork to proceed to checkout');
+				return;
+			}
+			closeCart();
+			checkoutModal.classList.add('is-open');
+			document.body.style.overflow = 'hidden';
+		}
+		function closeCheckoutModal() {
+			checkoutModal.classList.remove('is-open');
+			document.body.style.overflow = '';
+		}
+
+		function handleOrderComplete(e) {
+			e.preventDefault();
+			closeCheckoutModal();
+			showToast('✓ Order Placed Successfully! Razorpay payment initiated.');
+			cart = [];
+			renderCart();
+		}
+
+		function handleCommissionSubmit(e) {
+			e.preventDefault();
+			showToast('✓ Custom Commission request received! Shraddha will message you on WhatsApp shortly.');
+			e.target.reset();
+		}
+	</script>
+</body>
+</html>
