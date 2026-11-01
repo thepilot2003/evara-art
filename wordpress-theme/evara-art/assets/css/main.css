@@ -1819,6 +1819,10 @@ button, input, select, textarea {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 14px;
 	}
+	/* Hero Showcase Card: Desktop-only, hidden on tablets & phones for seamless flow */
+	.hero-art-showcase-card {
+		display: none !important;
+	}
 }
 
 /* Mobile Devices & Phones (<= 640px) */
@@ -1963,8 +1967,9 @@ button, input, select, textarea {
 		margin-top: 3px;
 	}
 
-	/* Featured Creation Showcase: Sleek Compact Editorial Spotlight */
+	/* Featured Creation Showcase: Desktop-only editorial card, hidden on mobile for clean flow */
 	.hero-art-showcase-card {
+		display: none !important;
 		margin-top: 8px;
 		border-radius: var(--radius-md);
 		border: 1px solid var(--evara-border);
