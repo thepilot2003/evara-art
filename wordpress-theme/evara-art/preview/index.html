@@ -3814,7 +3814,6 @@ textarea.studio-input {
 
 /* Minimum 44px Accessible Tap Targets */
 .action-btn,
-.evara-mobile-toggle,
 .drawer-close-btn,
 .search-close-btn {
 	min-width: 44px;
@@ -3822,6 +3821,23 @@ textarea.studio-input {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.evara-mobile-toggle {
+	min-width: 44px;
+	min-height: 44px;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+
+@media (max-width: 1024px) {
+	.evara-mobile-toggle {
+		display: inline-flex !important;
+	}
+	.evara-desktop-nav {
+		display: none !important;
+	}
 }
 
 /* ==========================================================================
@@ -3873,6 +3889,105 @@ textarea.studio-input {
 	border-color: #E5E7EB !important;
 	cursor: not-allowed;
 	pointer-events: auto;
+}
+
+/* ==========================================================================
+   POLICY & LEGAL PAGES STYLING (Editorial Luxury Layout)
+   ========================================================================== */
+.policy-page-header {
+	padding: clamp(36px, 6vw, 64px) 0 28px;
+	background: linear-gradient(180deg, var(--evara-surface-muted) 0%, rgba(253, 251, 247, 0) 100%);
+	border-bottom: 1px solid var(--evara-border);
+	margin-bottom: 32px;
+}
+.policy-container {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 10px 20px 80px;
+}
+.policy-card {
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-md);
+	padding: clamp(28px, 5vw, 48px);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+	margin-bottom: 36px;
+}
+.policy-section {
+	margin-bottom: 32px;
+	padding-bottom: 28px;
+	border-bottom: 1px solid var(--evara-surface-muted);
+}
+.policy-section:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
+}
+.policy-section h2 {
+	font-family: var(--font-serif);
+	font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+	color: var(--evara-text-primary);
+	margin-bottom: 14px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.policy-section p,
+.policy-section li {
+	font-family: var(--font-sans);
+	font-size: 0.98rem;
+	line-height: 1.8;
+	color: var(--evara-text-secondary);
+}
+.policy-section ul,
+.policy-section ol {
+	padding-left: 20px;
+	margin: 14px 0;
+}
+.policy-section li {
+	margin-bottom: 8px;
+}
+.policy-highlight-box {
+	background: linear-gradient(135deg, #FFFDF9 0%, #F5EFEB 100%);
+	border: 1px solid rgba(184, 93, 67, 0.25);
+	border-radius: var(--radius-sm);
+	padding: 20px 24px;
+	margin: 20px 0;
+}
+.policy-highlight-box strong {
+	color: var(--evara-terracotta);
+}
+.policy-table-wrap {
+	overflow-x: auto;
+	margin: 20px 0;
+}
+.policy-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: left;
+	font-size: 0.92rem;
+}
+.policy-table th,
+.policy-table td {
+	padding: 12px 16px;
+	border: 1px solid var(--evara-border);
+}
+.policy-table th {
+	background-color: var(--evara-surface-muted);
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	font-family: var(--font-sans);
+}
+.policy-table td {
+	color: var(--evara-text-secondary);
+}
+.policy-contact-box {
+	background: var(--evara-surface);
+	border: 1px dashed var(--evara-terracotta);
+	border-radius: var(--radius-md);
+	padding: 24px;
+	text-align: center;
+	margin-top: 30px;
 }
 
 </style>
@@ -4870,6 +4985,268 @@ textarea.studio-input {
 	</div>
 
 
+	<!-- =========================================================================
+	     VIEW 7: SHIPPING & DELIVERY POLICY
+	     ========================================================================= -->
+	<div id="view-shipping-policy" class="view-page">
+		<div class="policy-page-header">
+			<div class="evara-container text-center">
+				<div class="evara-breadcrumbs" style="margin-bottom: 12px;">
+					<a href="#home" class="nav-route" data-route="home">Home</a> &rsaquo; <span>Shipping &amp; Delivery Policy</span>
+				</div>
+				<span class="sub-heading">✦ Safe, Armored Transit Pan-India</span>
+				<h1 class="page-title">Pan-India Shipping &amp; Delivery Policy</h1>
+				<p class="page-desc">Every original painting and Lippan artwork is hand-crated with care to guarantee pristine, damage-free arrival at your doorstep.</p>
+			</div>
+		</div>
+
+		<div class="policy-container">
+			<div class="policy-card">
+				
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-truck-fast" style="color: var(--evara-terracotta);"></i> 1. Insured Delivery &amp; Shipping Charges</h2>
+					<p>We provide fully insured express doorstep delivery across all serviceable postal PIN codes in India through top-tier courier networks including Blue Dart, Delhivery, DTDC, and Xpressbees.</p>
+					
+					<div class="policy-highlight-box">
+						<strong>✦ Free Shipping Threshold:</strong> All domestic orders with a cart subtotal of <strong>₹2,999 and above qualify for 100% Free Pan-India Delivery</strong>. For orders below ₹2,999, a flat insured shipping fee of ₹150 is applied at checkout.
+					</div>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-clock" style="color: var(--evara-terracotta);"></i> 2. Studio Processing &amp; Dispatch Timelines</h2>
+					<p>Because Evara Art creates genuine handcrafted originals rather than automated mass prints, every artwork undergoes careful final curing, moisture-seal varnishing, and structural inspection before dispatch:</p>
+					
+					<div class="policy-table-wrap">
+						<table class="policy-table">
+							<thead>
+								<tr>
+									<th>Artwork Category</th>
+									<th>Studio Handcraft &amp; Preparation</th>
+									<th>Transit Time (Post-Dispatch)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><strong>Ready-to-Ship Canvas Paintings</strong></td>
+									<td>2 &ndash; 4 Business Days (Varnish &amp; Quality Check)</td>
+									<td>3 &ndash; 6 Business Days</td>
+								</tr>
+								<tr>
+									<td><strong>Handcrafted Lippan Mirror Art</strong></td>
+									<td>3 &ndash; 5 Business Days (Clay Curing &amp; Mirror Inspection)</td>
+									<td>4 &ndash; 7 Business Days</td>
+								</tr>
+								<tr>
+									<td><strong>Bespoke Custom Commissions</strong></td>
+									<td>7 &ndash; 14 Business Days (Collaborative Painting &amp; Drying)</td>
+									<td>3 &ndash; 6 Business Days</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<p style="font-size: 0.88rem; color: var(--evara-text-muted);">*Business days exclude Sundays and Indian National Holidays. Severe weather conditions or regional transport restrictions may occasionally extend courier transit windows.</p>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-box-archive" style="color: var(--evara-terracotta);"></i> 3. Armored Wooden Crating Standard</h2>
+					<p>We understand that delicate canvas duck fabric and hand-cut Lippan mirrors require exceptional structural reinforcement. Every package is packed using our 4-tier packaging protocol:</p>
+					<ul>
+						<li><strong>Layer 1 &ndash; Anti-Moisture Barrier:</strong> Archival glassine wrap and dust-proof protective plastic sheathing.</li>
+						<li><strong>Layer 2 &ndash; Impact Air-Cushion:</strong> Triple-layer 10mm shock-absorbent air bubble wrap.</li>
+						<li><strong>Layer 3 &ndash; Reinforced Corner Guards:</strong> High-density rigid foam caps on all 4 corners to shield against drops.</li>
+						<li><strong>Layer 4 &ndash; Rigid Wooden Hardboard Outer Crating:</strong> Solid composite hardboard sandwiching the artwork with tamper-evident security strapping.</li>
+					</ul>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-location-dot" style="color: var(--evara-terracotta);"></i> 4. Live Tracking &amp; Delivery Updates</h2>
+					<p>The moment your artwork is handed over to our insured logistics partner, you will receive an automatic dispatch notification with a direct tracking link via <strong>WhatsApp and SMS</strong>. You can follow your parcel’s live movement directly to your doorstep.</p>
+				</div>
+
+				<div class="policy-contact-box">
+					<h3 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 8px;">Need Express or Urgent Dispatch?</h3>
+					<p style="font-size: 0.92rem; color: var(--evara-text-secondary); margin-bottom: 16px;">Celebrating a housewarming, anniversary, or pooja? Connect with artist Shraddha on WhatsApp for priority expedited dispatch.</p>
+					<a href="https://wa.me/919328143036?text=Hi%20Shraddha,%20I%20have%20an%20urgent%20shipping%20request%20for%20an%20artwork" target="_blank" class="evara-btn btn-whatsapp-lg" style="display: inline-flex;">
+						<i class="fa-brands fa-whatsapp"></i> WhatsApp Dispatch Support (+91 93281 43036)
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 8: RETURNS & REFUND POLICY
+	     ========================================================================= -->
+	<div id="view-refund-returns" class="view-page">
+		<div class="policy-page-header">
+			<div class="evara-container text-center">
+				<div class="evara-breadcrumbs" style="margin-bottom: 12px;">
+					<a href="#home" class="nav-route" data-route="home">Home</a> &rsaquo; <span>Returns &amp; Refund Policy</span>
+				</div>
+				<span class="sub-heading">✦ 100% Collector Confidence</span>
+				<h1 class="page-title">Returns, Replacement &amp; Refund Policy</h1>
+				<p class="page-desc">We take sacred pride in every brushstroke. In the rare event of transit damage or dissatisfaction, here is how we protect you.</p>
+			</div>
+		</div>
+
+		<div class="policy-container">
+			<div class="policy-card">
+				
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-shield-halved" style="color: var(--evara-terracotta);"></i> 1. 100% Zero-Risk Transit Damage Guarantee</h2>
+					<p>Original art is fragile. Despite our multi-layered wooden crating, if your artwork sustains any damage during transit, <strong>Evara Art takes 100% financial and replacement responsibility</strong>. You will never be left at a loss.</p>
+					
+					<div class="policy-highlight-box">
+						<strong>✦ 48-Hour Unboxing Notice Protocol:</strong><br>
+						Because transit damage claims require courier insurance verification, please record a short continuous video while unboxing your wooden crate. If any damage or mirror crack is found, send the video and clear photos to WhatsApp at <strong>+91 93281 43036</strong> or email <strong>support@evaraart.in</strong> within <strong>48 hours of delivery</strong>.
+					</div>
+					<p>Upon verification, we will immediately initiate your choice of:</p>
+					<ul>
+						<li>An immediate complimentary hand-painted replacement created and dispatched with priority express tracking.</li>
+						<li>OR a 100% full refund credited back to your original payment method.</li>
+					</ul>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-rotate-left" style="color: var(--evara-terracotta);"></i> 2. 7-Day Return Window (Ready-to-Ship Artworks)</h2>
+					<p>We want you to adore how your artwork illuminates your room. If a standard catalog artwork does not harmonize with your interior space:</p>
+					<ul>
+						<li>You may request a return within <strong>7 calendar days</strong> from the date of confirmed delivery.</li>
+						<li>The artwork must be in its original, pristine condition, unmounted, and safely re-packed in its protective cushioning and hardboard crate.</li>
+						<li>We will arrange a reverse pickup through our insured courier partners. A nominal reverse logistics shipping fee (₹250–₹350 depending on size) is deducted from the refund amount.</li>
+					</ul>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-palette" style="color: var(--evara-terracotta);"></i> 3. Bespoke Custom Commissions Policy</h2>
+					<p>Custom commissions are uniquely personalized according to your room dimensions, spiritual deities, and color swatches. Lead artist Shraddha Parmar shares high-resolution work-in-progress photos and videos on WhatsApp for your direct review and approval prior to varnishing and dispatch.</p>
+					<p><strong>Therefore, once approved and dispatched, bespoke custom commission artworks are non-returnable</strong>, except in the event of documented transit damage covered by our Zero-Risk Guarantee above.</p>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-credit-card" style="color: var(--evara-terracotta);"></i> 4. Refund Processing Timelines</h2>
+					<p>Once your returned artwork arrives back at our Gujarat studio and passes physical condition inspection:</p>
+					<ul>
+						<li>Refunds are approved and initiated within <strong>24 to 48 hours</strong> of studio receipt.</li>
+						<li>The funds are credited back to your original source of payment (UPI, Credit Card, Debit Card, NetBanking via Razorpay) within <strong>3 to 5 business working days</strong> as per banking network standards.</li>
+						<li>You will receive an automated confirmation email and SMS once the refund is completed.</li>
+					</ul>
+				</div>
+
+				<div class="policy-contact-box">
+					<h3 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 8px;">Initiate a Return or Damage Claim</h3>
+					<p style="font-size: 0.92rem; color: var(--evara-text-secondary); margin-bottom: 16px;">Our team is here to assist you with quick, stress-free care.</p>
+					<a href="https://wa.me/919328143036?text=Hi%20Evara%20Art,%20I'd%20like%20to%20request%20assistance%20regarding%20my%20order" target="_blank" class="evara-btn btn-whatsapp-lg" style="display: inline-flex;">
+						<i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp (+91 93281 43036)
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 9: PRIVACY POLICY
+	     ========================================================================= -->
+	<div id="view-privacy-policy" class="view-page">
+		<div class="policy-page-header">
+			<div class="evara-container text-center">
+				<div class="evara-breadcrumbs" style="margin-bottom: 12px;">
+					<a href="#home" class="nav-route" data-route="home">Home</a> &rsaquo; <span>Privacy Policy</span>
+				</div>
+				<span class="sub-heading">✦ Data Protection &amp; Confidentiality</span>
+				<h1 class="page-title">Privacy Policy</h1>
+				<p class="page-desc">Your privacy is sacred to us. Learn how Evara Art collects, protects, and respects your personal details.</p>
+			</div>
+		</div>
+
+		<div class="policy-container">
+			<div class="policy-card">
+				
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-lock" style="color: var(--evara-terracotta);"></i> 1. Information We Collect</h2>
+					<p>When you browse our studio catalog, place an order, or submit a custom commission request, we collect only the essential information needed to fulfill your request:</p>
+					<ul>
+						<li><strong>Contact Details:</strong> Your name, email address, and mobile phone number for order confirmations, courier live tracking, and WhatsApp progress updates.</li>
+						<li><strong>Delivery Address:</strong> Your postal shipping address and PIN code to arrange secure, crated doorstep delivery.</li>
+						<li><strong>Consultation Inputs:</strong> Optional wall photos, dimensions, and color preferences submitted for bespoke commissions.</li>
+					</ul>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-credit-card" style="color: var(--evara-terracotta);"></i> 2. Payment Security &amp; Encryption</h2>
+					<p><strong>Evara Art does not store, access, or process your credit card numbers, CVVs, or UPI PINs on our servers.</strong></p>
+					<p>All online transactions are securely handled by <strong>Razorpay</strong>, an RBI-licensed, PCI-DSS Level 1 compliant payment gateway. All checkout data transmission is encrypted using industry-standard 256-bit SSL (Secure Socket Layer) encryption.</p>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-user-shield" style="color: var(--evara-terracotta);"></i> 3. Zero-Spam &amp; Non-Disclosure Guarantee</h2>
+					<p>We respect your peace of mind. We will never sell, rent, lease, or monetize your personal details to third-party marketing brokers or advertisers.</p>
+					<p>Your data is shared exclusively with verified logistics partners (such as Blue Dart, Delhivery, or DTDC) solely for delivery purposes.</p>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-envelope" style="color: var(--evara-terracotta);"></i> 4. Contact Privacy Officer</h2>
+					<p>If you have any questions regarding your personal information, or wish to request data correction or deletion, please reach out to our studio at <strong>support@evaraart.in</strong>.</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- =========================================================================
+	     VIEW 10: TERMS & CONDITIONS
+	     ========================================================================= -->
+	<div id="view-terms-conditions" class="view-page">
+		<div class="policy-page-header">
+			<div class="evara-container text-center">
+				<div class="evara-breadcrumbs" style="margin-bottom: 12px;">
+					<a href="#home" class="nav-route" data-route="home">Home</a> &rsaquo; <span>Terms &amp; Conditions</span>
+				</div>
+				<span class="sub-heading">✦ Studio Terms &amp; Conditions</span>
+				<h1 class="page-title">Terms &amp; Conditions</h1>
+				<p class="page-desc">Welcome to Evara Art. Please review the terms governing orders, handmade artistry, and intellectual property.</p>
+			</div>
+		</div>
+
+		<div class="policy-container">
+			<div class="policy-card">
+				
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-paintbrush" style="color: var(--evara-terracotta);"></i> 1. Authentic Handcrafted Variations</h2>
+					<p>Every piece created at Evara Art is an original, handmade work of devotional craftsmanship painted and sculpted by lead artist Shraddha Parmar. Unlike mass-manufactured prints, subtle organic nuances in brushstroke texture, acrylic pigment layering, clay relief patterns, and mirror cut angles are natural characteristics that celebrate the authenticity and individuality of original art.</p>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-certificate" style="color: var(--evara-terracotta);"></i> 2. Certificate of Authenticity</h2>
+					<p>All original canvas paintings and premium Lippan wall hangings are accompanied by an official, serialized <strong>Certificate of Authenticity</strong> signed by founder &amp; lead artist Shraddha Parmar, certifying artwork medium, creation date, and original provenance.</p>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-copyright" style="color: var(--evara-terracotta);"></i> 3. Copyright &amp; Intellectual Property</h2>
+					<p>All artistic compositions, painting designs, Lippan patterns, high-resolution photographs, brand marks, and literary descriptions on this website are the sole intellectual property of <strong>Evara Art and Shraddha Parmar</strong> protected under Indian and international copyright conventions. Unauthorized duplication, commercial reproduction, or resale is strictly prohibited.</p>
+				</div>
+
+				<div class="policy-section">
+					<h2><i class="fa-solid fa-scale-balanced" style="color: var(--evara-terracotta);"></i> 4. Pricing, Accuracy &amp; Governing Law</h2>
+					<p>All prices listed on the website are in Indian Rupees (INR) and include applicable taxes. We reserve the right to modify prices, dimensions, and specifications without prior notice.</p>
+					<p>These terms and any disputes arising out of purchases from Evara Art shall be governed by and construed in accordance with the laws of <strong>India</strong>, under the exclusive jurisdiction of the competent courts in <strong>Gujarat, India</strong>.</p>
+				</div>
+
+				<div class="policy-contact-box">
+					<h3 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 8px;">Questions About Our Terms?</h3>
+					<p style="font-size: 0.92rem; color: var(--evara-text-secondary); margin-bottom: 16px;">We are pleased to clarify any questions regarding our studio policies.</p>
+					<a href="mailto:support@evaraart.in?subject=Terms%20Inquiry" class="evara-btn btn-outline" style="display: inline-flex;">
+						<i class="fa-solid fa-envelope"></i> Email Studio Support (support@evaraart.in)
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
 	<!-- Toast Message Notification -->
 	<div id="evara-toast" class="evara-toast">
 		<i class="fa-solid fa-circle-check" style="color: #10B981;"></i>
@@ -4985,8 +5362,10 @@ textarea.studio-input {
 				<h4 class="footer-heading">Client Care</h4>
 				<ul class="footer-links">
 					<li><a href="#contact" class="nav-route" data-route="contact">About Our Studio</a></li>
-					<li><a href="#contact" class="nav-route" data-route="contact">Pan-India Delivery Policy</a></li>
-					<li><a href="#contact" class="nav-route" data-route="contact">Returns &amp; Refund Policy</a></li>
+					<li><a href="#shipping-policy" class="nav-route" data-route="shipping-policy">Shipping &amp; Delivery Policy</a></li>
+					<li><a href="#refund-returns" class="nav-route" data-route="refund-returns">Returns &amp; Refund Policy</a></li>
+					<li><a href="#privacy-policy" class="nav-route" data-route="privacy-policy">Privacy Policy</a></li>
+					<li><a href="#terms-conditions" class="nav-route" data-route="terms-conditions">Terms &amp; Conditions</a></li>
 				</ul>
 			</div>
 
@@ -5318,6 +5697,14 @@ textarea.studio-input {
 				showView('custom-art');
 			} else if (hash === 'contact' || hash === 'about') {
 				showView('contact');
+			} else if (hash === 'shipping-policy' || hash === 'delivery-policy' || hash === 'shipping') {
+				showView('shipping-policy');
+			} else if (hash === 'refund-returns' || hash === 'returns-policy' || hash === 'refund_returns' || hash === 'refunds') {
+				showView('refund-returns');
+			} else if (hash === 'privacy-policy' || hash === 'privacy-policy-2' || hash === 'privacy') {
+				showView('privacy-policy');
+			} else if (hash === 'terms-conditions' || hash === 'terms') {
+				showView('terms-conditions');
 			} else {
 				renderHomeFeatured();
 				showView('home');

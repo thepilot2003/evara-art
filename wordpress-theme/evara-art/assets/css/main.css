@@ -3460,7 +3460,6 @@ textarea.studio-input {
 
 /* Minimum 44px Accessible Tap Targets */
 .action-btn,
-.evara-mobile-toggle,
 .drawer-close-btn,
 .search-close-btn {
 	min-width: 44px;
@@ -3468,6 +3467,23 @@ textarea.studio-input {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.evara-mobile-toggle {
+	min-width: 44px;
+	min-height: 44px;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+
+@media (max-width: 1024px) {
+	.evara-mobile-toggle {
+		display: inline-flex !important;
+	}
+	.evara-desktop-nav {
+		display: none !important;
+	}
 }
 
 /* ==========================================================================
@@ -3827,5 +3843,104 @@ textarea.studio-input {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 20px;
 	}
+}
+
+/* ==========================================================================
+   POLICY & LEGAL PAGES STYLING (Editorial Luxury Layout)
+   ========================================================================== */
+.policy-page-header {
+	padding: clamp(36px, 6vw, 64px) 0 28px;
+	background: linear-gradient(180deg, var(--evara-surface-muted) 0%, rgba(253, 251, 247, 0) 100%);
+	border-bottom: 1px solid var(--evara-border);
+	margin-bottom: 32px;
+}
+.policy-container {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 10px 20px 80px;
+}
+.policy-card {
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-md);
+	padding: clamp(28px, 5vw, 48px);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+	margin-bottom: 36px;
+}
+.policy-section {
+	margin-bottom: 32px;
+	padding-bottom: 28px;
+	border-bottom: 1px solid var(--evara-surface-muted);
+}
+.policy-section:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
+}
+.policy-section h2 {
+	font-family: var(--font-serif);
+	font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+	color: var(--evara-text-primary);
+	margin-bottom: 14px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.policy-section p,
+.policy-section li {
+	font-family: var(--font-sans);
+	font-size: 0.98rem;
+	line-height: 1.8;
+	color: var(--evara-text-secondary);
+}
+.policy-section ul,
+.policy-section ol {
+	padding-left: 20px;
+	margin: 14px 0;
+}
+.policy-section li {
+	margin-bottom: 8px;
+}
+.policy-highlight-box {
+	background: linear-gradient(135deg, #FFFDF9 0%, #F5EFEB 100%);
+	border: 1px solid rgba(184, 93, 67, 0.25);
+	border-radius: var(--radius-sm);
+	padding: 20px 24px;
+	margin: 20px 0;
+}
+.policy-highlight-box strong {
+	color: var(--evara-terracotta);
+}
+.policy-table-wrap {
+	overflow-x: auto;
+	margin: 20px 0;
+}
+.policy-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: left;
+	font-size: 0.92rem;
+}
+.policy-table th,
+.policy-table td {
+	padding: 12px 16px;
+	border: 1px solid var(--evara-border);
+}
+.policy-table th {
+	background-color: var(--evara-surface-muted);
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	font-family: var(--font-sans);
+}
+.policy-table td {
+	color: var(--evara-text-secondary);
+}
+.policy-contact-box {
+	background: var(--evara-surface);
+	border: 1px dashed var(--evara-terracotta);
+	border-radius: var(--radius-md);
+	padding: 24px;
+	text-align: center;
+	margin-top: 30px;
 }
 

@@ -67,13 +67,14 @@
 				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 					<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Track Your Order', 'evara-art' ); ?></a></li>
 				<?php endif; ?>
+				<li><a href="<?php echo esc_url( home_url( '/shipping-policy/' ) ); ?>"><?php esc_html_e( 'Shipping & Delivery Policy', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/refund_returns/' ) ); ?>"><?php esc_html_e( 'Returns & Refund Policy', 'evara-art' ); ?></a></li>
 				<li>
 					<a href="<?php echo esc_url( function_exists( 'get_privacy_policy_url' ) && get_privacy_policy_url() ? get_privacy_policy_url() : home_url( '/privacy-policy/' ) ); ?>">
 						<?php esc_html_e( 'Privacy Policy', 'evara-art' ); ?>
 					</a>
 				</li>
 				<li><a href="<?php echo esc_url( home_url( '/terms-conditions/' ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'evara-art' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/refund_returns/' ) ); ?>"><?php esc_html_e( 'Returns & Refund Policy', 'evara-art' ); ?></a></li>
 			</ul>
 		</div>
 
