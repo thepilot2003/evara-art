@@ -2745,6 +2745,115 @@ button, input, select, textarea {
 }
 
 
+
+/* ==========================================================================
+   CATEGORY CATALOG HEADER & LUXURY TOOLBAR STYLING
+   ========================================================================== */
+.category-header-banner {
+	padding: clamp(34px, 5.5vw, 56px) 0 28px;
+	background: linear-gradient(180deg, var(--evara-surface-muted) 0%, rgba(253, 251, 247, 0) 100%);
+	border-bottom: 1px solid var(--evara-border);
+	margin-bottom: 28px;
+}
+
+.category-header-banner .category-title {
+	font-size: clamp(2rem, 3.8vw, 2.75rem);
+	margin-bottom: 10px;
+	color: var(--evara-text-primary);
+}
+
+.catalog-toolbar,
+.filter-bar-flex {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 22px;
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-md);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+	margin-bottom: 30px;
+}
+
+.catalog-count {
+	font-family: var(--font-sans);
+	font-size: 0.92rem;
+	font-weight: 600;
+	color: var(--evara-text-secondary);
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.catalog-count::before {
+	content: '';
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--evara-terracotta);
+}
+
+.catalog-sort-wrap {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.catalog-sort-label {
+	font-family: var(--font-sans);
+	font-size: 0.82rem;
+	font-weight: 600;
+	color: var(--evara-text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.catalog-sort-select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background: #FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236B5E55' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E") no-repeat calc(100% - 14px) center;
+	border: 1.5px solid var(--evara-border);
+	border-radius: var(--radius-sm);
+	padding: 9px 38px 9px 14px;
+	font-family: var(--font-sans);
+	font-size: 0.86rem;
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	outline: none;
+	min-width: 170px;
+}
+
+.catalog-sort-select:hover {
+	border-color: var(--evara-terracotta);
+}
+
+.catalog-sort-select:focus {
+	border-color: var(--evara-terracotta);
+	box-shadow: 0 0 0 3px rgba(184, 93, 67, 0.12);
+}
+
+.remove-cart-item {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	font-size: 0.78rem;
+	color: var(--evara-text-muted);
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	transition: color 0.2s ease;
+}
+
+.remove-cart-item:hover {
+	color: #DC2626;
+}
+
 /* ==========================================================================
    PRODUCT DETAIL PAGE STYLING (Editorial Luxury Fine Art)
    ========================================================================== */
@@ -3645,6 +3754,29 @@ textarea.studio-input {
 	.detail-title {
 		font-size: 1.85rem;
 	}
+	.category-header-banner {
+		padding: 24px 0 18px;
+		margin-bottom: 18px;
+	}
+	.catalog-toolbar,
+	.filter-bar-flex {
+		padding: 10px 14px;
+		margin-bottom: 20px;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+	.catalog-sort-label {
+		display: none;
+	}
+	.catalog-count {
+		font-size: 0.82rem;
+	}
+	.catalog-sort-select {
+		font-size: 0.8rem;
+		padding: 7px 30px 7px 10px;
+		min-width: 130px;
+		max-width: 100%;
+	}
 }
 
 </style>
@@ -3991,10 +4123,11 @@ textarea.studio-input {
 		</div>
 
 		<div class="evara-container" style="padding-bottom: 90px;">
-			<div class="filter-bar-flex">
+			<div class="catalog-toolbar">
 				<span class="catalog-count" id="canvas-count">Showing 11 Artworks</span>
-				<div style="display: flex; gap: 12px;">
-					<select id="canvas-sort" class="pill-btn" onchange="sortCategory('Canvas Paintings', this.value)">
+				<div class="catalog-sort-wrap">
+					<label for="canvas-sort" class="catalog-sort-label">Sort By:</label>
+					<select id="canvas-sort" class="catalog-sort-select" onchange="sortCategory('Canvas Paintings', this.value)">
 						<option value="featured">Featured First</option>
 						<option value="price-low">Price: Low to High</option>
 						<option value="price-high">Price: High to Low</option>
@@ -4026,10 +4159,11 @@ textarea.studio-input {
 		</div>
 
 		<div class="evara-container" style="padding-bottom: 90px;">
-			<div class="filter-bar-flex">
+			<div class="catalog-toolbar">
 				<span class="catalog-count" id="lippan-count">Showing 10 Artworks</span>
-				<div style="display: flex; gap: 12px;">
-					<select id="lippan-sort" class="pill-btn" onchange="sortCategory('Lippan & Clay Art', this.value)">
+				<div class="catalog-sort-wrap">
+					<label for="lippan-sort" class="catalog-sort-label">Sort By:</label>
+					<select id="lippan-sort" class="catalog-sort-select" onchange="sortCategory('Lippan & Clay Art', this.value)">
 						<option value="featured">Featured First</option>
 						<option value="price-low">Price: Low to High</option>
 						<option value="price-high">Price: High to Low</option>
@@ -4059,7 +4193,7 @@ textarea.studio-input {
 					<a href="#" id="detail-category-link" class="nav-route">Category</a> &rsaquo; 
 					<span id="detail-breadcrumb-title">Artwork Title</span>
 				</div>
-				<a href="javascript:history.back()" class="back-nav-pill">
+				<a href="#" class="back-nav-pill" onclick="if(window.history.length > 1){window.history.back();}else{window.location.hash='#canvas-paintings';} return false;">
 					<i class="fa-solid fa-arrow-left"></i> Back to Gallery
 				</a>
 			</div>
@@ -4145,19 +4279,19 @@ textarea.studio-input {
 							<span class="option-label-hint">Standard &bull; Ready to Hang</span>
 						</div>
 						<div class="pill-options" id="size-options">
-							<button class="pill-btn active" onclick="selectSize(this, 0, '12" × 18" (Standard)')">
+							<button class="pill-btn active" onclick="selectSize(this, 0, '12x18 Inch (Standard)')">
 								<span>12" &times; 18"</span>
 								<span class="pill-sub">Standard Format</span>
 							</button>
-							<button class="pill-btn" onclick="selectSize(this, 600, '18" × 24" (Most Popular)')">
+							<button class="pill-btn" onclick="selectSize(this, 600, '18x24 Inch (Most Popular)')">
 								<span>18" &times; 24"</span>
 								<span class="pill-sub">+&#8377;600 &bull; Popular</span>
 							</button>
-							<button class="pill-btn" onclick="selectSize(this, 1400, '24" × 36" (Statement Wall)')">
+							<button class="pill-btn" onclick="selectSize(this, 1400, '24x36 Inch (Statement Wall)')">
 								<span>24" &times; 36"</span>
 								<span class="pill-sub">+&#8377;1,400 &bull; Statement</span>
 							</button>
-							<button class="pill-btn" onclick="selectSize(this, 2400, '30" × 45" (Grand Sanctuary)')">
+							<button class="pill-btn" onclick="selectSize(this, 2400, '30x45 Inch (Grand Sanctuary)')">
 								<span>30" &times; 45"</span>
 								<span class="pill-sub">+&#8377;2,400 &bull; Grand</span>
 							</button>
@@ -4240,7 +4374,7 @@ textarea.studio-input {
 								<i class="fa-solid fa-chevron-down"></i>
 							</button>
 							<div class="accordion-body">
-								Each creation comes with an authentic Certificate of Authenticity signed by lead artist Shraddha Padhiyar, noting artwork completion date, serial number, and medium dedication.
+								Each creation comes with an authentic Certificate of Authenticity signed by lead artist Shraddha Parmar, noting artwork completion date, serial number, and medium dedication.
 							</div>
 						</div>
 						<div class="accordion-item">
@@ -4474,12 +4608,12 @@ textarea.studio-input {
 					Art Created as a Form of Divine Prayer
 				</h2>
 				<p style="font-size: 0.95rem; line-height: 1.75; color: var(--evara-text-secondary); margin-bottom: 16px;">
-					Welcome to <strong>Evara Art</strong>. The word <em>&ldquo;Evara&rdquo;</em> is an ancient derivation signifying <strong>Gift of God</strong>. To lead artist Shraddha Padhiyar, painting is never an assembly line or an automated process. It is a quiet meditation, a form of spiritual communion where sacred imagination is transformed into tangible, textured wall art for your home sanctuary.
+					Welcome to <strong>Evara Art</strong>. The word <em>&ldquo;Evara&rdquo;</em> is an ancient derivation signifying <strong>Gift of God</strong>. To lead artist Shraddha Parmar, painting is never an assembly line or an automated process. It is a quiet meditation, a form of spiritual communion where sacred imagination is transformed into tangible, textured wall art for your home sanctuary.
 				</p>
 				<blockquote class="about-quote-lead">
 					&ldquo;Welcome to Evara Art – where creativity comes to life through every brushstroke. &lsquo;Evara&rsquo; means Gift of God and I believe the art I create is truly a blessing and a form of divine expression. Each piece is crafted with passion, turning imagination into meaningful and beautiful artwork that honors divine patience.&rdquo;
 					<footer style="margin-top: 10px; font-size: 0.88rem; font-style: normal; font-weight: 700; color: var(--evara-text-primary);">
-						&mdash; Shraddha Padhiyar, Founder &amp; Lead Artist
+						&mdash; Shraddha Parmar, Founder &amp; Lead Artist
 					</footer>
 				</blockquote>
 				<p style="font-size: 0.95rem; line-height: 1.75; color: var(--evara-text-secondary);">
@@ -4708,7 +4842,7 @@ textarea.studio-input {
 						<span>Order Total:</span>
 						<span id="checkout-total-val">&#8377;0.00</span>
 					</div>
-					<div style="font-size: 0.8rem; color: #10B981;"><i class="fa-solid fa-shield-check"></i> Supported via Razorpay: UPI, GPay, PhonePe, Cards, NetBanking</div>
+					<div style="font-size: 0.8rem; color: #10B981;"><i class="fa-solid fa-shield-halved"></i> Supported via Razorpay: UPI, GPay, PhonePe, Cards, NetBanking</div>
 				</div>
 
 				<button type="submit" class="evara-btn btn-primary" style="width: 100%; padding: 14px;">
@@ -5045,7 +5179,21 @@ textarea.studio-input {
 			
 			if (hash.startsWith('product/')) {
 				const slug = hash.replace('product/', '');
-				const prod = products.find(p => p.slug === slug);
+				const slugAliases = {
+					'divine-melody-krishna-meera-canvas-painting': 'eternal-devotion-meera-krishna',
+					'divine-union-shiv-shakti-canvas-painting': 'shiva-shakti',
+					'eternal-love-radha-krishna-canvas-painting': 'lotus-embrace-of-divine-love',
+					'cosmic-harmony-krishna-shiva-universe-canvas-art': 'divine-universe-within-krishna',
+					'sacred-serenity-shiva-parvati-love-canvas-art': 'eternal-blossom-of-divine-union',
+					'crimson-bloom-modern-portrait-canvas-art': 'crimson-grace',
+					'metamorphosis-abstract-butterfly-portrait-canvas-art': 'floral-illusion'
+				};
+				const targetSlug = slugAliases[slug] || slug;
+				let prod = products.find(p => p.slug === targetSlug);
+				if (!prod) {
+					// Fallback: match by partial slug or id
+					prod = products.find(p => slug.includes(p.slug) || p.slug.includes(slug));
+				}
 				if (prod) {
 					renderProductDetail(prod);
 					showView('product-detail');
@@ -5058,10 +5206,10 @@ textarea.studio-input {
 			const stickyBar = document.getElementById('sticky-mobile-buy-bar');
 			if (stickyBar) stickyBar.style.display = 'none';
 
-			if (hash === 'canvas-paintings') {
+			if (hash === 'canvas-paintings' || hash === 'canvas-paintings-home-decor') {
 				renderCategoryGrid('Canvas Paintings', 'canvas-gallery-grid');
 				showView('canvas-paintings');
-			} else if (hash === 'lippan-art') {
+			} else if (hash === 'lippan-art' || hash === 'lippan-art-home-decor') {
 				renderCategoryGrid('Lippan & Clay Art', 'lippan-gallery-grid');
 				showView('lippan-art');
 			} else if (hash === 'custom-art') {
@@ -5166,9 +5314,10 @@ textarea.studio-input {
 
 			document.getElementById('detail-breadcrumb-title').innerText = prod.title;
 			const catLink = document.getElementById('detail-category-link');
+			const targetCatRoute = prod.category === 'Lippan & Clay Art' ? 'lippan-art' : 'canvas-paintings';
 			catLink.innerText = prod.category;
-			catLink.href = '#' + prod.category_slug;
-			catLink.setAttribute('data-route', prod.category_slug);
+			catLink.href = '#' + targetCatRoute;
+			catLink.setAttribute('data-route', targetCatRoute);
 
 			document.getElementById('detail-title').innerText = prod.title;
 			document.getElementById('detail-desc').innerText = prod.desc || "Hand-painted original acrylic painting on heavy-weave primed canvas. Features luminous divine colors, durable texture impasto, and protective satin varnish.";
@@ -5500,7 +5649,7 @@ textarea.studio-input {
 							<div class="item-price">&#8377;${item.finalPrice.toLocaleString('en-IN')}</div>
 							<div class="item-qty-row">
 								<span class="qty-pill">Qty: ${item.qty}</span>
-								<a href="#" class="remove-cart-item" onclick="removeCartItem(${idx})"><i class="fa-regular fa-trash-can"></i> Remove</a>
+								<button type="button" class="remove-cart-item" onclick="event.preventDefault(); removeCartItem(${idx})"><i class="fa-regular fa-trash-can"></i> Remove</button>
 							</div>
 						</div>
 					</li>
@@ -5622,11 +5771,37 @@ textarea.studio-input {
 			renderCart();
 		}
 
-		function handleCommissionSubmit(e) {
-			e.preventDefault();
-			showToast('✓ Custom Commission request received! Shraddha will message you on WhatsApp shortly.');
-			e.target.reset();
-		}
+		// Pincode Enter Key Listener
+		document.getElementById('pincode-input')?.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				checkPincode();
+			}
+		});
+
+		// Expose all interactive functions to window scope for seamless inline handler execution
+		window.closeSearch = closeSearch;
+		window.closeMobile = closeMobile;
+		window.closeCheckoutModal = closeCheckoutModal;
+		window.openCheckoutModal = openCheckoutModal;
+		window.openCart = openCart;
+		window.closeCart = closeCart;
+		window.removeCartItem = removeCartItem;
+		window.checkPincode = checkPincode;
+		window.selectSize = selectSize;
+		window.selectFrame = selectFrame;
+		window.selectThumbnail = selectThumbnail;
+		window.selectWallColor = selectWallColor;
+		window.toggleRoomView = toggleRoomView;
+		window.toggleAccordion = toggleAccordion;
+		window.sortCategory = sortCategory;
+		window.navigateToProduct = navigateToProduct;
+		window.addToCart = addToCart;
+		window.addCurrentProductToBag = addCurrentProductToBag;
+		window.changeQty = changeQty;
+		window.openCustomWhatsApp = openCustomWhatsApp;
+		window.handleCommissionSubmit = handleCommissionSubmit;
+		window.handleOrderComplete = handleOrderComplete;
 	</script>
 </body>
 </html>
