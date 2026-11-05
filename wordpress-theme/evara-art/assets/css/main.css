@@ -261,9 +261,9 @@ button, input, select, textarea {
 }
 
 .header-inner {
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
 	align-items: center;
-	justify-content: space-between;
 	height: 82px;
 	position: relative;
 	width: 100%;
@@ -342,14 +342,12 @@ button, input, select, textarea {
 
 /* Dead-Center Brand Logo (Desktop + Mobile) */
 .evara-brand {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	z-index: 10;
+	position: static;
+	transform: none;
 	pointer-events: auto;
 }
 
@@ -1804,7 +1802,7 @@ button, input, select, textarea {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		object-position: 72% center;
+		object-position: 88% center;
 	}
 	.philosophy-decor-feather {
 		display: none !important;
@@ -1924,7 +1922,7 @@ button, input, select, textarea {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		object-position: 72% center;
+		object-position: 88% center;
 	}
 	.hero-editorial-wrap {
 		margin-top: 18px;
@@ -3424,3 +3422,410 @@ textarea.studio-input {
 		max-width: 100%;
 	}
 }
+
+/* ==========================================================================
+   ACCESSIBILITY & SCREEN-READER SKIP LINK
+   ========================================================================== */
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important;
+}
+.screen-reader-text:focus {
+	background-color: var(--evara-surface);
+	border-radius: var(--radius-sm);
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	clip-path: none;
+	color: var(--evara-terracotta);
+	display: block;
+	font-size: 0.875rem;
+	font-weight: 700;
+	height: auto;
+	left: 8px;
+	line-height: normal;
+	padding: 14px 22px;
+	text-decoration: none;
+	top: 8px;
+	width: auto;
+	z-index: 100000;
+}
+
+/* Minimum 44px Accessible Tap Targets */
+.action-btn,
+.evara-mobile-toggle,
+.drawer-close-btn,
+.search-close-btn {
+	min-width: 44px;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ==========================================================================
+   CART DRAWER VIEW DETAILS & CHECKOUT BUTTONS
+   ========================================================================== */
+.btn-checkout {
+	background: var(--evara-text-primary);
+	color: #FFFFFF !important;
+	padding: 14px 22px;
+	border-radius: var(--radius-md);
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	transition: all 0.25s ease;
+	text-decoration: none;
+}
+.btn-checkout:hover {
+	background: var(--evara-terracotta);
+	transform: translateY(-1px);
+}
+
+.btn-secondary.btn-view-cart {
+	background: transparent;
+	color: var(--evara-text-primary) !important;
+	border: 1.5px solid var(--evara-border);
+	padding: 12px 20px;
+	border-radius: var(--radius-md);
+	text-align: center;
+	font-weight: 600;
+	font-size: 0.92rem;
+	width: 100%;
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+}
+.btn-secondary.btn-view-cart:hover {
+	border-color: var(--evara-terracotta);
+	color: var(--evara-terracotta) !important;
+	background-color: rgba(184, 93, 67, 0.04);
+}
+
+.add-to-bag-btn.btn-out-of-stock {
+	background-color: #F3F4F6 !important;
+	color: #9CA3AF !important;
+	border-color: #E5E7EB !important;
+	cursor: not-allowed;
+	pointer-events: auto;
+}
+
+/* ==========================================================================
+   PAGE TEMPLATES (Standard Page, Custom Commissions, Inquiry)
+   ========================================================================== */
+.evara-page-header {
+	padding: clamp(36px, 6vw, 64px) 0 28px;
+	background: linear-gradient(180deg, var(--evara-surface-muted) 0%, rgba(253, 251, 247, 0) 100%);
+	border-bottom: 1px solid var(--evara-border);
+	margin-bottom: 32px;
+}
+.page-title {
+	font-family: var(--font-serif);
+	font-size: clamp(2rem, 4vw, 3rem);
+	font-weight: 600;
+	color: var(--evara-text-primary);
+	margin: 0 0 12px;
+}
+.page-desc {
+	font-family: var(--font-sans);
+	font-size: 1.05rem;
+	line-height: 1.6;
+	color: var(--evara-text-secondary);
+	max-width: 680px;
+	margin: 0 auto;
+}
+.page-content-container {
+	padding: 30px 20px 80px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+.page-entry-content {
+	font-family: var(--font-sans);
+	font-size: 1.05rem;
+	line-height: 1.8;
+	color: var(--evara-text-primary);
+}
+.page-entry-content h2,
+.page-entry-content h3,
+.page-entry-content h4 {
+	font-family: var(--font-serif);
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	color: var(--evara-text-primary);
+}
+.page-entry-content p {
+	margin-bottom: 1.5rem;
+}
+.page-entry-content ul,
+.page-entry-content ol {
+	margin-bottom: 1.5rem;
+	padding-left: 1.5rem;
+}
+.page-entry-content blockquote {
+	border-left: 3px solid var(--evara-terracotta);
+	margin: 2rem 0;
+	padding: 0.5rem 0 0.5rem 1.5rem;
+	font-family: var(--font-serif);
+	font-style: italic;
+	color: var(--evara-text-secondary);
+	font-size: 1.15rem;
+}
+
+/* Custom Commission Grid & Cards */
+.commission-guide-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 24px;
+	margin-bottom: 50px;
+}
+.step-card {
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-md);
+	padding: 32px 24px;
+	box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+	transition: all 0.3s ease;
+	position: relative;
+}
+.step-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+	border-color: var(--evara-terracotta);
+}
+.step-num {
+	font-family: var(--font-serif);
+	font-size: 2rem;
+	font-weight: 700;
+	color: var(--evara-terracotta);
+	display: block;
+	margin-bottom: 14px;
+	line-height: 1;
+}
+.step-card h3 {
+	font-family: var(--font-serif);
+	font-size: 1.35rem;
+	font-weight: 600;
+	margin-bottom: 10px;
+	color: var(--evara-text-primary);
+}
+.step-card p {
+	font-family: var(--font-sans);
+	font-size: 0.92rem;
+	line-height: 1.6;
+	color: var(--evara-text-secondary);
+	margin: 0;
+}
+.commission-inquiry-box {
+	background: linear-gradient(135deg, #FFFDF9 0%, #F5EFEB 100%);
+	border: 1px solid rgba(184, 93, 67, 0.25);
+	border-radius: var(--radius-lg);
+	padding: clamp(32px, 5vw, 56px) 24px;
+	box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+	margin-top: 40px;
+	text-align: center;
+}
+.commission-inquiry-box h2 {
+	font-family: var(--font-serif);
+	font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+	margin-bottom: 12px;
+	color: var(--evara-text-primary);
+}
+.commission-inquiry-box p {
+	font-family: var(--font-sans);
+	font-size: 1.05rem;
+	color: var(--evara-text-secondary);
+	max-width: 620px;
+	margin: 0 auto;
+}
+.inquiry-actions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	flex-wrap: wrap;
+	margin-top: 28px;
+}
+.btn-whatsapp-lg {
+	background-color: #25D366;
+	color: #FFFFFF !important;
+	padding: 14px 28px;
+	font-weight: 600;
+	border-radius: 9999px;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 1rem;
+	text-decoration: none;
+	transition: all 0.25s ease;
+	box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+}
+.btn-whatsapp-lg:hover {
+	background-color: #20ba59;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* ==========================================================================
+   WOOCOMMERCE MY ACCOUNT STYLING
+   ========================================================================== */
+.woocommerce-account .woocommerce {
+	display: grid;
+	grid-template-columns: 260px 1fr;
+	gap: 40px;
+	margin-top: 20px;
+}
+.woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-md);
+	overflow: hidden;
+}
+.woocommerce-MyAccount-navigation li {
+	border-bottom: 1px solid var(--evara-border);
+}
+.woocommerce-MyAccount-navigation li:last-child {
+	border-bottom: none;
+}
+.woocommerce-MyAccount-navigation a {
+	display: block;
+	padding: 14px 20px;
+	font-family: var(--font-sans);
+	font-size: 0.95rem;
+	font-weight: 500;
+	color: var(--evara-text-secondary);
+	text-decoration: none;
+	transition: all 0.2s ease;
+}
+.woocommerce-MyAccount-navigation li.is-active a,
+.woocommerce-MyAccount-navigation a:hover {
+	color: var(--evara-terracotta);
+	background-color: var(--evara-surface-muted);
+	border-left: 3px solid var(--evara-terracotta);
+}
+.woocommerce-MyAccount-content {
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-md);
+	padding: 32px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+}
+
+/* ==========================================================================
+   404 ERROR & SEARCH RESULTS
+   ========================================================================== */
+.evara-404-wrap {
+	text-align: center;
+	padding: clamp(40px, 8vw, 100px) 20px;
+	max-width: 680px;
+	margin: 0 auto;
+}
+.evara-404-code {
+	font-family: var(--font-serif);
+	font-size: clamp(4rem, 10vw, 7rem);
+	font-weight: 700;
+	color: var(--evara-terracotta);
+	line-height: 1;
+	margin-bottom: 12px;
+}
+.evara-404-title {
+	font-family: var(--font-serif);
+	font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+	margin-bottom: 16px;
+	color: var(--evara-text-primary);
+}
+.evara-404-desc {
+	font-family: var(--font-sans);
+	font-size: 1.05rem;
+	color: var(--evara-text-secondary);
+	margin-bottom: 32px;
+	line-height: 1.6;
+}
+.evara-404-actions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+/* Blog & Comments Styling */
+.blog-entry-card {
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border);
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	margin-bottom: 30px;
+	box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+	transition: all 0.3s ease;
+}
+.blog-entry-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+.blog-meta {
+	font-size: 0.85rem;
+	color: var(--evara-text-muted);
+	margin-bottom: 10px;
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+}
+.evara-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 40px;
+}
+.evara-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--evara-border);
+	color: var(--evara-text-primary);
+	text-decoration: none;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+.evara-pagination .page-numbers.current,
+.evara-pagination .page-numbers:hover {
+	background: var(--evara-terracotta);
+	color: #FFFFFF;
+	border-color: var(--evara-terracotta);
+}
+
+@media (max-width: 768px) {
+	.woocommerce-account .woocommerce {
+		grid-template-columns: 1fr;
+		gap: 24px;
+	}
+	.commission-guide-grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+	.commission-guide-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+	}
+}
+

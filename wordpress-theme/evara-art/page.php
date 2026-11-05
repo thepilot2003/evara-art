@@ -3,6 +3,7 @@
  * The standard page template
  *
  * @package EvaraArt
+ * @version 1.2.0
  */
 
 get_header(); ?>
@@ -22,6 +23,15 @@ get_header(); ?>
 		while ( have_posts() ) :
 			the_post();
 			the_content();
+
+			wp_link_pages( array(
+				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'evara-art' ),
+				'after'  => '</div>',
+			) );
+
+			if ( comments_open() || get_comments_number() ) :
+				comments_template();
+			endif;
 		endwhile;
 		?>
 	</div>

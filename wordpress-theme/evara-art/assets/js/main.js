@@ -1,5 +1,8 @@
 /**
  * Evara Art - Main JavaScript
+ *
+ * @package EvaraArt
+ * @version 1.2.0
  */
 
 (function($) {
@@ -19,36 +22,69 @@
 
 		// 2. Mobile Menu Drawer Toggle
 		const $mobileMenu = $('#evara-mobile-menu');
-		$('#evara-menu-open').on('click', function() {
+		const $menuOpenBtn = $('#evara-menu-open');
+		const $menuCloseBtn = $('#evara-menu-close');
+
+		function openMobileMenu() {
 			$mobileMenu.addClass('is-open').attr('aria-hidden', 'false');
+			$menuOpenBtn.attr('aria-expanded', 'true');
 			$('body').css('overflow', 'hidden');
+			$menuCloseBtn.focus();
+		}
+
+		function closeMobileMenu() {
+			$mobileMenu.removeClass('is-open').attr('aria-hidden', 'true');
+			$menuOpenBtn.attr('aria-expanded', 'false');
+			$('body').css('overflow', '');
+			$menuOpenBtn.focus();
+		}
+
+		$menuOpenBtn.on('click', function(e) {
+			e.preventDefault();
+			openMobileMenu();
 		});
 
 		$('#evara-menu-close, #evara-menu-close-overlay').on('click', function() {
-			$mobileMenu.removeClass('is-open').attr('aria-hidden', 'true');
-			$('body').css('overflow', '');
+			closeMobileMenu();
 		});
 
 		// 3. Search Modal Toggle
 		const $searchModal = $('#evara-search-modal');
-		$('#evara-search-trigger').on('click', function() {
+		const $searchTrigger = $('#evara-search-trigger');
+		const $searchCloseBtn = $('#evara-search-close');
+
+		function openSearchModal() {
 			$searchModal.addClass('is-open').attr('aria-hidden', 'false');
+			$searchTrigger.attr('aria-expanded', 'true');
 			$('#evara-search-input').focus();
 			$('body').css('overflow', 'hidden');
+		}
+
+		function closeSearchModal() {
+			$searchModal.removeClass('is-open').attr('aria-hidden', 'true');
+			$searchTrigger.attr('aria-expanded', 'false');
+			$('body').css('overflow', '');
+			$searchTrigger.focus();
+		}
+
+		$searchTrigger.on('click', function(e) {
+			e.preventDefault();
+			openSearchModal();
 		});
 
 		$('#evara-search-close, #evara-search-close-backdrop').on('click', function() {
-			$searchModal.removeClass('is-open').attr('aria-hidden', 'true');
-			$('body').css('overflow', '');
+			closeSearchModal();
 		});
 
-		// 4. Close on ESC key
+		// 4. Close on ESC key with full accessibility restoration
 		$(document).on('keydown', function(e) {
-			if (e.key === 'Escape') {
-				$mobileMenu.removeClass('is-open');
-				$searchModal.removeClass('is-open');
-				$('#evara-cart-drawer').removeClass('is-open');
-				$('body').css('overflow', '');
+			if (e.key === 'Escape' || e.keyCode === 27) {
+				if ($mobileMenu.hasClass('is-open')) {
+					closeMobileMenu();
+				}
+				if ($searchModal.hasClass('is-open')) {
+					closeSearchModal();
+				}
 			}
 		});
 
@@ -61,7 +97,7 @@
 						obs.unobserve(entry.target);
 					}
 				});
-			}, { threshold: 0.15 });
+			}, { threshold: 0.12 });
 
 			document.querySelectorAll('.reveal-on-scroll').forEach(el => {
 				observer.observe(el);

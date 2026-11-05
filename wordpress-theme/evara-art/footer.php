@@ -3,6 +3,7 @@
  * The Footer for Evara Art Theme
  *
  * @package EvaraArt
+ * @version 1.2.0
  */
 ?>
 </main><!-- #primary -->
@@ -14,7 +15,7 @@
    rel="noopener noreferrer" 
    aria-label="<?php esc_attr_e( 'Chat with us on WhatsApp', 'evara-art' ); ?>">
 	<i class="fa-brands fa-whatsapp"></i>
-	<span class="whatsapp-tooltip">Chat with Art Studio</span>
+	<span class="whatsapp-tooltip"><?php esc_html_e( 'Chat with Art Studio', 'evara-art' ); ?></span>
 </a>
 
 <!-- Site Footer -->
@@ -24,7 +25,11 @@
 		<!-- Brand & Mission Column -->
 		<div class="footer-col brand-col">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="footer-brand-link">
-				<img src="<?php echo esc_url( EVARA_URI . '/assets/images/evara-logo.png' ); ?>" alt="Evara Art" class="footer-logo">
+				<img src="<?php echo esc_url( EVARA_URI . '/assets/images/evara-logo.png' ); ?>" 
+				     alt="<?php bloginfo( 'name' ); ?>" 
+				     class="footer-logo" 
+				     width="160" 
+				     height="46">
 			</a>
 			<p class="brand-bio">
 				<strong>&ldquo;Evara&rdquo;</strong> means <em>Gift of God</em>. We believe that art is a sacred bridge connecting emotion, soul, and sacred living spaces. Handcrafted in India with exquisite devotion.
@@ -47,28 +52,34 @@
 
 		<!-- Navigation: Curated Collections -->
 		<div class="footer-col">
-			<h4 class="footer-heading">Collections</h4>
+			<h4 class="footer-heading"><?php esc_html_e( 'Collections', 'evara-art' ); ?></h4>
 			<ul class="footer-links">
-				<li><a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>">Canvas Paintings</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/lippan-art-home-decor/' ) ); ?>">Lippan &amp; Clay Mirror Art</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/custom-art/' ) ); ?>">Custom Art Commissions</a></li>
+				<li><a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>"><?php esc_html_e( 'Canvas Paintings', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/lippan-art-home-decor/' ) ); ?>"><?php esc_html_e( 'Lippan & Clay Mirror Art', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/custom-art/' ) ); ?>"><?php esc_html_e( 'Custom Art Commissions', 'evara-art' ); ?></a></li>
 			</ul>
 		</div>
 
 		<!-- Navigation: Client Care & Policies -->
 		<div class="footer-col">
-			<h4 class="footer-heading">Client Care</h4>
+			<h4 class="footer-heading"><?php esc_html_e( 'Client Care', 'evara-art' ); ?></h4>
 			<ul class="footer-links">
-				<li><a href="<?php echo esc_url( home_url( '/my-account/' ) ); ?>">Track Your Order</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/privacy-policy-2/' ) ); ?>">Privacy Policy</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/terms-conditions/' ) ); ?>">Terms &amp; Conditions</a></li>
-				<li><a href="<?php echo esc_url( home_url( '/refund_returns/' ) ); ?>">Returns &amp; Refund Policy</a></li>
+				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+					<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Track Your Order', 'evara-art' ); ?></a></li>
+				<?php endif; ?>
+				<li>
+					<a href="<?php echo esc_url( function_exists( 'get_privacy_policy_url' ) && get_privacy_policy_url() ? get_privacy_policy_url() : home_url( '/privacy-policy/' ) ); ?>">
+						<?php esc_html_e( 'Privacy Policy', 'evara-art' ); ?>
+					</a>
+				</li>
+				<li><a href="<?php echo esc_url( home_url( '/terms-conditions/' ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/refund_returns/' ) ); ?>"><?php esc_html_e( 'Returns & Refund Policy', 'evara-art' ); ?></a></li>
 			</ul>
 		</div>
 
 		<!-- Direct Studio Contact -->
 		<div class="footer-col contact-col">
-			<h4 class="footer-heading">Art Studio</h4>
+			<h4 class="footer-heading"><?php esc_html_e( 'Art Studio', 'evara-art' ); ?></h4>
 			<ul class="contact-details">
 				<li>
 					<i class="fa-solid fa-phone"></i>
@@ -80,7 +91,7 @@
 				</li>
 				<li>
 					<i class="fa-solid fa-location-dot"></i>
-					<span>Gujarat, India &bull; Pan-India Insured Dispatch</span>
+					<span><?php esc_html_e( 'Gujarat, India • Pan-India Insured Dispatch', 'evara-art' ); ?></span>
 				</li>
 			</ul>
 		</div>
@@ -91,18 +102,15 @@
 	<div class="footer-bottom">
 		<div class="evara-container footer-bottom-flex">
 			<p class="copyright-text">
-				&copy; <?php echo esc_html( date( 'Y' ) ); ?> Evara Art. Handcrafted with reverence. All rights reserved.
+				&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Handcrafted with reverence. All rights reserved.', 'evara-art' ); ?>
 			</p>
 			<div class="payment-badges">
-				<span class="payment-pill"><i class="fa-solid fa-shield-halved"></i> 100% Secure Checkout via Razorpay</span>
-				<span class="payment-methods">UPI &bull; RuPay &bull; Visa &bull; Mastercard &bull; NetBanking</span>
+				<span class="payment-pill"><i class="fa-solid fa-shield-halved"></i> <?php esc_html_e( '100% Secure Checkout via Razorpay', 'evara-art' ); ?></span>
+				<span class="payment-methods"><?php esc_html_e( 'UPI • RuPay • Visa • Mastercard • NetBanking', 'evara-art' ); ?></span>
 			</div>
 		</div>
 	</div>
 </footer>
-
-<!-- Side Cart Drawer Template -->
-<?php get_template_part( 'template-parts/cart-drawer' ); ?>
 
 <?php wp_footer(); ?>
 </body>

@@ -4,7 +4,7 @@ Theme URI: https://evaraart.in
 Author: Evara Art Studio
 Author URI: https://evaraart.in
 Description: A modern, fluid, and minimalist editorial e-commerce theme tailored for handmade canvas art, Lippan craft, and bespoke wall decor.
-Version: 1.0.0
+Version: 1.2.0
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -14,4 +14,4 @@ Text Domain: evara-art
 Tags: e-commerce, art-gallery, luxury, minimalist, responsive-layout, woocommerce
 */
 
-/* Reset & Base Foundation handled in assets/css/main.css */
+/* Core styles and layout handled in assets/css/main.css and assets/css/woocommerce.css */

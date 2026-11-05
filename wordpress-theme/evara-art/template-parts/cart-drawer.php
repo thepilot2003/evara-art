@@ -3,13 +3,12 @@
  * Slide-out AJAX Cart Drawer
  *
  * @package EvaraArt
+ * @version 1.2.0
  */
 
 if ( ! class_exists( 'WooCommerce' ) ) {
 	return;
 }
-
-$shipping_data = evara_get_shipping_progress();
 ?>
 <div class="evara-cart-drawer-wrapper" id="evara-cart-drawer" aria-hidden="true">
 	<!-- Backdrop -->
@@ -21,31 +20,18 @@ $shipping_data = evara_get_shipping_progress();
 		<!-- Drawer Header -->
 		<div class="drawer-header">
 			<div class="header-title-wrap">
-				<h3 class="drawer-title">Your Art Bag</h3>
-				<span class="drawer-count">(<?php echo WC()->cart ? esc_html( WC()->cart->get_cart_contents_count() ) : '0'; ?>)</span>
+				<h3 class="drawer-title"><?php esc_html_e( 'Your Art Bag', 'evara-art' ); ?></h3>
+				<span class="drawer-count evara-drawer-count">(<?php echo WC()->cart ? esc_html( WC()->cart->get_cart_contents_count() ) : '0'; ?>)</span>
 			</div>
 			<button class="drawer-close-btn" id="evara-cart-close" aria-label="<?php esc_attr_e( 'Close cart', 'evara-art' ); ?>">
 				<i class="fa-solid fa-xmark"></i>
 			</button>
 		</div>
 
-		<!-- Free Shipping Threshold Bar -->
-		<div class="shipping-threshold-banner">
-			<?php if ( $shipping_data['eligible'] ) : ?>
-				<p class="threshold-msg success">
-					<i class="fa-solid fa-circle-check"></i> Congratulations! You unlocked <strong>Free Pan-India Delivery</strong>
-				</p>
-			<?php else : ?>
-				<p class="threshold-msg">
-					Add <strong><?php echo wc_price( $shipping_data['remaining'] ); ?></strong> more to unlock <strong>Free Pan-India Delivery</strong>!
-				</p>
-			<?php endif; ?>
-			<div class="threshold-progress-bar">
-				<div class="threshold-progress-fill" style="width: <?php echo esc_attr( $shipping_data['percentage'] ); ?>%;"></div>
-			</div>
-		</div>
+		<!-- Free Shipping Threshold Bar (Fragment-enabled) -->
+		<?php echo evara_render_shipping_threshold_banner(); ?>
 
-		<!-- Cart Items Loop -->
+		<!-- Cart Items Loop (Outer wrapper preserved on AJAX fragments) -->
 		<div class="evara-cart-drawer-items">
 			<?php get_template_part( 'template-parts/cart-drawer-items' ); ?>
 		</div>
@@ -53,20 +39,20 @@ $shipping_data = evara_get_shipping_progress();
 		<!-- Cart Drawer Footer -->
 		<div class="drawer-footer">
 			<div class="subtotal-row">
-				<span class="subtotal-label">Subtotal</span>
+				<span class="subtotal-label"><?php esc_html_e( 'Subtotal', 'evara-art' ); ?></span>
 				<span class="subtotal-amount evara-subtotal-amount">
 					<?php echo WC()->cart ? WC()->cart->get_cart_subtotal() : '₹0.00'; ?>
 				</span>
 			</div>
-			<p class="shipping-calc-note">Taxes &amp; Pan-India insured delivery calculated at checkout.</p>
+			<p class="shipping-calc-note"><?php esc_html_e( 'Taxes & Pan-India insured delivery calculated at checkout.', 'evara-art' ); ?></p>
 			
 			<div class="drawer-actions">
 				<a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="evara-btn btn-primary btn-checkout">
-					<span>Proceed to Checkout</span>
+					<span><?php esc_html_e( 'Proceed to Checkout', 'evara-art' ); ?></span>
 					<i class="fa-solid fa-arrow-right"></i>
 				</a>
 				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="evara-btn btn-secondary btn-view-cart">
-					View Bag Details
+					<?php esc_html_e( 'View Bag Details', 'evara-art' ); ?>
 				</a>
 			</div>
 		</div>
