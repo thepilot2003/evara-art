@@ -24,11 +24,16 @@
 	<div class="evara-container">
 		<div class="announcement-content">
 			<span class="announcement-sparkle">✦</span>
+			<?php
+			$ann_desktop = get_theme_mod( 'evara_announcement_text_desktop', 'Pan-India Insured Express Delivery • Free Shipping on Orders Above ₹%s • 100% Handcrafted Authenticity' );
+			$ann_mobile  = get_theme_mod( 'evara_announcement_text_mobile', 'Pan-India Delivery • Free Shipping Over ₹%s' );
+			$threshold_formatted = number_format( evara_get_free_shipping_threshold() );
+			?>
 			<span class="announcement-text-desktop">
-				<?php printf( esc_html__( 'Pan-India Insured Express Delivery • Free Shipping on Orders Above ₹%s • 100%% Handcrafted Authenticity', 'evara-art' ), number_format( evara_get_free_shipping_threshold() ) ); ?>
+				<?php echo esc_html( sprintf( $ann_desktop, $threshold_formatted ) ); ?>
 			</span>
 			<span class="announcement-text-mobile">
-				<?php printf( esc_html__( 'Pan-India Delivery • Free Shipping Over ₹%s', 'evara-art' ), number_format( evara_get_free_shipping_threshold() ) ); ?>
+				<?php echo esc_html( sprintf( $ann_mobile, $threshold_formatted ) ); ?>
 			</span>
 			<span class="announcement-sparkle">✦</span>
 		</div>

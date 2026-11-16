@@ -8,17 +8,83 @@
 
 get_header(); ?>
 
+<?php
+// 1. Determine Banner Image & Alt (Custom upload or auto-fetched from newest/featured product)
+$banner_source = get_theme_mod( 'evara_banner_source', 'auto' );
+$custom_banner = get_theme_mod( 'evara_custom_banner_image', '' );
+
+$hero_banner_url = '';
+$hero_banner_alt = 'Art that connects to your heart - Evara Art';
+
+if ( 'custom' === $banner_source && ! empty( $custom_banner ) ) {
+	$hero_banner_url = $custom_banner;
+} else {
+	// Auto-fetch from WooCommerce featured product or latest artwork
+	if ( class_exists( 'WooCommerce' ) ) {
+		$banner_prods = wc_get_products( array(
+			'status'   => 'publish',
+			'limit'    => 1,
+			'featured' => true,
+		) );
+		if ( empty( $banner_prods ) ) {
+			$banner_prods = wc_get_products( array(
+				'status'  => 'publish',
+				'limit'   => 1,
+				'orderby' => 'date',
+				'order'   => 'DESC',
+			) );
+		}
+		if ( ! empty( $banner_prods ) && has_post_thumbnail( $banner_prods[0]->get_id() ) ) {
+			$hero_banner_url = get_the_post_thumbnail_url( $banner_prods[0]->get_id(), 'full' );
+			$hero_banner_alt = $banner_prods[0]->get_name() . ' - Evara Art';
+		}
+	}
+}
+
+if ( empty( $hero_banner_url ) ) {
+	$hero_banner_url = EVARA_URI . '/assets/images/hero-banner-krishna.png';
+}
+
+$hero_badge     = get_theme_mod( 'evara_hero_badge', 'Handmade in India • Bespoke Fine Art' );
+$hero_title     = get_theme_mod( 'evara_hero_title', 'Art that connects to your Heart.' );
+$hero_subtitle  = get_theme_mod( 'evara_hero_subtitle', 'Welcome to Evara Art – where creativity comes to life through every brushstroke. “Evara” means Gift of God, turning sacred imagination into meaningful, handcrafted wall art for your sanctuary.' );
+
+$hero_cta1_text = get_theme_mod( 'evara_hero_cta1_text', 'Explore Canvas Paintings' );
+$hero_cta1_url  = get_theme_mod( 'evara_hero_cta1_url', '' );
+
+$hero_cta2_text = get_theme_mod( 'evara_hero_cta2_text', 'Explore Lippan Art' );
+$hero_cta2_url  = get_theme_mod( 'evara_hero_cta2_url', '' );
+
+$stat1_num   = get_theme_mod( 'evara_stat1_number', '100%' );
+$stat1_label = get_theme_mod( 'evara_stat1_label', 'Handmade' );
+$stat2_num   = get_theme_mod( 'evara_stat2_number', 'Pan-India' );
+$stat2_label = get_theme_mod( 'evara_stat2_label', 'Collectors & Homes' );
+$stat3_num   = get_theme_mod( 'evara_stat3_number', '5-Star' );
+$stat3_label = get_theme_mod( 'evara_stat3_label', 'Craftsmanship' );
+
+$phil_badge  = get_theme_mod( 'evara_phil_badge', '✦ The Sacred Heart of Evara' );
+$phil_title  = get_theme_mod( 'evara_phil_title', '“Evara” — A Gift of God, Painted From The Soul' );
+$phil_quote  = get_theme_mod( 'evara_phil_quote', '“Welcome to Evara Art – where creativity comes to life through every brushstroke. ‘Evara’ means Gift of God and I believe the art I create is truly a blessing and a form of divine expression.”' );
+
+$pillar1_title = get_theme_mod( 'evara_pillar1_title', 'Crafted with Passion' );
+$pillar1_desc  = get_theme_mod( 'evara_pillar1_desc', 'Each piece is crafted with passion, turning imagination into meaningful and beautiful artwork that honors divine patience.' );
+$pillar2_title = get_theme_mod( 'evara_pillar2_title', 'Emotion & Inspiration' );
+$pillar2_desc  = get_theme_mod( 'evara_pillar2_desc', 'My goal is to bring emotion, inspiration, and uniqueness into every space, creating a calm spiritual focal point for your home.' );
+$pillar3_title = get_theme_mod( 'evara_pillar3_title', 'Connecting with Your Soul' );
+$pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connects with your soul — timeless handmade canvas paintings and sacred Gujarat Lippan mirror craft.' );
+?>
+
 <!-- 1. Hero Section with Authentic Background Artwork -->
 <section class="evara-hero-section">
 	<div class="evara-container">
 		
-		<!-- Visual Artwork Banner -->
+		<!-- Visual Artwork Banner (Responsive & Fluid) -->
 		<div class="hero-banner-card">
-			<img src="<?php echo esc_url( EVARA_URI . '/assets/images/hero-banner-krishna.png' ); ?>" 
-			     alt="<?php esc_attr_e( 'Art that connects to your heart - Evara Art', 'evara-art' ); ?>" 
+			<img src="<?php echo esc_url( $hero_banner_url ); ?>" 
+			     alt="<?php echo esc_attr( $hero_banner_alt ); ?>" 
 			     class="hero-banner-img"
-			     width="1024" 
-			     height="448" 
+			     width="1200" 
+			     height="520" 
 			     fetchpriority="high">
 		</div>
 
@@ -28,41 +94,41 @@ get_header(); ?>
 			<div class="hero-text-content">
 				<div class="hero-badge">
 					<span class="badge-dot"></span>
-					<span><?php esc_html_e( 'Handmade in India • Bespoke Fine Art', 'evara-art' ); ?></span>
+					<span><?php echo esc_html( $hero_badge ); ?></span>
 				</div>
 				
 				<h1 class="hero-title">
-					Art that <span class="italic-serif">connects</span> to your <span class="highlight-text">Heart.</span>
+					<?php echo wp_kses_post( $hero_title ); ?>
 				</h1>
 				
 				<p class="hero-subtitle">
-					Welcome to <strong>Evara Art</strong> – where creativity comes to life through every brushstroke. “Evara” means <em>Gift of God</em>, turning sacred imagination into meaningful, handcrafted wall art for your sanctuary.
+					<?php echo wp_kses_post( $hero_subtitle ); ?>
 				</p>
 				
 				<div class="hero-cta-group">
-					<a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>" class="evara-btn btn-primary btn-lg">
-						<span><?php esc_html_e( 'Explore Canvas Paintings', 'evara-art' ); ?></span>
+					<a href="<?php echo esc_url( ! empty( $hero_cta1_url ) ? $hero_cta1_url : home_url( '/canvas-paintings-home-decor/' ) ); ?>" class="evara-btn btn-primary btn-lg">
+						<span><?php echo esc_html( $hero_cta1_text ); ?></span>
 						<i class="fa-solid fa-arrow-right"></i>
 					</a>
-					<a href="<?php echo esc_url( home_url( '/lippan-art-home-decor/' ) ); ?>" class="evara-btn btn-outline btn-lg">
-						<span><?php esc_html_e( 'Explore Lippan Art', 'evara-art' ); ?></span>
+					<a href="<?php echo esc_url( ! empty( $hero_cta2_url ) ? $hero_cta2_url : home_url( '/lippan-art-home-decor/' ) ); ?>" class="evara-btn btn-outline btn-lg">
+						<span><?php echo esc_html( $hero_cta2_text ); ?></span>
 					</a>
 				</div>
 
 				<div class="hero-stats-row">
 					<div class="stat-item">
-						<span class="stat-number">100%</span>
-						<span class="stat-label"><?php esc_html_e( 'Handmade', 'evara-art' ); ?></span>
+						<span class="stat-number"><?php echo esc_html( $stat1_num ); ?></span>
+						<span class="stat-label"><?php echo esc_html( $stat1_label ); ?></span>
 					</div>
 					<div class="stat-divider"></div>
 					<div class="stat-item">
-						<span class="stat-number">Pan-India</span>
-						<span class="stat-label"><?php esc_html_e( 'Collectors & Homes', 'evara-art' ); ?></span>
+						<span class="stat-number"><?php echo esc_html( $stat2_num ); ?></span>
+						<span class="stat-label"><?php echo esc_html( $stat2_label ); ?></span>
 					</div>
 					<div class="stat-divider"></div>
 					<div class="stat-item">
-						<span class="stat-number">5-Star</span>
-						<span class="stat-label"><?php esc_html_e( 'Craftsmanship', 'evara-art' ); ?></span>
+						<span class="stat-number"><?php echo esc_html( $stat3_num ); ?></span>
+						<span class="stat-label"><?php echo esc_html( $stat3_label ); ?></span>
 					</div>
 				</div>
 			</div>
@@ -109,7 +175,7 @@ get_header(); ?>
 				<?php else : ?>
 					<a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>" class="showcase-card-link">
 						<div class="showcase-thumb-wrap">
-							<img src="<?php echo esc_url( EVARA_URI . '/assets/images/hero-banner-krishna.png' ); ?>" alt="<?php esc_attr_e( 'Evara Featured Art', 'evara-art' ); ?>" class="showcase-thumb-img" width="300" height="300">
+							<img src="<?php echo esc_url( $hero_banner_url ); ?>" alt="<?php esc_attr_e( 'Evara Featured Art', 'evara-art' ); ?>" class="showcase-thumb-img" width="300" height="300">
 						</div>
 						<div class="showcase-info-box">
 							<span class="showcase-tag">✦ <?php esc_html_e( 'Original Artwork', 'evara-art' ); ?></span>
@@ -132,28 +198,28 @@ get_header(); ?>
 	<div class="evara-container">
 		<div class="philosophy-card">
 			<div class="philosophy-header">
-				<span class="philosophy-badge">✦ <?php esc_html_e( 'The Sacred Heart of Evara', 'evara-art' ); ?></span>
-				<h2 class="main-heading">“Evara” — A Gift of God, Painted From The Soul</h2>
+				<span class="philosophy-badge"><?php echo esc_html( $phil_badge ); ?></span>
+				<h2 class="main-heading"><?php echo esc_html( $phil_title ); ?></h2>
 				<p class="philosophy-quote-lead">
-					&ldquo;Welcome to Evara Art – where creativity comes to life through every brushstroke. &lsquo;Evara&rsquo; means Gift of God and I believe the art I create is truly a blessing and a form of divine expression.&rdquo;
+					&ldquo;<?php echo wp_kses_post( $phil_quote ); ?>&rdquo;
 				</p>
 			</div>
 
 			<div class="philosophy-grid">
 				<div class="philosophy-col">
 					<div class="col-icon"><i class="fa-solid fa-paintbrush"></i></div>
-					<h3 class="col-title"><?php esc_html_e( 'Crafted with Passion', 'evara-art' ); ?></h3>
-					<p class="philosophy-desc"><?php esc_html_e( 'Each piece is crafted with passion, turning imagination into meaningful and beautiful artwork that honors divine patience.', 'evara-art' ); ?></p>
+					<h3 class="col-title"><?php echo esc_html( $pillar1_title ); ?></h3>
+					<p class="philosophy-desc"><?php echo esc_html( $pillar1_desc ); ?></p>
 				</div>
 				<div class="philosophy-col">
 					<div class="col-icon"><i class="fa-solid fa-spa"></i></div>
-					<h3 class="col-title"><?php esc_html_e( 'Emotion & Inspiration', 'evara-art' ); ?></h3>
-					<p class="philosophy-desc"><?php esc_html_e( 'My goal is to bring emotion, inspiration, and uniqueness into every space, creating a calm spiritual focal point for your home.', 'evara-art' ); ?></p>
+					<h3 class="col-title"><?php echo esc_html( $pillar2_title ); ?></h3>
+					<p class="philosophy-desc"><?php echo esc_html( $pillar2_desc ); ?></p>
 				</div>
 				<div class="philosophy-col">
 					<div class="col-icon"><i class="fa-solid fa-heart"></i></div>
-					<h3 class="col-title"><?php esc_html_e( 'Connecting with Your Soul', 'evara-art' ); ?></h3>
-					<p class="philosophy-desc"><?php esc_html_e( 'Discover art that connects with your soul — timeless handmade canvas paintings and sacred Gujarat Lippan mirror craft.', 'evara-art' ); ?></p>
+					<h3 class="col-title"><?php echo esc_html( $pillar3_title ); ?></h3>
+					<p class="philosophy-desc"><?php echo esc_html( $pillar3_desc ); ?></p>
 				</div>
 			</div>
 		</div>

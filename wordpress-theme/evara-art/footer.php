@@ -5,11 +5,19 @@
  * @package EvaraArt
  * @version 1.2.0
  */
+
+$phone = get_theme_mod( 'evara_contact_phone', '+91 93281 43036' );
+$clean_phone = preg_replace( '/[^0-9]/', '', $phone );
+$email = get_theme_mod( 'evara_contact_email', 'support@evaraart.in' );
+$location = get_theme_mod( 'evara_contact_location', 'Gujarat, India • Pan-India Insured Dispatch' );
+$ig = get_theme_mod( 'evara_instagram_url', 'https://www.instagram.com/evaraart.in/' );
+$fb = get_theme_mod( 'evara_facebook_url', 'https://www.facebook.com/people/Evara-Art/61574370844039/' );
+$li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/evara-art/' );
 ?>
 </main><!-- #primary -->
 
 <!-- Floating Quick WhatsApp Button -->
-<a href="https://wa.me/919328143036?text=Hello%20Evara%20Art,%20I'm%20looking%20for%20a%20painting/custom%20order" 
+<a href="https://wa.me/<?php echo esc_attr( $clean_phone ); ?>?text=Hello%20Evara%20Art,%20I'm%20looking%20for%20a%20painting/custom%20order" 
    class="evara-floating-whatsapp" 
    target="_blank" 
    rel="noopener noreferrer" 
@@ -35,16 +43,22 @@
 				<strong>&ldquo;Evara&rdquo;</strong> means <em>Gift of God</em>. We believe that art is a sacred bridge connecting emotion, soul, and sacred living spaces. Handcrafted in India with exquisite devotion.
 			</p>
 			<div class="social-links">
-				<a href="https://www.instagram.com/evaraart.in/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-					<i class="fa-brands fa-instagram"></i>
-				</a>
-				<a href="https://www.facebook.com/people/Evara-Art/61574370844039/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-					<i class="fa-brands fa-facebook-f"></i>
-				</a>
-				<a href="https://www.linkedin.com/company/evara-art/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-					<i class="fa-brands fa-linkedin-in"></i>
-				</a>
-				<a href="https://wa.me/919328143036" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+				<?php if ( ! empty( $ig ) ) : ?>
+					<a href="<?php echo esc_url( $ig ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+						<i class="fa-brands fa-instagram"></i>
+					</a>
+				<?php endif; ?>
+				<?php if ( ! empty( $fb ) ) : ?>
+					<a href="<?php echo esc_url( $fb ); ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+						<i class="fa-brands fa-facebook-f"></i>
+					</a>
+				<?php endif; ?>
+				<?php if ( ! empty( $li ) ) : ?>
+					<a href="<?php echo esc_url( $li ); ?>" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+						<i class="fa-brands fa-linkedin-in"></i>
+					</a>
+				<?php endif; ?>
+				<a href="https://wa.me/<?php echo esc_attr( $clean_phone ); ?>" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
 					<i class="fa-brands fa-whatsapp"></i>
 				</a>
 			</div>
@@ -84,15 +98,15 @@
 			<ul class="contact-details">
 				<li>
 					<i class="fa-solid fa-phone"></i>
-					<a href="tel:+919328143036">+91 93281 43036</a>
+					<a href="tel:<?php echo esc_attr( $clean_phone ); ?>"><?php echo esc_html( $phone ); ?></a>
 				</li>
 				<li>
 					<i class="fa-solid fa-envelope"></i>
-					<a href="mailto:support@evaraart.in">support@evaraart.in</a>
+					<a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a>
 				</li>
 				<li>
 					<i class="fa-solid fa-location-dot"></i>
-					<span><?php esc_html_e( 'Gujarat, India • Pan-India Insured Dispatch', 'evara-art' ); ?></span>
+					<span><?php echo esc_html( $location ); ?></span>
 				</li>
 			</ul>
 		</div>
