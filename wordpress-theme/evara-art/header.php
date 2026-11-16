@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Centered Logo with CSS Grid, Full Menu Support)
  *
  * @package EvaraArt
- * @version 1.2.0
+ * @version 1.3.1
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -28,12 +28,17 @@
 			$ann_desktop = get_theme_mod( 'evara_announcement_text_desktop', 'Pan-India Insured Express Delivery • Free Shipping on Orders Above ₹%s • 100% Handcrafted Authenticity' );
 			$ann_mobile  = get_theme_mod( 'evara_announcement_text_mobile', 'Pan-India Delivery • Free Shipping Over ₹%s' );
 			$threshold_formatted = number_format( evara_get_free_shipping_threshold() );
+			if ( empty( $threshold_formatted ) || '0' === $threshold_formatted ) {
+				$threshold_formatted = '2,999';
+			}
+			$display_desktop = str_replace( '%s', $threshold_formatted, $ann_desktop );
+			$display_mobile  = str_replace( '%s', $threshold_formatted, $ann_mobile );
 			?>
 			<span class="announcement-text-desktop">
-				<?php echo esc_html( sprintf( $ann_desktop, $threshold_formatted ) ); ?>
+				<?php echo esc_html( $display_desktop ); ?>
 			</span>
 			<span class="announcement-text-mobile">
-				<?php echo esc_html( sprintf( $ann_mobile, $threshold_formatted ) ); ?>
+				<?php echo esc_html( $display_mobile ); ?>
 			</span>
 			<span class="announcement-sparkle">✦</span>
 		</div>
@@ -78,8 +83,9 @@
 				<img src="<?php echo esc_url( $logo_url ); ?>" 
 				     alt="<?php bloginfo( 'name' ); ?>" 
 				     class="brand-logo-img" 
-				     width="180" 
-				     height="52" 
+				     width="160" 
+				     height="48" 
+				     style="max-height: 48px; width: auto; object-fit: contain; display: block;"
 				     onerror="this.style.display='none'; document.getElementById('theme-logo-fallback').style.display='flex';">
 				<div class="brand-fallback-mark" id="theme-logo-fallback" style="display: none;">
 					<span class="brand-fallback-feather">✦</span>

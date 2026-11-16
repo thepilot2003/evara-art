@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.0
+ * @version 1.3.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.0' );
+define( 'EVARA_VERSION', '1.3.1' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -140,13 +140,58 @@ function evara_art_setup() {
 add_action( 'after_setup_theme', 'evara_art_setup' );
 
 /**
+ * Helper: Resolve dynamic WooCommerce Category URLs with fallbacks
+ */
+function evara_get_category_url( $slug_variants, $fallback_path ) {
+	if ( class_exists( 'WooCommerce' ) ) {
+		foreach ( (array) $slug_variants as $slug ) {
+			$term = get_term_by( 'slug', $slug, 'product_cat' );
+			if ( $term && ! is_wp_error( $term ) ) {
+				$link = get_term_link( $term );
+				if ( ! is_wp_error( $link ) ) {
+					return $link;
+				}
+			}
+		}
+	}
+	return home_url( $fallback_path );
+}
+
+/**
+ * Redirect legacy/empty static pages to live WooCommerce product category archives
+ */
+add_action( 'template_redirect', 'evara_redirect_old_category_pages' );
+function evara_redirect_old_category_pages() {
+	if ( is_page( 'canvas-paintings-home-decor' ) ) {
+		$target = evara_get_category_url( array( 'canvas-painting-evara-art' ), '/product-category/canvas-painting-evara-art/' );
+		wp_safe_redirect( $target, 301 );
+		exit;
+	}
+	if ( is_page( 'lippan-art-home-decor' ) ) {
+		$target = evara_get_category_url( array( 'clay-art-evara-art' ), '/product-category/clay-art-evara-art/' );
+		wp_safe_redirect( $target, 301 );
+		exit;
+	}
+}
+
+/**
+ * Enable Customer Account Creation on WooCommerce My Account page
+ */
+add_filter( 'option_woocommerce_enable_myaccount_registration', function( $val ) {
+	return 'yes';
+} );
+
+/**
  * Default Primary Navigation Fallback
  */
 function evara_default_primary_menu() {
+	$canvas_url = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
+	$lippan_url = evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor', 'lippan-art' ), '/product-category/clay-art-evara-art/' );
+
 	echo '<ul class="nav-links">';
 	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '" class="' . ( is_front_page() ? 'active' : '' ) . '">' . esc_html__( 'Home', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/canvas-paintings-home-decor/' ) ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/lippan-art-home-decor/' ) ) . '">' . esc_html__( 'Lippan & Clay Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $canvas_url ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $lippan_url ) . '">' . esc_html__( 'Lippan & Clay Art', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="nav-highlight">' . esc_html__( 'Custom Art', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About', 'evara-art' ) . '</a></li>';
 	echo '</ul>';
@@ -156,10 +201,13 @@ function evara_default_primary_menu() {
  * Default Mobile Navigation Fallback
  */
 function evara_default_mobile_menu() {
+	$canvas_url = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
+	$lippan_url = evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor', 'lippan-art' ), '/product-category/clay-art-evara-art/' );
+
 	echo '<ul class="mobile-nav-list">';
 	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Home', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/canvas-paintings-home-decor/' ) ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/lippan-art-home-decor/' ) ) . '">' . esc_html__( 'Lippan & Clay Mirror Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $canvas_url ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $lippan_url ) . '">' . esc_html__( 'Lippan & Clay Mirror Art', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="highlight-link">✦ ' . esc_html__( 'Request Custom Commission', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About & Studio Story', 'evara-art' ) . '</a></li>';
 	if ( class_exists( 'WooCommerce' ) ) {

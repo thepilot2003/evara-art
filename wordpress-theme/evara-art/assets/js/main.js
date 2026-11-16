@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.2.0
+ * @version 1.3.1
  */
 
 (function($) {
@@ -103,6 +103,82 @@
 				observer.observe(el);
 			});
 		}
+
+		// 6. Automatic 1-Second 4-Slide Hero Carousel
+		function initHeroSlider() {
+			var $slider = $('#hero-slider');
+			if (!$slider.length) return;
+
+			var $slides = $slider.find('.slider-slide');
+			var $dots = $slider.find('.slider-dot');
+			var total = $slides.length;
+			if (total <= 1) return;
+
+			var current = 0;
+			var interval = parseInt($slider.data('interval'), 10) || 1000;
+			var timer = null;
+
+			function goToSlide(idx) {
+				$slides.removeClass('is-active');
+				$dots.removeClass('active');
+
+				$slides.eq(idx).addClass('is-active');
+				$dots.eq(idx).addClass('active');
+				current = idx;
+			}
+
+			function nextSlide() {
+				var next = (current + 1) % total;
+				goToSlide(next);
+			}
+
+			function startTimer() {
+				if (timer) clearInterval(timer);
+				timer = setInterval(nextSlide, interval);
+			}
+
+			function stopTimer() {
+				if (timer) clearInterval(timer);
+			}
+
+			// Dot click navigation
+			$dots.on('click', function(e) {
+				e.preventDefault();
+				var targetIdx = parseInt($(this).data('slide'), 10);
+				goToSlide(targetIdx);
+				startTimer();
+			});
+
+			// Pause on mouseenter, resume on mouseleave
+			$slider.on('mouseenter', stopTimer).on('mouseleave', startTimer);
+
+			// Mobile touch swipe support
+			var touchStartX = 0;
+			var touchEndX = 0;
+			$slider.on('touchstart', function(e) {
+				if (e.originalEvent && e.originalEvent.touches) {
+					touchStartX = e.originalEvent.touches[0].screenX;
+					stopTimer();
+				}
+			});
+
+			$slider.on('touchend', function(e) {
+				if (e.originalEvent && e.originalEvent.changedTouches) {
+					touchEndX = e.originalEvent.changedTouches[0].screenX;
+					if (touchStartX - touchEndX > 35) {
+						nextSlide();
+					} else if (touchEndX - touchStartX > 35) {
+						var prev = (current - 1 + total) % total;
+						goToSlide(prev);
+					}
+					startTimer();
+				}
+			});
+
+			startTimer();
+		}
+
+		initHeroSlider();
 
 	});
 
