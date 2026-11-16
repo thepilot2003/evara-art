@@ -145,9 +145,9 @@ function evara_default_primary_menu() {
 	echo '<ul class="nav-links">';
 	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '" class="' . ( is_front_page() ? 'active' : '' ) . '">' . esc_html__( 'Home', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/canvas-paintings-home-decor/' ) ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/lippan-art-home-decor/' ) ) . '">' . esc_html__( 'Lippan Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/lippan-art-home-decor/' ) ) . '">' . esc_html__( 'Lippan & Clay Art', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="nav-highlight">' . esc_html__( 'Custom Art', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/contact/' ) ) . '">' . esc_html__( 'About', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About', 'evara-art' ) . '</a></li>';
 	echo '</ul>';
 }
 
@@ -160,7 +160,7 @@ function evara_default_mobile_menu() {
 	echo '<li><a href="' . esc_url( home_url( '/canvas-paintings-home-decor/' ) ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/lippan-art-home-decor/' ) ) . '">' . esc_html__( 'Lippan & Clay Mirror Art', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="highlight-link">✦ ' . esc_html__( 'Request Custom Commission', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/contact/' ) ) . '">' . esc_html__( 'About & Studio Contact', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About & Studio Story', 'evara-art' ) . '</a></li>';
 	if ( class_exists( 'WooCommerce' ) ) {
 		echo '<li><a href="' . esc_url( wc_get_page_permalink( 'myaccount' ) ) . '">' . esc_html__( 'My Orders & Account', 'evara-art' ) . '</a></li>';
 	}

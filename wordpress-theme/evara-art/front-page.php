@@ -128,7 +128,7 @@ get_header(); ?>
 </section>
 
 <!-- 2. Artist Divine Philosophy Section -->
-<section class="evara-philosophy-section reveal-on-scroll">
+<section class="evara-philosophy-section reveal-on-scroll" id="about">
 	<div class="evara-container">
 		<div class="philosophy-card">
 			<div class="philosophy-header">
@@ -196,23 +196,59 @@ get_header(); ?>
 
 <!-- 4. Curated Collections -->
 <?php
-$canvas_cat = get_term_by( 'slug', 'canvas-paintings-home-decor', 'product_cat' );
+$canvas_cat = get_term_by( 'slug', 'canvas-painting-evara-art', 'product_cat' );
+if ( ! $canvas_cat ) {
+	$canvas_cat = get_term_by( 'slug', 'canvas-paintings-home-decor', 'product_cat' );
+}
 if ( ! $canvas_cat ) {
 	$canvas_cat = get_term_by( 'slug', 'canvas-paintings', 'product_cat' );
 }
-$lippan_cat = get_term_by( 'slug', 'lippan-art-home-decor', 'product_cat' );
+
+$lippan_cat = get_term_by( 'slug', 'clay-art-evara-art', 'product_cat' );
+if ( ! $lippan_cat ) {
+	$lippan_cat = get_term_by( 'slug', 'lippan-art-home-decor', 'product_cat' );
+}
 if ( ! $lippan_cat ) {
 	$lippan_cat = get_term_by( 'slug', 'lippan-art', 'product_cat' );
 }
 
-$canvas_count_str = ( $canvas_cat && $canvas_cat->count > 0 ) ? sprintf( esc_html__( '%d Original Works', 'evara-art' ), $canvas_cat->count ) : esc_html__( 'Original Works', 'evara-art' );
-$lippan_count_str = ( $lippan_cat && $lippan_cat->count > 0 ) ? sprintf( esc_html__( '%d Handcrafted Pieces', 'evara-art' ), $lippan_cat->count ) : esc_html__( 'Handcrafted Pieces', 'evara-art' );
+$canvas_count_str = ( $canvas_cat && $canvas_cat->count > 0 ) ? sprintf( esc_html__( '%d Original Works', 'evara-art' ), $canvas_cat->count ) : esc_html__( '11 Original Works', 'evara-art' );
+$lippan_count_str = ( $lippan_cat && $lippan_cat->count > 0 ) ? sprintf( esc_html__( '%d Handcrafted Pieces', 'evara-art' ), $lippan_cat->count ) : esc_html__( '10 Handcrafted Pieces', 'evara-art' );
+
+$canvas_url = $canvas_cat ? get_term_link( $canvas_cat ) : home_url( '/canvas-paintings-home-decor/' );
+$lippan_url = $lippan_cat ? get_term_link( $lippan_cat ) : home_url( '/lippan-art-home-decor/' );
 
 $canvas_img_id = $canvas_cat ? get_term_meta( $canvas_cat->term_id, 'thumbnail_id', true ) : 0;
-$canvas_img_url = $canvas_img_id ? wp_get_attachment_image_url( $canvas_img_id, 'large' ) : EVARA_URI . '/assets/images/hero-banner-krishna.png';
+$canvas_img_url = $canvas_img_id ? wp_get_attachment_image_url( $canvas_img_id, 'large' ) : '';
+if ( empty( $canvas_img_url ) && $canvas_cat && class_exists( 'WooCommerce' ) ) {
+	$canvas_prods = wc_get_products( array(
+		'limit'    => 1,
+		'status'   => 'publish',
+		'category' => array( $canvas_cat->slug ),
+	) );
+	if ( ! empty( $canvas_prods ) && has_post_thumbnail( $canvas_prods[0]->get_id() ) ) {
+		$canvas_img_url = get_the_post_thumbnail_url( $canvas_prods[0]->get_id(), 'large' );
+	}
+}
+if ( empty( $canvas_img_url ) ) {
+	$canvas_img_url = 'https://evaraart.in/wp-content/uploads/2026/04/10-500x500.jpg';
+}
 
 $lippan_img_id = $lippan_cat ? get_term_meta( $lippan_cat->term_id, 'thumbnail_id', true ) : 0;
-$lippan_img_url = $lippan_img_id ? wp_get_attachment_image_url( $lippan_img_id, 'large' ) : EVARA_URI . '/assets/images/hero-banner-krishna.png';
+$lippan_img_url = $lippan_img_id ? wp_get_attachment_image_url( $lippan_img_id, 'large' ) : '';
+if ( empty( $lippan_img_url ) && $lippan_cat && class_exists( 'WooCommerce' ) ) {
+	$lippan_prods = wc_get_products( array(
+		'limit'    => 1,
+		'status'   => 'publish',
+		'category' => array( $lippan_cat->slug ),
+	) );
+	if ( ! empty( $lippan_prods ) && has_post_thumbnail( $lippan_prods[0]->get_id() ) ) {
+		$lippan_img_url = get_the_post_thumbnail_url( $lippan_prods[0]->get_id(), 'large' );
+	}
+}
+if ( empty( $lippan_img_url ) ) {
+	$lippan_img_url = 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01-500x500.jpg';
+}
 ?>
 <section class="evara-collections-section reveal-on-scroll">
 	<div class="evara-container">
@@ -226,7 +262,7 @@ $lippan_img_url = $lippan_img_id ? wp_get_attachment_image_url( $lippan_img_id, 
 			
 			<!-- Canvas Paintings -->
 			<div class="collection-card">
-				<a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>" class="collection-link">
+				<a href="<?php echo esc_url( $canvas_url ); ?>" class="collection-link">
 					<div class="collection-img-wrap">
 						<img src="<?php echo esc_url( $canvas_img_url ); ?>" alt="<?php esc_attr_e( 'Canvas Paintings Home Decor', 'evara-art' ); ?>" width="600" height="400">
 						<div class="collection-overlay"></div>
@@ -242,7 +278,7 @@ $lippan_img_url = $lippan_img_id ? wp_get_attachment_image_url( $lippan_img_id, 
 
 			<!-- Lippan Art -->
 			<div class="collection-card">
-				<a href="<?php echo esc_url( home_url( '/lippan-art-home-decor/' ) ); ?>" class="collection-link">
+				<a href="<?php echo esc_url( $lippan_url ); ?>" class="collection-link">
 					<div class="collection-img-wrap">
 						<img src="<?php echo esc_url( $lippan_img_url ); ?>" alt="<?php esc_attr_e( 'Lippan Art Home Decor', 'evara-art' ); ?>" width="600" height="400">
 						<div class="collection-overlay"></div>
