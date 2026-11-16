@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Centered Logo with CSS Grid, Full Menu Support)
  *
  * @package EvaraArt
- * @version 1.3.1
+ * @version 1.3.2
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>

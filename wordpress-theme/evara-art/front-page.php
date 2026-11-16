@@ -3,7 +3,7 @@
  * The Front Page template for Evara Art (Auto 4-Slide Banner, Editorial & Reordered Sections)
  *
  * @package EvaraArt
- * @version 1.3.1
+ * @version 1.3.2
  */
 
 get_header(); ?>
@@ -225,7 +225,44 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 	</div>
 </section>
 
-<!-- 2. Curated Signature Collections (Canvas Paintings & Lippan Art) -->
+<!-- 2. Artist Divine Philosophy Section (The Sacred Heart of Evara) -->
+<?php
+$clean_phil_quote = trim( $phil_quote );
+$clean_phil_quote = preg_replace( '/^[“"\'”\s]+|[“"\'”\s]+$/u', '', $clean_phil_quote );
+?>
+<section class="evara-philosophy-section reveal-on-scroll" id="about">
+	<div class="evara-container">
+		<div class="philosophy-card">
+			<div class="philosophy-header">
+				<span class="philosophy-badge"><?php echo esc_html( $phil_badge ); ?></span>
+				<h2 class="main-heading"><?php echo esc_html( $phil_title ); ?></h2>
+				<p class="philosophy-quote-lead">
+					&ldquo;<?php echo wp_kses_post( $clean_phil_quote ); ?>&rdquo;
+				</p>
+			</div>
+
+			<div class="philosophy-grid">
+				<div class="philosophy-col">
+					<div class="col-icon"><i class="fa-solid fa-paintbrush"></i></div>
+					<h3 class="col-title"><?php echo esc_html( $pillar1_title ); ?></h3>
+					<p class="philosophy-desc"><?php echo esc_html( $pillar1_desc ); ?></p>
+				</div>
+				<div class="philosophy-col">
+					<div class="col-icon"><i class="fa-solid fa-spa"></i></div>
+					<h3 class="col-title"><?php echo esc_html( $pillar2_title ); ?></h3>
+					<p class="philosophy-desc"><?php echo esc_html( $pillar2_desc ); ?></p>
+				</div>
+				<div class="philosophy-col">
+					<div class="col-icon"><i class="fa-solid fa-heart"></i></div>
+					<h3 class="col-title"><?php echo esc_html( $pillar3_title ); ?></h3>
+					<p class="philosophy-desc"><?php echo esc_html( $pillar3_desc ); ?></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 3. Curated Signature Collections (Canvas Paintings & Lippan Art - Curated Portfolios) -->
 <?php
 $canvas_cat = get_term_by( 'slug', 'canvas-painting-evara-art', 'product_cat' );
 if ( ! $canvas_cat ) {
@@ -397,39 +434,6 @@ $lippan_img_url = 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lip
 			<div class="trust-text">
 				<h4><?php esc_html_e( 'Insured Pan-India Delivery', 'evara-art' ); ?></h4>
 				<p><?php esc_html_e( 'Safe doorstep delivery across all Indian pin codes with live dispatch tracking.', 'evara-art' ); ?></p>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- 5. Artist Divine Philosophy Section (PLACED AFTER PRODUCTS) -->
-<section class="evara-philosophy-section reveal-on-scroll" id="about">
-	<div class="evara-container">
-		<div class="philosophy-card">
-			<div class="philosophy-header">
-				<span class="philosophy-badge"><?php echo esc_html( $phil_badge ); ?></span>
-				<h2 class="main-heading"><?php echo esc_html( $phil_title ); ?></h2>
-				<p class="philosophy-quote-lead">
-					&ldquo;<?php echo wp_kses_post( $phil_quote ); ?>&rdquo;
-				</p>
-			</div>
-
-			<div class="philosophy-grid">
-				<div class="philosophy-col">
-					<div class="col-icon"><i class="fa-solid fa-paintbrush"></i></div>
-					<h3 class="col-title"><?php echo esc_html( $pillar1_title ); ?></h3>
-					<p class="philosophy-desc"><?php echo esc_html( $pillar1_desc ); ?></p>
-				</div>
-				<div class="philosophy-col">
-					<div class="col-icon"><i class="fa-solid fa-spa"></i></div>
-					<h3 class="col-title"><?php echo esc_html( $pillar2_title ); ?></h3>
-					<p class="philosophy-desc"><?php echo esc_html( $pillar2_desc ); ?></p>
-				</div>
-				<div class="philosophy-col">
-					<div class="col-icon"><i class="fa-solid fa-heart"></i></div>
-					<h3 class="col-title"><?php echo esc_html( $pillar3_title ); ?></h3>
-					<p class="philosophy-desc"><?php echo esc_html( $pillar3_desc ); ?></p>
-				</div>
 			</div>
 		</div>
 	</div>
