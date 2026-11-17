@@ -3,7 +3,7 @@
  * The Front Page template for Evara Art (Auto 4-Slide Banner, Editorial & Reordered Sections)
  *
  * @package EvaraArt
- * @version 1.3.4
+ * @version 1.3.5
  */
 
 get_header(); ?>

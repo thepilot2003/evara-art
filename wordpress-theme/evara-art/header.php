@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Centered Logo with CSS Grid, Full Menu Support)
  *
  * @package EvaraArt
- * @version 1.3.4
+ * @version 1.3.5
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -77,7 +77,7 @@
 			</button>
 
 			<!-- Account -->
-			<a href="<?php echo esc_url( class_exists( 'WooCommerce' ) ? wc_get_page_permalink( 'myaccount' ) : home_url( '/contact/' ) ); ?>" class="action-btn" aria-label="<?php esc_attr_e( 'My Account', 'evara-art' ); ?>">
+			<a href="<?php echo esc_url( class_exists( 'WooCommerce' ) ? wc_get_page_permalink( 'myaccount' ) : home_url( '/contact/' ) ); ?>" class="action-btn header-account-btn" aria-label="<?php esc_attr_e( 'My Account', 'evara-art' ); ?>">
 				<i class="fa-regular fa-user"></i>
 			</a>
 

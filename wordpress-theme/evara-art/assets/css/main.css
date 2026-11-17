@@ -253,9 +253,9 @@ button, input, select, textarea {
 }
 
 .header-inner {
-	display: grid;
-	grid-template-columns: 1fr auto 1fr;
+	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	height: 82px;
 	position: relative;
 	width: 100%;
@@ -265,7 +265,6 @@ button, input, select, textarea {
 .header-left {
 	display: flex;
 	align-items: center;
-	flex: 1;
 	justify-content: flex-start;
 	z-index: 2;
 }
@@ -334,14 +333,19 @@ button, input, select, textarea {
 
 /* Dead-Center Brand Logo (Desktop + Mobile) */
 .evara-brand {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 10;
-	position: relative;
+	position: absolute !important;
+	left: 50% !important;
+	top: 50% !important;
+	transform: translate(-50%, -50%) !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	z-index: 10 !important;
 	max-height: 52px !important;
 	overflow: hidden !important;
-	pointer-events: auto;
+	pointer-events: auto !important;
+	margin: 0 !important;
+	text-align: center !important;
 }
 
 .brand-link {
@@ -399,7 +403,6 @@ button, input, select, textarea {
 .evara-header-actions {
 	display: flex;
 	align-items: center;
-	flex: 1;
 	justify-content: flex-end;
 	gap: 12px;
 	z-index: 2;
@@ -1764,8 +1767,8 @@ button, input, select, textarea {
    Responsive Breakpoints & Mobile-First Luxury Refinements
    ========================================================================== */
 
-/* Tablet & Smaller Laptops (<= 1024px) */
-@media (max-width: 1024px) {
+/* Tablet & Smaller Laptops (<= 1120px) */
+@media (max-width: 1120px) {
 	.evara-desktop-nav {
 		display: none;
 	}
@@ -1807,8 +1810,9 @@ button, input, select, textarea {
 		height: 66px;
 	}
 	.brand-logo-img {
-		height: 48px;
-		max-width: 165px;
+		height: 42px !important;
+		max-height: 44px !important;
+		max-width: 140px !important;
 	}
 	.hero-banner-card {
 		border-radius: var(--radius-lg);
@@ -1898,11 +1902,12 @@ button, input, select, textarea {
 
 	/* Sticky Header */
 	.header-inner {
-		height: 66px;
+		height: 64px;
 	}
 	.brand-logo-img {
-		height: 48px;
-		max-width: 165px;
+		height: 40px !important;
+		max-height: 40px !important;
+		max-width: 125px !important;
 	}
 	.evara-mobile-toggle {
 		padding: 8px;
@@ -1924,6 +1929,29 @@ button, input, select, textarea {
 		font-size: 0.65rem;
 		top: -6px;
 		right: -8px;
+	}
+}
+
+/* Small Smartphones (<= 480px) */
+@media (max-width: 480px) {
+	.header-inner {
+		height: 60px;
+	}
+	.brand-logo-img {
+		height: 36px !important;
+		max-height: 38px !important;
+		max-width: 110px !important;
+	}
+	.action-btn {
+		width: 36px !important;
+		height: 36px !important;
+		font-size: 0.95rem !important;
+	}
+	.header-account-btn {
+		display: none !important;
+	}
+	.evara-header-actions {
+		gap: 5px !important;
 	}
 
 	/* Hero Section */
@@ -3381,7 +3409,7 @@ textarea.studio-input {
 }
 
 /* Responsive Overrides */
-@media (max-width: 1024px) {
+@media (max-width: 1120px) {
 	.product-detail-grid {
 		grid-template-columns: 1fr;
 		gap: 36px;
@@ -3497,7 +3525,7 @@ textarea.studio-input {
 	justify-content: center;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1120px) {
 	.evara-mobile-toggle {
 		display: inline-flex !important;
 	}
@@ -4063,7 +4091,7 @@ textarea.studio-input {
 	padding: 0 !important;
 	list-style: none !important;
 }
-@media (max-width: 1024px) {
+@media (max-width: 1120px) {
 	.woocommerce ul.products {
 		grid-template-columns: repeat(2, 1fr) !important;
 		gap: 20px !important;
@@ -4710,7 +4738,7 @@ textarea.studio-input {
 }
 
 /* Responsiveness overrides for Custom Commissions & Account */
-@media (max-width: 1024px) {
+@media (max-width: 1120px) {
 	.commission-guide-grid {
 		grid-template-columns: repeat(2, 1fr) !important;
 		gap: 20px;

@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.3.4
+ * @version 1.3.5
  */
 
 (function($) {
