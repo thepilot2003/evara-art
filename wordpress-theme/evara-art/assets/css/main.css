@@ -316,22 +316,14 @@ button, input, select, textarea {
 
 .brand-link {
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: center;
+	align-items: center;
+	justify-content: flex-start;
 	text-decoration: none;
+	max-height: 48px;
 }
 
 .brand-subtext {
-	display: block;
-	font-family: var(--font-sans);
-	font-size: 0.58rem;
-	font-weight: 700;
-	letter-spacing: 0.16em;
-	color: var(--evara-gold, #C5A059);
-	text-transform: uppercase;
-	margin-top: 1px;
-	line-height: 1;
+	display: none !important;
 }
 
 /* Desktop Navigation Beside Logo */
@@ -1978,44 +1970,19 @@ button, input, select, textarea {
 	color: var(--evara-terracotta);
 }
 
-/* Luxury Drawer Footer & Concierge */
+/* Luxury Drawer Footer */
 .luxury-drawer-footer {
-	padding: 14px 18px;
+	padding: 16px 20px;
 	background: #FFFFFF;
 	border-top: 1px solid rgba(212, 175, 55, 0.18);
 	box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
 }
 
-.drawer-concierge-card {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-
-.concierge-badge {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	font-family: var(--font-sans);
-	font-size: 0.65rem;
-	font-weight: 700;
-	letter-spacing: 0.1em;
-	color: #2F637C;
-	text-transform: uppercase;
-}
-
-.concierge-desc {
-	font-size: 0.74rem;
-	color: var(--evara-text-muted);
-	line-height: 1.35;
-	margin: 2px 0 0;
-}
-
 .drawer-whatsapp-btn {
 	width: 100%;
 	justify-content: center;
-	font-size: 0.84rem;
-	padding: 10px 16px;
+	font-size: 0.88rem;
+	padding: 12px 18px;
 	border-radius: var(--radius-full);
 	box-shadow: 0 3px 10px rgba(37, 211, 102, 0.25);
 }
@@ -5625,5 +5592,38 @@ textarea.studio-input {
 	gap: 12px;
 	color: var(--evara-terracotta);
 }
+
+/* ==========================================================================
+   MOBILE VIEW REFINEMENTS (v1.3.9)
+   - Completely remove floating cart logo & notifications in mobile view
+   ========================================================================== */
+@media (max-width: 900px) {
+	#moderncart-floating-cart,
+	.moderncart-toggle-slide-out,
+	.moderncart-floating-cart-button,
+	.moderncart-add-to-cart-notification,
+	.moderncart-floating-cart-count,
+	#floating-cart,
+	.floating-cart,
+	.evara-floating-cart,
+	#floating-cart-btn,
+	.floating-cart-btn,
+	.floating-cart-button,
+	.xoo-wsc-cart-trigger,
+	.woofc-count,
+	.woofc-btn,
+	.cart-floating-icon,
+	.wp-block-woocommerce-mini-cart,
+	.woocommerce-mini-cart-floating {
+		display: none !important;
+		visibility: hidden !important;
+		opacity: 0 !important;
+		pointer-events: none !important;
+		height: 0 !important;
+		width: 0 !important;
+		overflow: hidden !important;
+	}
+}
+
 
 

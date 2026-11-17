@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.8
+ * @version 1.3.9
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.8' );
+define( 'EVARA_VERSION', '1.3.9' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );

@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.3.8
+ * @version 1.3.9
  */
 
 (function($) {
@@ -179,6 +179,17 @@
 		}
 
 		initHeroSlider();
+
+		// 7. Ensure floating cart logo is suppressed on mobile viewports
+		function checkMobileFloatingCart() {
+			if (window.innerWidth <= 900) {
+				$('#moderncart-floating-cart, .moderncart-toggle-slide-out').attr('style', function(i, s) {
+					return (s || '') + '; display: none !important;';
+				});
+			}
+		}
+		checkMobileFloatingCart();
+		$(window).on('resize orientationchange', checkMobileFloatingCart);
 
 	});
 

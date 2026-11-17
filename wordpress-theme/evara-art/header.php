@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Top-Left Brand Logo, Navigation Categories beside Logo, Right Actions)
  *
  * @package EvaraArt
- * @version 1.3.8
+ * @version 1.3.9
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -50,7 +50,6 @@
 						<span class="brand-fallback-name">EVARA</span>
 						<span class="brand-fallback-sub">ART</span>
 					</div>
-					<span class="brand-subtext"><?php esc_html_e( 'STUDIO • GUJARAT', 'evara-art' ); ?></span>
 				</a>
 			</div>
 
@@ -132,15 +131,9 @@
 		</div>
 
 		<div class="mobile-drawer-footer luxury-drawer-footer">
-			<div class="drawer-concierge-card">
-				<div class="concierge-text">
-					<span class="concierge-badge"><i class="fa-solid fa-headset"></i> <?php esc_html_e( 'Art Advisory', 'evara-art' ); ?></span>
-					<p class="concierge-desc"><?php esc_html_e( 'Questions on artwork sizes, themes, or custom orders?', 'evara-art' ); ?></p>
-				</div>
-				<a href="https://wa.me/919328143036?text=Hi%20Evara%20Art,%20I'm%20interested%20in%20your%20artwork" target="_blank" rel="noopener noreferrer" class="evara-btn btn-whatsapp drawer-whatsapp-btn">
-					<i class="fa-brands fa-whatsapp"></i> <?php esc_html_e( 'Chat with Art Studio', 'evara-art' ); ?>
-				</a>
-			</div>
+			<a href="https://wa.me/919328143036?text=Hi%20Evara%20Art,%20I'm%20interested%20in%20your%20artwork" target="_blank" rel="noopener noreferrer" class="evara-btn btn-whatsapp drawer-whatsapp-btn">
+				<i class="fa-brands fa-whatsapp"></i> <?php esc_html_e( 'Chat on WhatsApp', 'evara-art' ); ?>
+			</a>
 		</div>
 	</div>
 </div>
