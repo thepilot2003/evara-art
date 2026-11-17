@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.9
+ * @version 1.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.9' );
+define( 'EVARA_VERSION', '1.4.0' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -221,35 +221,30 @@ function evara_default_mobile_menu() {
 				<li>
 					<a href="<?php echo esc_url( $canvas_url ); ?>" class="drawer-nav-link">
 						<span class="link-title"><?php esc_html_e( 'Canvas Paintings', 'evara-art' ); ?></span>
-						<span class="link-badge"><?php esc_html_e( 'Original Art', 'evara-art' ); ?></span>
 						<i class="fa-solid fa-chevron-right link-arrow"></i>
 					</a>
 				</li>
 				<li>
 					<a href="<?php echo esc_url( $lippan_url ); ?>" class="drawer-nav-link">
 						<span class="link-title"><?php esc_html_e( 'Lippan & Clay Art', 'evara-art' ); ?></span>
-						<span class="link-badge"><?php esc_html_e( 'Mirror Craft', 'evara-art' ); ?></span>
 						<i class="fa-solid fa-chevron-right link-arrow"></i>
 					</a>
 				</li>
 				<li>
 					<a href="<?php echo esc_url( $animal_url ); ?>" class="drawer-nav-link">
 						<span class="link-title"><?php esc_html_e( 'Animal Painting', 'evara-art' ); ?></span>
-						<span class="link-badge"><?php esc_html_e( 'Wildlife', 'evara-art' ); ?></span>
 						<i class="fa-solid fa-chevron-right link-arrow"></i>
 					</a>
 				</li>
 				<li>
 					<a href="<?php echo esc_url( $boho_url ); ?>" class="drawer-nav-link">
 						<span class="link-title"><?php esc_html_e( 'Boho Art', 'evara-art' ); ?></span>
-						<span class="link-badge"><?php esc_html_e( 'Earthy & Warm', 'evara-art' ); ?></span>
 						<i class="fa-solid fa-chevron-right link-arrow"></i>
 					</a>
 				</li>
 				<li>
 					<a href="<?php echo esc_url( $abstract_url ); ?>" class="drawer-nav-link">
 						<span class="link-title"><?php esc_html_e( 'Abstract Painting', 'evara-art' ); ?></span>
-						<span class="link-badge"><?php esc_html_e( 'Contemporary', 'evara-art' ); ?></span>
 						<i class="fa-solid fa-chevron-right link-arrow"></i>
 					</a>
 				</li>
@@ -296,6 +291,12 @@ function evara_default_mobile_menu() {
 					<a href="<?php echo esc_url( home_url( '/shipping-policy/' ) ); ?>" class="drawer-nav-link-sub">
 						<i class="fa-solid fa-truck-fast"></i>
 						<span><?php esc_html_e( 'Insured Express Shipping', 'evara-art' ); ?></span>
+					</a>
+				</li>
+				<li>
+					<a href="https://wa.me/919328143036?text=Hi%20Evara%20Art,%20I'm%20interested%20in%20your%20artwork" target="_blank" rel="noopener noreferrer" class="drawer-nav-link-sub">
+						<i class="fa-brands fa-whatsapp" style="color: #25D366;"></i>
+						<span><?php esc_html_e( 'WhatsApp Studio Chat', 'evara-art' ); ?></span>
 					</a>
 				</li>
 			</ul>

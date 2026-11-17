@@ -139,7 +139,7 @@
 
 /* Single Product Detail Page */
 .woocommerce div.product {
-	padding: 40px 0 80px;
+	padding: 0 0 24px;
 }
 
 .woocommerce div.product div.images {

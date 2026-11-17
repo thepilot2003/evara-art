@@ -3,7 +3,7 @@
  * The Footer for Evara Art Theme
  *
  * @package EvaraArt
- * @version 1.3.9
+ * @version 1.4.0
  */
 
 $phone = get_theme_mod( 'evara_contact_phone', '+91 93281 43036' );
@@ -42,13 +42,13 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 					$footer_logo_url = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : EVARA_URI . '/assets/images/evara-logo.png';
 				}
 				?>
-				<div class="footer-logo-badge">
+				<div class="footer-logo-badge" style="background: transparent !important; padding: 0 !important; box-shadow: none !important;">
 					<img src="<?php echo esc_url( $footer_logo_url ); ?>" 
 					     alt="<?php bloginfo( 'name' ); ?>" 
 					     class="footer-logo-img" 
 					     width="160" 
 					     height="48"
-					     style="max-height: 48px; width: auto; object-fit: contain; display: block;">
+					     style="max-height: 48px; width: auto; object-fit: contain; display: block; background: transparent !important;">
 				</div>
 			</a>
 			<p class="brand-bio">

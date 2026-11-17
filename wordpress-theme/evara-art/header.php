@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Top-Left Brand Logo, Navigation Categories beside Logo, Right Actions)
  *
  * @package EvaraArt
- * @version 1.3.9
+ * @version 1.4.0
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -128,12 +128,6 @@
 				evara_default_mobile_menu();
 			}
 			?>
-		</div>
-
-		<div class="mobile-drawer-footer luxury-drawer-footer">
-			<a href="https://wa.me/919328143036?text=Hi%20Evara%20Art,%20I'm%20interested%20in%20your%20artwork" target="_blank" rel="noopener noreferrer" class="evara-btn btn-whatsapp drawer-whatsapp-btn">
-				<i class="fa-brands fa-whatsapp"></i> <?php esc_html_e( 'Chat on WhatsApp', 'evara-art' ); ?>
-			</a>
 		</div>
 	</div>
 </div>
