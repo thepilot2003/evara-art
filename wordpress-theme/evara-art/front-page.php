@@ -3,7 +3,7 @@
  * The Front Page template for Evara Art (Auto 4-Slide Banner, Editorial & Reordered Sections)
  *
  * @package EvaraArt
- * @version 1.3.6
+ * @version 1.3.7
  */
 
 get_header(); ?>
@@ -30,6 +30,7 @@ for ( $s = 1; $s <= 4; $s++ ) {
 		$s_img = $legacy_banner;
 	}
 	if ( ! empty( $s_img ) ) {
+		$s_mobile_img = get_theme_mod( "evara_slide{$s}_mobile_image", '' );
 		$s_title = get_theme_mod( "evara_slide{$s}_title", '' );
 		if ( preg_match( '/\bheart\b/i', $s_title ) && ! preg_match( '/\bHEART\b/', $s_title ) ) {
 			$s_title = preg_replace( '/\bheart\b/i', 'HEART', $s_title );
@@ -37,10 +38,11 @@ for ( $s = 1; $s <= 4; $s++ ) {
 		$s_badge = get_theme_mod( "evara_slide{$s}_badge", '✦ Evara Art Masterpiece' );
 		$s_url   = get_theme_mod( "evara_slide{$s}_url", '' );
 		$custom_slides[] = array(
-			'image' => $s_img,
-			'title' => ! empty( $s_title ) ? $s_title : get_bloginfo( 'name' ),
-			'badge' => $s_badge,
-			'url'   => ! empty( $s_url ) ? $s_url : $canvas_url,
+			'image'        => $s_img,
+			'mobile_image' => $s_mobile_img,
+			'title'        => ! empty( $s_title ) ? $s_title : get_bloginfo( 'name' ),
+			'badge'        => $s_badge,
+			'url'          => ! empty( $s_url ) ? $s_url : $canvas_url,
 		);
 	}
 }
@@ -136,12 +138,17 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 					<?php foreach ( $slides as $index => $slide ) : ?>
 						<div class="slider-slide <?php echo ( 0 === $index ) ? 'is-active' : ''; ?>" data-index="<?php echo esc_attr( $index ); ?>">
 							<a href="<?php echo esc_url( $slide['url'] ); ?>" class="slider-card-link">
-								<img src="<?php echo esc_url( $slide['image'] ); ?>" 
-								     alt="<?php echo esc_attr( $slide['title'] ); ?>" 
-								     class="hero-slider-img"
-								     width="1400" 
-								     height="520" 
-								     <?php echo ( 0 === $index ) ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
+								<picture class="hero-slider-picture">
+									<?php if ( ! empty( $slide['mobile_image'] ) ) : ?>
+										<source media="(max-width: 768px)" srcset="<?php echo esc_url( $slide['mobile_image'] ); ?>">
+									<?php endif; ?>
+									<img src="<?php echo esc_url( $slide['image'] ); ?>" 
+									     alt="<?php echo esc_attr( $slide['title'] ); ?>" 
+									     class="hero-slider-img"
+									     width="1400" 
+									     height="520" 
+									     <?php echo ( 0 === $index ) ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
+								</picture>
 								<?php if ( $show_caption && ! empty( $slide['title'] ) ) : ?>
 									<div class="slider-caption">
 										<?php if ( ! empty( $slide['badge'] ) ) : ?>
@@ -250,7 +257,6 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 			</div>
 
 		</div>
-
 	</div>
 </section>
 
@@ -372,10 +378,6 @@ $lippan_img_url = ! empty( $lippan_custom_img ) ? $lippan_custom_img : 'https://
 				<span class="sub-heading"><?php esc_html_e( 'Masterpiece Gallery', 'evara-art' ); ?></span>
 				<h2 class="main-heading"><?php esc_html_e( 'Featured Creations', 'evara-art' ); ?></h2>
 			</div>
-			<a href="<?php echo esc_url( $canvas_url ); ?>" class="view-all-link">
-				<span><?php esc_html_e( 'View Full Catalog', 'evara-art' ); ?></span>
-				<i class="fa-solid fa-arrow-right"></i>
-			</a>
 		</div>
 
 		<div class="artworks-grid">
@@ -438,6 +440,23 @@ $lippan_img_url = ! empty( $lippan_custom_img ) ? $lippan_custom_img : 'https://
 				endif;
 			endif;
 			?>
+		</div>
+
+		<!-- Dedicated View Full Catalogue / Explore All Categories Option (Placed after Featured Creations) -->
+		<div class="artworks-footer-cta">
+			<div class="catalog-cta-card">
+				<div class="catalog-cta-content">
+					<span class="catalog-cta-badge"><i class="fa-solid fa-shapes"></i> <?php esc_html_e( 'Curated Art Catalog', 'evara-art' ); ?></span>
+					<h3 class="catalog-cta-title"><?php esc_html_e( 'Looking for more original artworks?', 'evara-art' ); ?></h3>
+					<p class="catalog-cta-desc"><?php esc_html_e( 'Explore our complete collections by category — Canvas Paintings, Lippan Mirror Art, Animal Wildlife, Boho art, and Abstract expressions.', 'evara-art' ); ?></p>
+				</div>
+				<div class="catalog-cta-action">
+					<a href="<?php echo esc_url( home_url( '/categories/' ) ); ?>" class="evara-btn evara-btn-primary catalog-cta-btn">
+						<span><?php esc_html_e( 'View Full Catalogue & Categories', 'evara-art' ); ?></span>
+						<i class="fa-solid fa-arrow-right"></i>
+					</a>
+				</div>
+			</div>
 		</div>
 
 	</div>

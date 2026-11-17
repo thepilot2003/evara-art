@@ -1,9 +1,9 @@
 <?php
 /**
- * The Header for Evara Art Theme (Centered Logo with CSS Grid, Full Menu Support)
+ * The Header for Evara Art Theme (Top-Left Brand Logo, Navigation Categories beside Logo, Right Actions)
  *
  * @package EvaraArt
- * @version 1.3.6
+ * @version 1.3.7
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -19,11 +19,11 @@
 <!-- Accessible Skip to Content Link -->
 <a class="screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'evara-art' ); ?></a>
 
-<!-- Main Header (Grid 1fr auto 1fr Layout: Left Nav, Center Brand Logo, Right Actions) -->
+<!-- Main Header (Top-Left Brand Logo, Categories Navigation beside Logo, Right Actions) -->
 <header id="site-header" class="evara-header">
 	<div class="evara-container header-inner">
 		
-		<!-- Left: Mobile Toggle or Desktop Navigation -->
+		<!-- Left: Top-Left Brand Logo & Categories Navigation Beside It -->
 		<div class="header-left">
 			<button class="evara-mobile-toggle" id="evara-menu-open" aria-label="<?php esc_attr_e( 'Open Navigation Menu', 'evara-art' ); ?>" aria-expanded="false" aria-controls="evara-mobile-menu">
 				<span class="toggle-line"></span>
@@ -31,6 +31,29 @@
 				<span class="toggle-line"></span>
 			</button>
 
+			<!-- Top-Left Brand Logo -->
+			<div class="evara-brand">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="brand-link" rel="home">
+					<?php
+					$custom_logo_id = get_theme_mod( 'custom_logo' );
+					$logo_url = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : EVARA_URI . '/assets/images/evara-logo.png';
+					?>
+					<img src="<?php echo esc_url( $logo_url ); ?>" 
+					     alt="<?php bloginfo( 'name' ); ?>" 
+					     class="brand-logo-img" 
+					     width="160" 
+					     height="48" 
+					     style="max-height: 48px; width: auto; object-fit: contain; display: block;"
+					     onerror="this.style.display='none'; document.getElementById('theme-logo-fallback').style.display='flex';">
+					<div class="brand-fallback-mark" id="theme-logo-fallback" style="display: none;">
+						<span class="brand-fallback-feather">✦</span>
+						<span class="brand-fallback-name">EVARA</span>
+						<span class="brand-fallback-sub">ART</span>
+					</div>
+				</a>
+			</div>
+
+			<!-- Categories & About Beside Logo -->
 			<nav class="evara-desktop-nav" aria-label="<?php esc_attr_e( 'Primary Menu', 'evara-art' ); ?>">
 				<?php
 				if ( has_nav_menu( 'primary' ) ) {
@@ -45,28 +68,6 @@
 				}
 				?>
 			</nav>
-		</div>
-
-		<!-- Exact Center: Brand Logo (No Overlap with Navigation) -->
-		<div class="evara-brand">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="brand-link" rel="home">
-				<?php
-				$custom_logo_id = get_theme_mod( 'custom_logo' );
-				$logo_url = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : EVARA_URI . '/assets/images/evara-logo.png';
-				?>
-				<img src="<?php echo esc_url( $logo_url ); ?>" 
-				     alt="<?php bloginfo( 'name' ); ?>" 
-				     class="brand-logo-img" 
-				     width="160" 
-				     height="48" 
-				     style="max-height: 48px; width: auto; object-fit: contain; display: block;"
-				     onerror="this.style.display='none'; document.getElementById('theme-logo-fallback').style.display='flex';">
-				<div class="brand-fallback-mark" id="theme-logo-fallback" style="display: none;">
-					<span class="brand-fallback-feather">✦</span>
-					<span class="brand-fallback-name">EVARA</span>
-					<span class="brand-fallback-sub">ART</span>
-				</div>
-			</a>
 		</div>
 
 		<!-- Right: Action Icons (Search, Account, Cart) -->

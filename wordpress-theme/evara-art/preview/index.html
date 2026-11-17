@@ -339,7 +339,7 @@ button, input, select, textarea {
 }
 
 .evara-desktop-nav .nav-links a {
-	font-size: 0.925rem;
+	font-size: clamp(0.82rem, 0.92vw, 0.90rem);
 	font-weight: 500;
 	color: var(--evara-text-secondary);
 	position: relative;
@@ -373,14 +373,14 @@ button, input, select, textarea {
 	font-weight: 600 !important;
 }
 
-/* Dead-Center Brand Logo (Desktop + Mobile) */
+/* Top-Left Brand Logo */
 .evara-brand {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	z-index: 10;
-	position: static;
-	transform: none;
+	position: relative;
+	margin: 0;
 	pointer-events: auto;
 }
 
@@ -4013,7 +4013,7 @@ textarea.studio-input {
 	<header id="site-header" class="evara-header">
 		<div class="evara-container header-inner">
 			
-			<!-- Left: Mobile Toggle or Desktop Nav -->
+			<!-- Left: Top-Left Brand Logo & Categories Navigation Beside It -->
 			<div class="header-left">
 				<button class="evara-mobile-toggle" id="evara-menu-open" aria-label="Open Navigation Menu" aria-expanded="false" aria-controls="evara-mobile-menu">
 					<span class="toggle-line"></span>
@@ -4021,27 +4021,30 @@ textarea.studio-input {
 					<span class="toggle-line"></span>
 				</button>
 
+				<!-- Top-Left Brand Logo -->
+				<div class="evara-brand">
+					<a href="#home" class="brand-link nav-route" data-route="home" aria-label="Evara Art Home">
+						<img src="images/evara-logo.png" alt="Evara Art" class="brand-logo-img" id="site-logo-img" width="160" height="48" onerror="this.style.display='none'; document.getElementById('site-logo-fallback').style.display='flex';">
+						<div class="brand-fallback-mark" id="site-logo-fallback" style="display: none;">
+							<span class="brand-fallback-feather">✦</span>
+							<span class="brand-fallback-name">EVARA</span>
+							<span class="brand-fallback-sub">ART</span>
+						</div>
+					</a>
+				</div>
+
+				<!-- Categories & About Beside Logo -->
 				<nav class="evara-desktop-nav" aria-label="Primary Menu">
 					<ul class="nav-links">
-						<li><a href="#home" class="nav-route" data-route="home">Home</a></li>
 						<li><a href="#canvas-paintings" class="nav-route" data-route="canvas-paintings">Canvas Paintings</a></li>
 						<li><a href="#lippan-art" class="nav-route" data-route="lippan-art">Lippan &amp; Clay Art</a></li>
+						<li><a href="#animal-painting" class="nav-route" data-route="animal-painting">Animal Painting</a></li>
+						<li><a href="#boho-art" class="nav-route" data-route="boho-art">Boho Art</a></li>
+						<li><a href="#abstract-painting" class="nav-route" data-route="abstract-painting">Abstract Painting</a></li>
 						<li><a href="#custom-art" class="nav-route nav-highlight" data-route="custom-art">Custom Art</a></li>
 						<li><a href="#contact" class="nav-route" data-route="contact">About</a></li>
 					</ul>
 				</nav>
-			</div>
-
-			<!-- Center: Centered Brand Logo on Both Desktop & Mobile -->
-			<div class="evara-brand">
-				<a href="#home" class="brand-link nav-route" data-route="home" aria-label="Evara Art Home">
-					<img src="images/evara-logo.png" alt="Evara Art" class="brand-logo-img" id="site-logo-img" width="180" height="52" onerror="this.style.display='none'; document.getElementById('site-logo-fallback').style.display='flex';">
-					<div class="brand-fallback-mark" id="site-logo-fallback" style="display: none;">
-						<span class="brand-fallback-feather">✦</span>
-						<span class="brand-fallback-name">EVARA</span>
-						<span class="brand-fallback-sub">ART</span>
-					</div>
-				</a>
 			</div>
 
 			<!-- Right: Action Icons (Search, Bag) -->

@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.6
+ * @version 1.3.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.6' );
+define( 'EVARA_VERSION', '1.3.7' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -182,16 +182,21 @@ add_filter( 'option_woocommerce_enable_myaccount_registration', function( $val )
 } );
 
 /**
- * Default Primary Navigation Fallback
+ * Default Primary Navigation Fallback (No "Home" link, New Categories beside Logo)
  */
 function evara_default_primary_menu() {
-	$canvas_url = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
-	$lippan_url = evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor', 'lippan-art' ), '/product-category/clay-art-evara-art/' );
+	$canvas_url   = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
+	$lippan_url   = evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor', 'lippan-art' ), '/product-category/clay-art-evara-art/' );
+	$animal_url   = evara_get_category_url( array( 'animal-painting', 'animal-paintings', 'animal-art' ), '/product-category/animal-painting/' );
+	$boho_url     = evara_get_category_url( array( 'boho-art', 'boho-paintings', 'boho' ), '/product-category/boho-art/' );
+	$abstract_url = evara_get_category_url( array( 'abstract-painting', 'abstract-paintings', 'abstract-art' ), '/product-category/abstract-painting/' );
 
 	echo '<ul class="nav-links">';
-	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '" class="' . ( is_front_page() ? 'active' : '' ) . '">' . esc_html__( 'Home', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( $canvas_url ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( $lippan_url ) . '">' . esc_html__( 'Lippan & Clay Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $animal_url ) . '">' . esc_html__( 'Animal Painting', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $boho_url ) . '">' . esc_html__( 'Boho Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $abstract_url ) . '">' . esc_html__( 'Abstract Painting', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="nav-highlight">' . esc_html__( 'Custom Art', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About', 'evara-art' ) . '</a></li>';
 	echo '</ul>';
@@ -201,13 +206,19 @@ function evara_default_primary_menu() {
  * Default Mobile Navigation Fallback
  */
 function evara_default_mobile_menu() {
-	$canvas_url = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
-	$lippan_url = evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor', 'lippan-art' ), '/product-category/clay-art-evara-art/' );
+	$canvas_url   = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
+	$lippan_url   = evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor', 'lippan-art' ), '/product-category/clay-art-evara-art/' );
+	$animal_url   = evara_get_category_url( array( 'animal-painting', 'animal-paintings', 'animal-art' ), '/product-category/animal-painting/' );
+	$boho_url     = evara_get_category_url( array( 'boho-art', 'boho-paintings', 'boho' ), '/product-category/boho-art/' );
+	$abstract_url = evara_get_category_url( array( 'abstract-painting', 'abstract-paintings', 'abstract-art' ), '/product-category/abstract-painting/' );
 
 	echo '<ul class="mobile-nav-list">';
-	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'Home', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( $canvas_url ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( $lippan_url ) . '">' . esc_html__( 'Lippan & Clay Mirror Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $animal_url ) . '">' . esc_html__( 'Animal Painting', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $boho_url ) . '">' . esc_html__( 'Boho Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( $abstract_url ) . '">' . esc_html__( 'Abstract Painting', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/categories/' ) ) . '" class="categories-hub-link" style="color: var(--evara-peacock); font-weight: 600;"><i class="fa-solid fa-layer-group"></i> ' . esc_html__( 'View All Art Categories', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="highlight-link">✦ ' . esc_html__( 'Request Custom Commission', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About & Studio Story', 'evara-art' ) . '</a></li>';
 	if ( class_exists( 'WooCommerce' ) ) {
@@ -510,8 +521,14 @@ function evara_customize_register( $wp_customize ) {
 	// Custom Slide 1
 	$wp_customize->add_setting( 'evara_slide1_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide1_image', array(
-		'label'       => __( 'Banner 1: Custom Image', 'evara-art' ),
-		'description' => __( 'Upload image for Banner 1 (recommended 1600x600 or 1400x520).', 'evara-art' ),
+		'label'       => __( 'Banner 1: Desktop Image', 'evara-art' ),
+		'description' => __( 'Upload image for Banner 1 on desktop (recommended 1600x600 or 1400x520).', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide1_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide1_mobile_image', array(
+		'label'       => __( 'Banner 1: Mobile Image (Optional)', 'evara-art' ),
+		'description' => __( 'Optional dedicated image for mobile screens (recommended 4:3 ratio: 1200x900 or 800x600). If empty, desktop image is centered automatically.', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
 	$wp_customize->add_setting( 'evara_slide1_title', array( 'default' => 'Art that connects to your HEART', 'sanitize_callback' => 'sanitize_text_field' ) );
@@ -524,7 +541,13 @@ function evara_customize_register( $wp_customize ) {
 	// Custom Slide 2
 	$wp_customize->add_setting( 'evara_slide2_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide2_image', array(
-		'label'       => __( 'Banner 2: Custom Image', 'evara-art' ),
+		'label'       => __( 'Banner 2: Desktop Image', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide2_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide2_mobile_image', array(
+		'label'       => __( 'Banner 2: Mobile Image (Optional)', 'evara-art' ),
+		'description' => __( 'Optional mobile image (recommended 4:3 ratio: 1200x900 or 800x600).', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
 	$wp_customize->add_setting( 'evara_slide2_title', array( 'default' => 'Divine Darshan of Lord Jagannath', 'sanitize_callback' => 'sanitize_text_field' ) );
@@ -537,7 +560,13 @@ function evara_customize_register( $wp_customize ) {
 	// Custom Slide 3
 	$wp_customize->add_setting( 'evara_slide3_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide3_image', array(
-		'label'       => __( 'Banner 3: Custom Image', 'evara-art' ),
+		'label'       => __( 'Banner 3: Desktop Image', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide3_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide3_mobile_image', array(
+		'label'       => __( 'Banner 3: Mobile Image (Optional)', 'evara-art' ),
+		'description' => __( 'Optional mobile image (recommended 4:3 ratio: 1200x900 or 800x600).', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
 	$wp_customize->add_setting( 'evara_slide3_title', array( 'default' => 'Sacred Serenity Shiva Parvati', 'sanitize_callback' => 'sanitize_text_field' ) );
@@ -550,7 +579,13 @@ function evara_customize_register( $wp_customize ) {
 	// Custom Slide 4
 	$wp_customize->add_setting( 'evara_slide4_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide4_image', array(
-		'label'       => __( 'Banner 4: Custom Image', 'evara-art' ),
+		'label'       => __( 'Banner 4: Desktop Image', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide4_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide4_mobile_image', array(
+		'label'       => __( 'Banner 4: Mobile Image (Optional)', 'evara-art' ),
+		'description' => __( 'Optional mobile image (recommended 4:3 ratio: 1200x900 or 800x600).', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
 	$wp_customize->add_setting( 'evara_slide4_title', array( 'default' => 'Annapakshi Lippan Mirror Craft', 'sanitize_callback' => 'sanitize_text_field' ) );
@@ -811,4 +846,78 @@ function evara_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'evara_linkedin_url', array( 'label' => __( 'LinkedIn URL', 'evara-art' ), 'section' => 'evara_contact_section', 'type' => 'url' ) );
 }
 add_action( 'customize_register', 'evara_customize_register' );
+
+/**
+ * 10. Auto-ensure core product categories exist in WooCommerce
+ */
+add_action( 'init', 'evara_ensure_product_categories' );
+function evara_ensure_product_categories() {
+	if ( ! taxonomy_exists( 'product_cat' ) ) {
+		return;
+	}
+	$categories = array(
+		'canvas-painting-evara-art' => array(
+			'name' => 'Canvas Paintings',
+			'desc' => 'Handmade acrylic and oil paintings on 380 GSM textured cotton canvas.',
+		),
+		'clay-art-evara-art'        => array(
+			'name' => 'Lippan & Clay Art',
+			'desc' => 'Authentic Kutch Gujarat Lippan mirror artwork with handcrafted mud relief work.',
+		),
+		'animal-painting'           => array(
+			'name' => 'Animal Painting',
+			'desc' => 'Handmade wildlife and animal fine artwork portraits painted with intricate realism.',
+		),
+		'boho-art'                  => array(
+			'name' => 'Boho Art',
+			'desc' => 'Earth-toned, bohemian, and minimalist textured art pieces for modern interior sanctuaries.',
+		),
+		'abstract-painting'         => array(
+			'name' => 'Abstract Painting',
+			'desc' => 'Bold contemporary abstract canvas artworks designed to evoke deep aesthetic emotion.',
+		),
+	);
+	foreach ( $categories as $slug => $data ) {
+		if ( ! term_exists( $slug, 'product_cat' ) ) {
+			wp_insert_term(
+				$data['name'],
+				'product_cat',
+				array(
+					'slug'        => $slug,
+					'description' => $data['desc'],
+				)
+			);
+		}
+	}
+}
+
+/**
+ * 11. Custom Route and Template Loader for Categories Hub (/categories/ and /collections/)
+ */
+add_action( 'init', 'evara_categories_hub_rewrite' );
+function evara_categories_hub_rewrite() {
+	add_rewrite_rule( '^categories/?$', 'index.php?evara_categories_hub=1', 'top' );
+	add_rewrite_rule( '^collections/?$', 'index.php?evara_categories_hub=1', 'top' );
+}
+
+add_filter( 'query_vars', 'evara_categories_hub_query_vars' );
+function evara_categories_hub_query_vars( $vars ) {
+	$vars[] = 'evara_categories_hub';
+	return $vars;
+}
+
+add_filter( 'template_include', 'evara_categories_hub_template_loader' );
+function evara_categories_hub_template_loader( $template ) {
+	$is_categories_query = get_query_var( 'evara_categories_hub' );
+	$req_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$is_categories_url = preg_match( '#/(categories|collections)/?$#i', strtok( $req_uri, '?' ) );
+
+	if ( $is_categories_query || $is_categories_url || is_page( array( 'categories', 'collections', 'all-categories', 'all-collections' ) ) ) {
+		$custom_template = locate_template( array( 'page-categories.php' ) );
+		if ( $custom_template ) {
+			return $custom_template;
+		}
+	}
+	return $template;
+}
 

@@ -3,7 +3,7 @@
  * The Footer for Evara Art Theme
  *
  * @package EvaraArt
- * @version 1.3.6
+ * @version 1.3.7
  */
 
 $phone = get_theme_mod( 'evara_contact_phone', '+91 93281 43036' );
@@ -80,8 +80,12 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 		<div class="footer-col">
 			<h4 class="footer-heading"><?php esc_html_e( 'Collections', 'evara-art' ); ?></h4>
 			<ul class="footer-links">
-				<li><a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>"><?php esc_html_e( 'Canvas Paintings', 'evara-art' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/lippan-art-home-decor/' ) ); ?>"><?php esc_html_e( 'Lippan & Clay Mirror Art', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/categories/' ) ); ?>" style="color: var(--evara-gold); font-weight: 600;"><i class="fa-solid fa-shapes"></i> <?php esc_html_e( 'All Art Categories', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor' ), '/product-category/canvas-painting-evara-art/' ) ); ?>"><?php esc_html_e( 'Canvas Paintings', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor' ), '/product-category/clay-art-evara-art/' ) ); ?>"><?php esc_html_e( 'Lippan & Clay Art', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'animal-painting' ), '/product-category/animal-painting/' ) ); ?>"><?php esc_html_e( 'Animal Painting', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'boho-art' ), '/product-category/boho-art/' ) ); ?>"><?php esc_html_e( 'Boho Art', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'abstract-painting' ), '/product-category/abstract-painting/' ) ); ?>"><?php esc_html_e( 'Abstract Painting', 'evara-art' ); ?></a></li>
 				<li><a href="<?php echo esc_url( home_url( '/custom-art/' ) ); ?>"><?php esc_html_e( 'Custom Art Commissions', 'evara-art' ); ?></a></li>
 			</ul>
 		</div>
