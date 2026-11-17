@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.3
+ * @version 1.3.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.3' );
+define( 'EVARA_VERSION', '1.3.4' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -446,9 +446,9 @@ function evara_customize_register( $wp_customize ) {
 		'priority'    => 20,
 	) );
 
-	// --- SECTION 1: Announcement Bar & Free Shipping ---
+	// --- SECTION 1: Free Shipping Threshold ---
 	$wp_customize->add_section( 'evara_announcement_section', array(
-		'title'    => __( 'Announcement Bar & Shipping', 'evara-art' ),
+		'title'    => __( 'Free Shipping Threshold', 'evara-art' ),
 		'panel'    => 'evara_theme_panel',
 		'priority' => 10,
 	) );
@@ -459,29 +459,9 @@ function evara_customize_register( $wp_customize ) {
 	) );
 	$wp_customize->add_control( 'evara_free_shipping_threshold', array(
 		'label'       => __( 'Free Shipping Threshold (₹)', 'evara-art' ),
-		'description' => __( 'Orders above this amount qualify for 100% Free Pan-India Delivery.', 'evara-art' ),
+		'description' => __( 'Orders above this amount qualify for 100% Free Pan-India Delivery in the cart drawer calculation.', 'evara-art' ),
 		'section'     => 'evara_announcement_section',
 		'type'        => 'number',
-	) );
-
-	$wp_customize->add_setting( 'evara_announcement_text_desktop', array(
-		'default'           => 'Pan-India Insured Express Delivery • Free Shipping on Orders Above ₹%s • 100% Handcrafted Authenticity',
-		'sanitize_callback' => 'sanitize_text_field',
-	) );
-	$wp_customize->add_control( 'evara_announcement_text_desktop', array(
-		'label'   => __( 'Announcement Ribbon (Desktop)', 'evara-art' ),
-		'section' => 'evara_announcement_section',
-		'type'    => 'text',
-	) );
-
-	$wp_customize->add_setting( 'evara_announcement_text_mobile', array(
-		'default'           => 'Pan-India Delivery • Free Shipping Over ₹%s',
-		'sanitize_callback' => 'sanitize_text_field',
-	) );
-	$wp_customize->add_control( 'evara_announcement_text_mobile', array(
-		'label'   => __( 'Announcement Ribbon (Mobile)', 'evara-art' ),
-		'section' => 'evara_announcement_section',
-		'type'    => 'text',
 	) );
 
 	// --- SECTION 2: Homepage Hero & Banner ---

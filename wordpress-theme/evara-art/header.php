@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Centered Logo with CSS Grid, Full Menu Support)
  *
  * @package EvaraArt
- * @version 1.3.3
+ * @version 1.3.4
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -18,32 +18,6 @@
 
 <!-- Accessible Skip to Content Link -->
 <a class="screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'evara-art' ); ?></a>
-
-<!-- Top Announcement Ribbon -->
-<aside class="evara-announcement-bar" aria-label="<?php esc_attr_e( 'Store Announcement', 'evara-art' ); ?>">
-	<div class="evara-container">
-		<div class="announcement-content">
-			<span class="announcement-sparkle">✦</span>
-			<?php
-			$ann_desktop = get_theme_mod( 'evara_announcement_text_desktop', 'Pan-India Insured Express Delivery • Free Shipping on Orders Above ₹%s • 100% Handcrafted Authenticity' );
-			$ann_mobile  = get_theme_mod( 'evara_announcement_text_mobile', 'Pan-India Delivery • Free Shipping Over ₹%s' );
-			$threshold_formatted = number_format( evara_get_free_shipping_threshold() );
-			if ( empty( $threshold_formatted ) || '0' === $threshold_formatted ) {
-				$threshold_formatted = '2,999';
-			}
-			$display_desktop = str_replace( '%s', $threshold_formatted, $ann_desktop );
-			$display_mobile  = str_replace( '%s', $threshold_formatted, $ann_mobile );
-			?>
-			<span class="announcement-text-desktop">
-				<?php echo esc_html( $display_desktop ); ?>
-			</span>
-			<span class="announcement-text-mobile">
-				<?php echo esc_html( $display_mobile ); ?>
-			</span>
-			<span class="announcement-sparkle">✦</span>
-		</div>
-	</div>
-</aside>
 
 <!-- Main Header (Grid 1fr auto 1fr Layout: Left Nav, Center Brand Logo, Right Actions) -->
 <header id="site-header" class="evara-header">

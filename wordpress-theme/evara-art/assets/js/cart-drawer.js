@@ -2,7 +2,7 @@
  * Evara Art - AJAX Cart Drawer Interactions
  *
  * @package EvaraArt
- * @version 1.3.3
+ * @version 1.3.4
  */
 
 (function($) {
