@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.5
+ * @version 1.3.6
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.5' );
+define( 'EVARA_VERSION', '1.3.6' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -514,7 +514,7 @@ function evara_customize_register( $wp_customize ) {
 		'description' => __( 'Upload image for Banner 1 (recommended 1600x600 or 1400x520).', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
-	$wp_customize->add_setting( 'evara_slide1_title', array( 'default' => 'Art that connects to your Heart', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_setting( 'evara_slide1_title', array( 'default' => 'Art that connects to your HEART', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'evara_slide1_title', array( 'label' => __( 'Banner 1: Text / Title', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
 	$wp_customize->add_setting( 'evara_slide1_badge', array( 'default' => '✦ Original Canvas Artwork', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'evara_slide1_badge', array( 'label' => __( 'Banner 1: Badge / Tag', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
@@ -577,7 +577,7 @@ function evara_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_setting( 'evara_hero_title', array(
-		'default'           => 'Art that connects to your Heart.',
+		'default'           => 'Art that connects to your HEART.',
 		'sanitize_callback' => 'wp_kses_post',
 	) );
 	$wp_customize->add_control( 'evara_hero_title', array(

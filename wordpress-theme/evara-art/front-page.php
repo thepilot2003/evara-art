@@ -3,7 +3,7 @@
  * The Front Page template for Evara Art (Auto 4-Slide Banner, Editorial & Reordered Sections)
  *
  * @package EvaraArt
- * @version 1.3.5
+ * @version 1.3.6
  */
 
 get_header(); ?>
@@ -31,6 +31,9 @@ for ( $s = 1; $s <= 4; $s++ ) {
 	}
 	if ( ! empty( $s_img ) ) {
 		$s_title = get_theme_mod( "evara_slide{$s}_title", '' );
+		if ( preg_match( '/\bheart\b/i', $s_title ) && ! preg_match( '/\bHEART\b/', $s_title ) ) {
+			$s_title = preg_replace( '/\bheart\b/i', 'HEART', $s_title );
+		}
 		$s_badge = get_theme_mod( "evara_slide{$s}_badge", '✦ Evara Art Masterpiece' );
 		$s_url   = get_theme_mod( "evara_slide{$s}_url", '' );
 		$custom_slides[] = array(
@@ -76,7 +79,7 @@ if ( ! empty( $custom_slides ) ) {
 	}
 
 	$fallback_data = array(
-		array( 'image' => EVARA_URI . '/assets/images/hero-banner-krishna.png', 'title' => 'Art that connects to your Heart', 'badge' => '✦ Original Canvas Artwork', 'url' => $canvas_url ),
+		array( 'image' => EVARA_URI . '/assets/images/hero-banner-krishna.png', 'title' => 'Art that connects to your HEART', 'badge' => '✦ Original Canvas Artwork', 'url' => $canvas_url ),
 		array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/07/18.jpg', 'title' => 'Divine Darshan of Lord Jagannath', 'badge' => '✦ Sacred Spiritual Art', 'url' => $canvas_url ),
 		array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/04/10.jpg', 'title' => 'Sacred Serenity Shiva Parvati', 'badge' => '✦ Divine Harmony', 'url' => $canvas_url ),
 		array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01.jpg', 'title' => 'Annapakshi Lippan Craft', 'badge' => '✦ Heritage Craft', 'url' => $lippan_url ),
@@ -91,7 +94,10 @@ if ( ! empty( $custom_slides ) ) {
 
 // Customizer text options
 $hero_badge     = get_theme_mod( 'evara_hero_badge', 'Handmade in India • Bespoke Fine Art' );
-$hero_title     = get_theme_mod( 'evara_hero_title', 'Art that connects to your Heart.' );
+$hero_title     = get_theme_mod( 'evara_hero_title', 'Art that connects to your HEART.' );
+if ( preg_match( '/\bheart\b/i', $hero_title ) && ! preg_match( '/\bHEART\b/', $hero_title ) ) {
+	$hero_title = preg_replace( '/\bheart\b/i', 'HEART', $hero_title );
+}
 $hero_subtitle  = get_theme_mod( 'evara_hero_subtitle', 'Welcome to Evara Art – where creativity comes to life through every brushstroke. “Evara” means Gift of God, turning sacred imagination into meaningful, handcrafted wall art for your sanctuary.' );
 
 $hero_cta1_text = get_theme_mod( 'evara_hero_cta1_text', 'Explore Canvas Paintings' );
