@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Top-Left Brand Logo, Navigation Categories beside Logo, Right Actions)
  *
  * @package EvaraArt
- * @version 1.3.7
+ * @version 1.3.8
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -50,6 +50,7 @@
 						<span class="brand-fallback-name">EVARA</span>
 						<span class="brand-fallback-sub">ART</span>
 					</div>
+					<span class="brand-subtext"><?php esc_html_e( 'STUDIO • GUJARAT', 'evara-art' ); ?></span>
 				</a>
 			</div>
 
@@ -100,31 +101,46 @@
 <div class="evara-mobile-drawer" id="evara-mobile-menu" aria-hidden="true">
 	<div class="mobile-drawer-overlay" id="evara-menu-close-overlay"></div>
 	<div class="mobile-drawer-panel">
-		<div class="drawer-header">
-			<span class="drawer-title"><?php esc_html_e( 'Navigation', 'evara-art' ); ?></span>
+		<div class="drawer-header luxury-drawer-header">
+			<div class="drawer-brand-block">
+				<img src="<?php echo esc_url( $logo_url ); ?>" 
+				     alt="<?php bloginfo( 'name' ); ?>" 
+				     class="drawer-brand-logo" 
+				     width="135" 
+				     height="40" 
+				     style="max-height: 40px; width: auto; object-fit: contain; display: block;">
+				<span class="drawer-tagline">✦ <?php esc_html_e( 'Handcrafted Art Studio', 'evara-art' ); ?></span>
+			</div>
 			<button class="drawer-close-btn" id="evara-menu-close" aria-label="<?php esc_attr_e( 'Close Navigation Menu', 'evara-art' ); ?>">
 				<i class="fa-solid fa-xmark"></i>
 			</button>
 		</div>
 
-		<?php
-		if ( has_nav_menu( 'mobile' ) ) {
-			wp_nav_menu( array(
-				'theme_location' => 'mobile',
-				'container'      => false,
-				'menu_class'     => 'mobile-nav-list',
-				'fallback_cb'    => 'evara_default_mobile_menu',
-			) );
-		} else {
-			evara_default_mobile_menu();
-		}
-		?>
+		<div class="drawer-body-scroll">
+			<?php
+			if ( has_nav_menu( 'mobile' ) ) {
+				wp_nav_menu( array(
+					'theme_location' => 'mobile',
+					'container'      => false,
+					'menu_class'     => 'mobile-nav-list',
+					'fallback_cb'    => 'evara_default_mobile_menu',
+				) );
+			} else {
+				evara_default_mobile_menu();
+			}
+			?>
+		</div>
 
-		<div class="mobile-drawer-footer">
-			<p class="contact-prompt"><?php esc_html_e( 'Have questions or custom requirements?', 'evara-art' ); ?></p>
-			<a href="https://wa.me/919328143036?text=Hi%20Evara%20Art,%20I'm%20interested%20in%20your%20artwork" target="_blank" rel="noopener noreferrer" class="evara-btn btn-whatsapp">
-				<i class="fa-brands fa-whatsapp"></i> <?php esc_html_e( 'Chat on WhatsApp', 'evara-art' ); ?>
-			</a>
+		<div class="mobile-drawer-footer luxury-drawer-footer">
+			<div class="drawer-concierge-card">
+				<div class="concierge-text">
+					<span class="concierge-badge"><i class="fa-solid fa-headset"></i> <?php esc_html_e( 'Art Advisory', 'evara-art' ); ?></span>
+					<p class="concierge-desc"><?php esc_html_e( 'Questions on artwork sizes, themes, or custom orders?', 'evara-art' ); ?></p>
+				</div>
+				<a href="https://wa.me/919328143036?text=Hi%20Evara%20Art,%20I'm%20interested%20in%20your%20artwork" target="_blank" rel="noopener noreferrer" class="evara-btn btn-whatsapp drawer-whatsapp-btn">
+					<i class="fa-brands fa-whatsapp"></i> <?php esc_html_e( 'Chat with Art Studio', 'evara-art' ); ?>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>

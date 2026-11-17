@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.7
+ * @version 1.3.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.7' );
+define( 'EVARA_VERSION', '1.3.8' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -203,7 +203,7 @@ function evara_default_primary_menu() {
 }
 
 /**
- * Default Mobile Navigation Fallback
+ * Default Mobile Navigation Fallback (High-Luxury Editorial Drawer)
  */
 function evara_default_mobile_menu() {
 	$canvas_url   = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
@@ -211,20 +211,98 @@ function evara_default_mobile_menu() {
 	$animal_url   = evara_get_category_url( array( 'animal-painting', 'animal-paintings', 'animal-art' ), '/product-category/animal-painting/' );
 	$boho_url     = evara_get_category_url( array( 'boho-art', 'boho-paintings', 'boho' ), '/product-category/boho-art/' );
 	$abstract_url = evara_get_category_url( array( 'abstract-painting', 'abstract-paintings', 'abstract-art' ), '/product-category/abstract-painting/' );
+	?>
+	<div class="mobile-drawer-nav-sections">
+		
+		<!-- Section 1: Curated Collections -->
+		<div class="drawer-nav-group">
+			<span class="drawer-group-label">✦ <?php esc_html_e( 'Art Collections', 'evara-art' ); ?></span>
+			<ul class="mobile-nav-list">
+				<li>
+					<a href="<?php echo esc_url( $canvas_url ); ?>" class="drawer-nav-link">
+						<span class="link-title"><?php esc_html_e( 'Canvas Paintings', 'evara-art' ); ?></span>
+						<span class="link-badge"><?php esc_html_e( 'Original Art', 'evara-art' ); ?></span>
+						<i class="fa-solid fa-chevron-right link-arrow"></i>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( $lippan_url ); ?>" class="drawer-nav-link">
+						<span class="link-title"><?php esc_html_e( 'Lippan & Clay Art', 'evara-art' ); ?></span>
+						<span class="link-badge"><?php esc_html_e( 'Mirror Craft', 'evara-art' ); ?></span>
+						<i class="fa-solid fa-chevron-right link-arrow"></i>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( $animal_url ); ?>" class="drawer-nav-link">
+						<span class="link-title"><?php esc_html_e( 'Animal Painting', 'evara-art' ); ?></span>
+						<span class="link-badge"><?php esc_html_e( 'Wildlife', 'evara-art' ); ?></span>
+						<i class="fa-solid fa-chevron-right link-arrow"></i>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( $boho_url ); ?>" class="drawer-nav-link">
+						<span class="link-title"><?php esc_html_e( 'Boho Art', 'evara-art' ); ?></span>
+						<span class="link-badge"><?php esc_html_e( 'Earthy & Warm', 'evara-art' ); ?></span>
+						<i class="fa-solid fa-chevron-right link-arrow"></i>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo esc_url( $abstract_url ); ?>" class="drawer-nav-link">
+						<span class="link-title"><?php esc_html_e( 'Abstract Painting', 'evara-art' ); ?></span>
+						<span class="link-badge"><?php esc_html_e( 'Contemporary', 'evara-art' ); ?></span>
+						<i class="fa-solid fa-chevron-right link-arrow"></i>
+					</a>
+				</li>
+			</ul>
 
-	echo '<ul class="mobile-nav-list">';
-	echo '<li><a href="' . esc_url( $canvas_url ) . '">' . esc_html__( 'Canvas Paintings', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( $lippan_url ) . '">' . esc_html__( 'Lippan & Clay Mirror Art', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( $animal_url ) . '">' . esc_html__( 'Animal Painting', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( $boho_url ) . '">' . esc_html__( 'Boho Art', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( $abstract_url ) . '">' . esc_html__( 'Abstract Painting', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/categories/' ) ) . '" class="categories-hub-link" style="color: var(--evara-peacock); font-weight: 600;"><i class="fa-solid fa-layer-group"></i> ' . esc_html__( 'View All Art Categories', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="highlight-link">✦ ' . esc_html__( 'Request Custom Commission', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About & Studio Story', 'evara-art' ) . '</a></li>';
-	if ( class_exists( 'WooCommerce' ) ) {
-		echo '<li><a href="' . esc_url( wc_get_page_permalink( 'myaccount' ) ) . '">' . esc_html__( 'My Orders & Account', 'evara-art' ) . '</a></li>';
-	}
-	echo '</ul>';
+			<!-- All Categories Hub Pill -->
+			<a href="<?php echo esc_url( home_url( '/categories/' ) ); ?>" class="drawer-hub-pill">
+				<span class="hub-pill-icon"><i class="fa-solid fa-shapes"></i></span>
+				<span class="hub-pill-text"><?php esc_html_e( 'View All Art Categories', 'evara-art' ); ?></span>
+				<i class="fa-solid fa-arrow-right hub-pill-arrow"></i>
+			</a>
+		</div>
+
+		<!-- Section 2: Custom Commission Spotlight -->
+		<div class="drawer-commission-card">
+			<span class="d-comm-badge">✦ <?php esc_html_e( 'Bespoke Fine Art', 'evara-art' ); ?></span>
+			<h4 class="d-comm-title"><?php esc_html_e( 'Request Custom Painting', 'evara-art' ); ?></h4>
+			<p class="d-comm-desc"><?php esc_html_e( 'Have a personalized artwork painted by lead artist Shraddha Parmar.', 'evara-art' ); ?></p>
+			<a href="<?php echo esc_url( home_url( '/custom-art/' ) ); ?>" class="d-comm-btn">
+				<span><?php esc_html_e( 'Start Commission', 'evara-art' ); ?></span>
+				<i class="fa-solid fa-arrow-right"></i>
+			</a>
+		</div>
+
+		<!-- Section 3: Studio & Account -->
+		<div class="drawer-nav-group">
+			<span class="drawer-group-label">✦ <?php esc_html_e( 'Studio & Account', 'evara-art' ); ?></span>
+			<ul class="mobile-nav-list sub-list">
+				<li>
+					<a href="<?php echo esc_url( home_url( '/#about' ) ); ?>" class="drawer-nav-link-sub">
+						<i class="fa-regular fa-compass"></i>
+						<span><?php esc_html_e( 'About & Studio Story', 'evara-art' ); ?></span>
+					</a>
+				</li>
+				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+					<li>
+						<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="drawer-nav-link-sub">
+							<i class="fa-regular fa-user"></i>
+							<span><?php esc_html_e( 'My Orders & Account', 'evara-art' ); ?></span>
+						</a>
+					</li>
+				<?php endif; ?>
+				<li>
+					<a href="<?php echo esc_url( home_url( '/shipping-policy/' ) ); ?>" class="drawer-nav-link-sub">
+						<i class="fa-solid fa-truck-fast"></i>
+						<span><?php esc_html_e( 'Insured Express Shipping', 'evara-art' ); ?></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+	<?php
 }
 
 /**
@@ -686,6 +764,73 @@ function evara_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'evara_stat3_number', array( 'label' => __( 'Stat 3 Number', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
 	$wp_customize->add_setting( 'evara_stat3_label', array( 'default' => 'Craftsmanship', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'evara_stat3_label', array( 'label' => __( 'Stat 3 Label', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+
+	// Hero Side Card (Featured card next to editorial content on desktop)
+	$wp_customize->add_setting( 'evara_showcase_card_show', array(
+		'default'           => 'yes',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_showcase_card_show', array(
+		'label'       => __( 'Hero Side Card: Show / Hide', 'evara-art' ),
+		'description' => __( 'Show or hide the featured artwork card next to the editorial text on desktop.', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+		'type'        => 'select',
+		'choices'     => array(
+			'yes' => __( 'Yes — Show Card', 'evara-art' ),
+			'no'  => __( 'No — Hide Card', 'evara-art' ),
+		),
+	) );
+
+	$wp_customize->add_setting( 'evara_showcase_card_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_showcase_card_image', array(
+		'label'       => __( 'Hero Side Card: Custom Image', 'evara-art' ),
+		'description' => __( 'Upload your custom artwork image for the card next to editorial text (e.g. 600x600).', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+
+	$wp_customize->add_setting( 'evara_showcase_card_badge', array(
+		'default'           => '✦ Original Artwork',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_showcase_card_badge', array(
+		'label'   => __( 'Hero Side Card: Badge Tag', 'evara-art' ),
+		'section' => 'evara_hero_section',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'evara_showcase_card_title', array(
+		'default'           => 'Sacred Spiritual Artworks',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_showcase_card_title', array(
+		'label'   => __( 'Hero Side Card: Title', 'evara-art' ),
+		'section' => 'evara_hero_section',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'evara_showcase_card_cta', array(
+		'default'           => 'Explore Collection',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_showcase_card_cta', array(
+		'label'   => __( 'Hero Side Card: Button Text', 'evara-art' ),
+		'section' => 'evara_hero_section',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'evara_showcase_card_url', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( 'evara_showcase_card_url', array(
+		'label'       => __( 'Hero Side Card: Link URL', 'evara-art' ),
+		'description' => __( 'Leave empty to auto-link to Canvas Paintings.', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+		'type'        => 'url',
+	) );
 
 	// --- SECTION 3: Artist Philosophy & Story ---
 	$wp_customize->add_section( 'evara_philosophy_section', array(

@@ -3,7 +3,7 @@
  * The Front Page template for Evara Art (Auto 4-Slide Banner, Editorial & Reordered Sections)
  *
  * @package EvaraArt
- * @version 1.3.7
+ * @version 1.3.8
  */
 
 get_header(); ?>
@@ -218,43 +218,49 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 				</div>
 			</div>
 
-			<!-- Featured Artwork Showcase Card (Dynamic from WooCommerce) -->
+			<!-- Featured Artwork Showcase Card (Fully Configurable via WordPress Customizer) -->
 			<?php
-			$featured_product = null;
-			if ( class_exists( 'WooCommerce' ) && ! empty( $slider_products ) ) {
-				$featured_product = $slider_products[0];
+			$showcase_show  = ( 'no' !== get_theme_mod( 'evara_showcase_card_show', 'yes' ) );
+			$showcase_img   = get_theme_mod( 'evara_showcase_card_image', '' );
+			$showcase_badge = get_theme_mod( 'evara_showcase_card_badge', '✦ Original Artwork' );
+			$showcase_title = get_theme_mod( 'evara_showcase_card_title', 'Sacred Spiritual Artworks' );
+			$showcase_cta   = get_theme_mod( 'evara_showcase_card_cta', 'Explore Collection' );
+			$showcase_url   = get_theme_mod( 'evara_showcase_card_url', '' );
+
+			if ( empty( $showcase_url ) ) {
+				$showcase_url = $canvas_url;
+			}
+			if ( empty( $showcase_img ) ) {
+				if ( class_exists( 'WooCommerce' ) && ! empty( $slider_products ) && has_post_thumbnail( $slider_products[0]->get_id() ) ) {
+					$showcase_img = get_the_post_thumbnail_url( $slider_products[0]->get_id(), 'medium_large' );
+				} elseif ( ! empty( $slides[0]['image'] ) ) {
+					$showcase_img = $slides[0]['image'];
+				} else {
+					$showcase_img = EVARA_URI . '/assets/images/hero-banner-krishna.png';
+				}
 			}
 			?>
-			<div class="hero-art-showcase-card">
-				<?php if ( $featured_product ) : ?>
-					<a href="<?php echo esc_url( $featured_product->get_permalink() ); ?>" class="showcase-card-link">
+			<?php if ( $showcase_show ) : ?>
+				<div class="hero-art-showcase-card">
+					<a href="<?php echo esc_url( $showcase_url ); ?>" class="showcase-card-link">
 						<div class="showcase-thumb-wrap">
-							<?php echo $featured_product->get_image( 'woocommerce_thumbnail', array( 'class' => 'showcase-thumb-img', 'width' => 300, 'height' => 300 ) ); ?>
+							<img src="<?php echo esc_url( $showcase_img ); ?>" 
+							     alt="<?php echo esc_attr( $showcase_title ); ?>" 
+							     class="showcase-thumb-img" 
+							     width="300" 
+							     height="300" 
+							     loading="lazy">
 						</div>
 						<div class="showcase-info-box">
-							<span class="showcase-tag">✦ <?php esc_html_e( 'Featured Creation', 'evara-art' ); ?></span>
-							<h3 class="showcase-title"><?php echo esc_html( $featured_product->get_name() ); ?></h3>
+							<span class="showcase-tag"><?php echo esc_html( $showcase_badge ); ?></span>
+							<h3 class="showcase-title"><?php echo esc_html( $showcase_title ); ?></h3>
 							<div class="showcase-price-row">
-								<span class="showcase-price"><?php echo $featured_product->get_price_html(); ?></span>
-								<span class="showcase-cta"><?php esc_html_e( 'View Details', 'evara-art' ); ?> <i class="fa-solid fa-arrow-right"></i></span>
+								<span class="showcase-cta"><?php echo esc_html( $showcase_cta ); ?> <i class="fa-solid fa-arrow-right"></i></span>
 							</div>
 						</div>
 					</a>
-				<?php else : ?>
-					<a href="<?php echo esc_url( $canvas_url ); ?>" class="showcase-card-link">
-						<div class="showcase-thumb-wrap">
-							<img src="<?php echo esc_url( $slides[0]['image'] ); ?>" alt="<?php esc_attr_e( 'Evara Featured Art', 'evara-art' ); ?>" class="showcase-thumb-img" width="300" height="300">
-						</div>
-						<div class="showcase-info-box">
-							<span class="showcase-tag">✦ <?php esc_html_e( 'Original Artwork', 'evara-art' ); ?></span>
-							<h3 class="showcase-title"><?php esc_html_e( 'Sacred Spiritual Artworks', 'evara-art' ); ?></h3>
-							<div class="showcase-price-row">
-								<span class="showcase-cta"><?php esc_html_e( 'Explore Collection', 'evara-art' ); ?> <i class="fa-solid fa-arrow-right"></i></span>
-							</div>
-						</div>
-					</a>
-				<?php endif; ?>
-			</div>
+				</div>
+			<?php endif; ?>
 
 		</div>
 	</div>
