@@ -4529,210 +4529,402 @@ textarea.studio-input {
 }
 
 /* ==========================================================================
-   WOOCOMMERCE SINGLE PRODUCT PAGE (Luxury Art Gallery Overhaul v1.4.0)
+   WOOCOMMERCE SINGLE PRODUCT PAGE (Luxury Art Gallery Overhaul v1.4.1)
    ========================================================================== */
+html body .woocommerce div.product,
 .woocommerce div.product {
 	display: block !important;
 	position: relative !important;
-	margin-bottom: 24px !important;
+	margin-bottom: 28px !important;
 	padding: 0 !important;
+	width: 100% !important;
 }
 
+/* --------------------------------------------------------------------------
+   DESKTOP DUAL-COLUMN GRID & MUSEUM GALLERY STAGE (> 900px)
+   -------------------------------------------------------------------------- */
 @media (min-width: 901px) {
+	html body .woocommerce div.product,
 	.woocommerce div.product {
 		display: flex !important;
+		flex-direction: row !important;
 		flex-wrap: wrap !important;
 		justify-content: space-between !important;
 		align-items: flex-start !important;
 		gap: 0 !important;
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0 0 36px 0 !important;
 	}
 
-	.avada-single-product-gallery-wrapper,
-	.woocommerce div.product div.images,
-	.woocommerce div.product .woocommerce-product-gallery {
-		width: 48% !important;
-		max-width: 48% !important;
-		flex: 0 0 48% !important;
+	/* Top-level Gallery Column (Only direct child of product) */
+	html body .woocommerce div.product > .avada-single-product-gallery-wrapper,
+	html body .woocommerce div.product > div.images,
+	html body .woocommerce div.product > .woocommerce-product-gallery {
+		width: 50% !important;
+		max-width: 50% !important;
+		flex: 0 0 50% !important;
+		float: none !important;
 		position: sticky !important;
-		top: 100px !important;
+		top: 90px !important;
+		margin: 0 !important;
+		padding-right: 24px !important;
+		box-sizing: border-box !important;
+	}
+
+	/* Top-level Summary Column (Only direct child of product) */
+	html body .woocommerce div.product > div.summary,
+	html body .woocommerce div.product > .summary {
+		width: 50% !important;
+		max-width: 50% !important;
+		flex: 0 0 50% !important;
 		float: none !important;
-		margin: 0 0 32px 0 !important;
+		margin: 0 !important;
+		padding-left: 20px !important;
+		box-sizing: border-box !important;
 	}
 
-	.woocommerce div.product div.summary {
-		width: 48% !important;
-		max-width: 48% !important;
-		flex: 0 0 48% !important;
-		float: none !important;
-		margin: 0 0 32px 0 !important;
-	}
-
-	.woocommerce-tabs.wc-tabs-wrapper,
-	.woocommerce div.product .woocommerce-tabs {
+	/* Tabs and Related Products take full 100% width across both columns below */
+	html body .woocommerce div.product .woocommerce-tabs,
+	html body .woocommerce-tabs.wc-tabs-wrapper,
+	html body .woocommerce div.product .related.products,
+	html body .related.products {
 		width: 100% !important;
-		flex: 0 0 100% !important;
-		clear: both !important;
-	}
-
-	.related.products,
-	.woocommerce div.product .related.products {
-		width: 100% !important;
+		max-width: 100% !important;
 		flex: 0 0 100% !important;
 		clear: both !important;
 	}
 }
 
+/* --------------------------------------------------------------------------
+   MOBILE SINGLE-COLUMN FLOW & OVERLAP PREVENTION (<= 900px)
+   -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
+	html body .woocommerce div.product,
 	.woocommerce div.product {
 		display: flex !important;
 		flex-direction: column !important;
 		width: 100% !important;
-	}
-
-	.avada-single-product-gallery-wrapper,
-	.woocommerce div.product div.images,
-	.woocommerce div.product .woocommerce-product-gallery {
-		width: 100% !important;
-		max-width: 100% !important;
-		flex: 1 1 100% !important;
-		float: none !important;
-		clear: both !important;
-		margin: 0 0 24px 0 !important;
-		position: relative !important;
-	}
-
-	.woocommerce div.product div.summary {
-		width: 100% !important;
-		max-width: 100% !important;
-		flex: 1 1 100% !important;
-		float: none !important;
-		clear: both !important;
 		margin: 0 0 24px 0 !important;
 		padding: 0 !important;
 	}
 
-	.woocommerce-tabs.wc-tabs-wrapper {
+	html body .woocommerce div.product > .avada-single-product-gallery-wrapper,
+	html body .woocommerce div.product > div.images,
+	html body .woocommerce div.product > .woocommerce-product-gallery {
 		width: 100% !important;
+		max-width: 100% !important;
+		flex: 1 1 100% !important;
+		float: none !important;
 		clear: both !important;
+		margin: 0 0 20px 0 !important;
+		padding: 0 !important;
+		position: relative !important;
 	}
 
-	.related.products {
+	/* Force Summary below thumbnails with full clear to eliminate overlap */
+	html body .woocommerce div.product > div.summary,
+	html body .woocommerce div.product > .summary,
+	html body .woocommerce div.product .summary,
+	html body .summary.entry-summary {
+		width: 100% !important;
+		max-width: 100% !important;
+		flex: 1 1 100% !important;
+		float: none !important;
+		clear: both !important;
+		display: block !important;
+		margin-top: 22px !important;
+		padding: 0 !important;
+	}
+
+	html body .woocommerce-tabs.wc-tabs-wrapper,
+	html body .related.products {
 		width: 100% !important;
 		clear: both !important;
 	}
 }
 
-/* Gallery Stage & Artwork Framing */
-.avada-single-product-gallery-wrapper,
-.woocommerce div.product .woocommerce-product-gallery {
+/* --------------------------------------------------------------------------
+   GALLERY STAGE & ARTWORK MUSEUM FRAMING (Adapts to Square, Portrait, Landscape)
+   -------------------------------------------------------------------------- */
+/* All inner gallery wrappers MUST expand to 100% of their parent column */
+html body .avada-single-product-gallery-wrapper .woocommerce-product-gallery,
+html body .avada-single-product-gallery-wrapper div.images,
+html body .woocommerce-product-gallery,
+html body .woocommerce-product-gallery .flex-viewport,
+html body .woocommerce-product-gallery .woocommerce-product-gallery__wrapper {
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 100% !important;
+	float: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
 	position: relative !important;
 }
 
-.woocommerce-product-gallery__wrapper {
+/* Individual Slide Stage with Warm Museum Matting */
+html body .woocommerce-product-gallery .woocommerce-product-gallery__image {
+	position: relative !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-height: 420px !important;
+	max-height: 600px !important;
+	border-radius: var(--radius-lg, 16px) !important;
+	overflow: hidden !important;
+	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.28)) !important;
+	background: #FAF8F5 !important;
+	box-shadow: 0 8px 30px rgba(28, 22, 18, 0.08) !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	padding: 20px !important;
+	box-sizing: border-box !important;
+}
+
+html body .woocommerce-product-gallery .woocommerce-product-gallery__image a {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: 100% !important;
+	height: 100% !important;
+	text-decoration: none !important;
+}
+
+/* The High-Resolution Artwork Image (Proper scaling without tiny shrinkage) */
+html body .woocommerce-product-gallery .woocommerce-product-gallery__image img,
+html body .woocommerce-product-gallery img.wp-post-image {
+	width: 100% !important;
+	max-width: 100% !important;
+	height: auto !important;
+	max-height: 540px !important;
+	object-fit: contain !important;
+	display: block !important;
+	margin: 0 auto !important;
+	border-radius: var(--radius-md, 10px) !important;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+	transition: transform 0.35s ease !important;
+}
+
+@media (max-width: 768px) {
+	html body .woocommerce-product-gallery .woocommerce-product-gallery__image {
+		min-height: 280px !important;
+		max-height: 440px !important;
+		padding: 12px !important;
+	}
+	html body .woocommerce-product-gallery .woocommerce-product-gallery__image a {
+		max-height: 440px !important;
+	}
+	html body .woocommerce-product-gallery .woocommerce-product-gallery__image img,
+	html body .woocommerce-product-gallery img.wp-post-image {
+		max-height: 410px !important;
+	}
+}
+
+/* --------------------------------------------------------------------------
+   IMAGE CHANGER DIRECTION BUTTONS (Luxury Frosted Glass Chevrons)
+   -------------------------------------------------------------------------- */
+html body .flexslider .flex-direction-nav,
+html body .woocommerce-product-gallery .flex-direction-nav,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav {
+	list-style: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	position: static !important;
+	z-index: 40 !important;
+}
+
+html body .flexslider .flex-direction-nav li,
+html body .woocommerce-product-gallery .flex-direction-nav li,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav li {
+	list-style: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	display: block !important;
+}
+
+html body .flexslider .flex-direction-nav a,
+html body .woocommerce-product-gallery .flex-direction-nav a,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav a,
+html body .woocommerce-product-gallery .flex-direction-nav .flex-prev,
+html body .woocommerce-product-gallery .flex-direction-nav .flex-next,
+html body .flex-direction-nav .flex-prev,
+html body .flex-direction-nav .flex-next {
+	position: absolute !important;
+	top: 50% !important;
+	transform: translateY(-50%) !important;
+	width: 44px !important;
+	height: 44px !important;
+	min-width: 44px !important;
+	min-height: 44px !important;
+	line-height: 44px !important;
+	border-radius: 50% !important;
+	background: rgba(255, 255, 255, 0.94) !important;
+	backdrop-filter: blur(8px) !important;
+	-webkit-backdrop-filter: blur(8px) !important;
+	border: 1px solid rgba(212, 175, 55, 0.45) !important;
+	color: #2D231E !important;
+	font-size: 16px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	text-align: center !important;
+	text-indent: 0 !important;
+	text-decoration: none !important;
+	box-shadow: 0 4px 16px rgba(28, 22, 18, 0.16) !important;
+	opacity: 0.95 !important;
+	cursor: pointer !important;
+	z-index: 50 !important;
+	transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
+	overflow: hidden !important;
+}
+
+html body .flex-direction-nav .flex-prev,
+html body .woocommerce-product-gallery .flex-direction-nav .flex-prev,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-prev {
+	left: 14px !important;
+	right: auto !important;
+}
+
+html body .flex-direction-nav .flex-next,
+html body .woocommerce-product-gallery .flex-direction-nav .flex-next,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-next {
+	right: 14px !important;
+	left: auto !important;
+}
+
+html body .flex-direction-nav .flex-prev::before,
+html body .woocommerce-product-gallery .flex-direction-nav .flex-prev::before,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-prev::before {
+	content: "\f053" !important;
+	font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+	font-weight: 900 !important;
+	font-size: 14px !important;
+	color: #2D231E !important;
+	display: inline-block !important;
+	line-height: 1 !important;
+	text-indent: 0 !important;
+}
+
+html body .flex-direction-nav .flex-next::before,
+html body .woocommerce-product-gallery .flex-direction-nav .flex-next::before,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-next::before {
+	content: "\f054" !important;
+	font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+	font-weight: 900 !important;
+	font-size: 14px !important;
+	color: #2D231E !important;
+	display: inline-block !important;
+	line-height: 1 !important;
+	text-indent: 0 !important;
+}
+
+html body .flex-direction-nav a:hover,
+html body .woocommerce-product-gallery .flex-direction-nav a:hover,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav a:hover {
+	background: #B85034 !important;
+	border-color: #B85034 !important;
+	color: #FFFFFF !important;
+	transform: translateY(-50%) scale(1.08) !important;
+	box-shadow: 0 6px 20px rgba(184, 80, 52, 0.35) !important;
+	opacity: 1 !important;
+}
+
+html body .flex-direction-nav a:hover::before,
+html body .woocommerce-product-gallery .flex-direction-nav a:hover::before,
+html body .avada-single-product-gallery-wrapper .flex-direction-nav a:hover::before {
+	color: #FFFFFF !important;
+}
+
+@media (max-width: 768px) {
+	html body .woocommerce-product-gallery .flex-direction-nav a,
+	html body .avada-single-product-gallery-wrapper .flex-direction-nav a {
+		width: 38px !important;
+		height: 38px !important;
+		min-width: 38px !important;
+		min-height: 38px !important;
+		line-height: 38px !important;
+		font-size: 13px !important;
+		opacity: 1 !important;
+	}
+	html body .woocommerce-product-gallery .flex-direction-nav .flex-prev { left: 8px !important; }
+	html body .woocommerce-product-gallery .flex-direction-nav .flex-next { right: 8px !important; }
+}
+
+/* --------------------------------------------------------------------------
+   SINGLE PRODUCT THUMBNAILS (Clean Flex Row, Isolated from Title)
+   -------------------------------------------------------------------------- */
+html body .woocommerce-product-gallery .flex-control-thumbs,
+html body .avada-single-product-gallery-wrapper .flex-control-thumbs,
+html body .flex-control-thumbs {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	gap: 12px !important;
+	margin-top: 14px !important;
+	margin-bottom: 0 !important;
+	padding: 0 !important;
+	list-style: none !important;
+	clear: both !important;
+	float: none !important;
+	position: static !important;
+	justify-content: flex-start !important;
+	width: 100% !important;
+}
+
+html body .woocommerce-product-gallery .flex-control-thumbs li,
+html body .avada-single-product-gallery-wrapper .flex-control-thumbs li,
+html body .flex-control-thumbs li {
+	width: 66px !important;
+	height: 66px !important;
+	float: none !important;
+	display: inline-block !important;
+	border-radius: var(--radius-sm, 8px) !important;
+	overflow: hidden !important;
+	border: 2px solid var(--evara-border, rgba(212, 175, 55, 0.25)) !important;
+	cursor: pointer !important;
+	transition: all 0.25s ease !important;
+	background: #FFFFFF !important;
+	flex-shrink: 0 !important;
 	margin: 0 !important;
 	padding: 0 !important;
 }
 
-.woocommerce-product-gallery__image {
-	position: relative !important;
-	border-radius: var(--radius-lg) !important;
-	overflow: hidden !important;
-	border: 1px solid var(--evara-border) !important;
-	background: #FAF8F5 !important;
-	box-shadow: 0 4px 18px rgba(28, 22, 18, 0.05) !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	min-height: 380px !important;
-	max-height: 560px !important;
-	padding: 16px !important;
-}
-
-.woocommerce-product-gallery__image a {
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	width: 100% !important;
-	height: 100% !important;
-	max-height: 560px !important;
-}
-
-.woocommerce-product-gallery__image img {
-	max-height: 520px !important;
-	width: auto !important;
-	max-width: 100% !important;
-	height: auto !important;
-	object-fit: contain !important;
-	display: block !important;
-	margin: auto !important;
-	border-radius: var(--radius-md) !important;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09) !important;
-	transition: transform 0.3s ease !important;
-}
-
-@media (max-width: 768px) {
-	.woocommerce-product-gallery__image {
-		min-height: 280px !important;
-		max-height: 400px !important;
-		padding: 12px !important;
-	}
-	.woocommerce-product-gallery__image a {
-		max-height: 400px !important;
-	}
-	.woocommerce-product-gallery__image img {
-		max-height: 370px !important;
-	}
-}
-
-/* Single Product Thumbnails */
-.woocommerce-product-gallery .flex-control-thumbs {
-	display: flex !important;
-	flex-wrap: wrap !important;
-	gap: 10px !important;
-	margin-top: 14px !important;
-	padding: 0 !important;
-	list-style: none !important;
-	clear: both !important;
-	justify-content: flex-start !important;
-}
-
-.woocommerce-product-gallery .flex-control-thumbs li {
-	width: 66px !important;
-	height: 66px !important;
-	float: none !important;
-	border-radius: var(--radius-sm) !important;
-	overflow: hidden !important;
-	border: 2px solid var(--evara-border) !important;
-	cursor: pointer !important;
-	transition: all 0.2s ease !important;
-	background: #FFFFFF !important;
-	flex-shrink: 0 !important;
-}
-
-.woocommerce-product-gallery .flex-control-thumbs li img {
+html body .woocommerce-product-gallery .flex-control-thumbs li img,
+html body .flex-control-thumbs li img {
 	width: 100% !important;
 	height: 100% !important;
 	object-fit: cover !important;
 	display: block !important;
+	opacity: 0.8 !important;
+	transition: opacity 0.2s ease !important;
 }
 
-.woocommerce-product-gallery .flex-control-thumbs li img.flex-active,
-.woocommerce-product-gallery .flex-control-thumbs li:hover {
-	border-color: var(--evara-terracotta) !important;
+html body .woocommerce-product-gallery .flex-control-thumbs li img.flex-active,
+html body .woocommerce-product-gallery .flex-control-thumbs li:hover img {
+	opacity: 1 !important;
+}
+
+html body .woocommerce-product-gallery .flex-control-thumbs li.flex-active,
+html body .woocommerce-product-gallery .flex-control-thumbs li:hover {
+	border-color: var(--evara-terracotta, #B85034) !important;
 	transform: scale(1.04);
+	box-shadow: 0 4px 12px rgba(184, 80, 52, 0.2) !important;
 }
 
-/* Sale Badge Placement (Inside Top-Left of Artwork Frame) */
-.woocommerce span.onsale,
-.woocommerce div.product .onsale {
+/* --------------------------------------------------------------------------
+   SALE BADGE PLACEMENT (Cleanly pinned top-left of artwork frame)
+   -------------------------------------------------------------------------- */
+html body .woocommerce span.onsale,
+html body .woocommerce div.product .onsale,
+html body .avada-single-product-gallery-wrapper .onsale {
 	position: absolute !important;
-	top: 16px !important;
-	left: 16px !important;
+	top: 14px !important;
+	left: 14px !important;
 	min-height: auto !important;
 	min-width: auto !important;
 	line-height: 1 !important;
 	padding: 6px 14px !important;
-	border-radius: var(--radius-full) !important;
+	border-radius: var(--radius-full, 9999px) !important;
 	background: var(--evara-terracotta, #B85034) !important;
 	color: #FFFFFF !important;
 	font-family: var(--font-sans) !important;
@@ -4740,14 +4932,17 @@ textarea.studio-input {
 	font-weight: 700 !important;
 	letter-spacing: 0.08em !important;
 	text-transform: uppercase !important;
-	box-shadow: 0 3px 10px rgba(184, 80, 52, 0.35) !important;
-	z-index: 10 !important;
+	box-shadow: 0 4px 12px rgba(184, 80, 52, 0.35) !important;
+	z-index: 25 !important;
+	border: none !important;
 }
 
-/* Stock Status Badges (Sold Out / In Stock) */
-.woocommerce div.product p.stock,
-.woocommerce div.product .stock,
-.stock {
+/* --------------------------------------------------------------------------
+   STOCK STATUS BADGES (Sold Out / In Stock)
+   -------------------------------------------------------------------------- */
+html body .woocommerce div.product p.stock,
+html body .woocommerce div.product .stock,
+html body .stock {
 	display: inline-flex !important;
 	align-items: center !important;
 	gap: 6px !important;
@@ -4761,39 +4956,32 @@ textarea.studio-input {
 	text-transform: uppercase !important;
 }
 
-.woocommerce div.product p.stock.out-of-stock,
-.woocommerce div.product .out-of-stock,
-.stock.out-of-stock {
+html body .woocommerce div.product p.stock.out-of-stock,
+html body .woocommerce div.product .out-of-stock,
+html body .stock.out-of-stock {
 	background: rgba(184, 80, 52, 0.12) !important;
 	color: var(--evara-terracotta, #B85034) !important;
 	border: 1.5px solid var(--evara-terracotta, #B85034) !important;
 	box-shadow: 0 2px 8px rgba(184, 80, 52, 0.15) !important;
 }
 
-.woocommerce div.product p.stock.out-of-stock::before,
-.stock.out-of-stock::before {
+html body .woocommerce div.product p.stock.out-of-stock::before,
+html body .stock.out-of-stock::before {
 	content: "✦ ";
 	font-size: 0.95rem;
 }
 
-.woocommerce div.product p.stock.in-stock,
-.stock.in-stock {
+html body .woocommerce div.product p.stock.in-stock,
+html body .stock.in-stock {
 	background: rgba(46, 125, 50, 0.1) !important;
 	color: #2E7D32 !important;
 	border: 1px solid rgba(46, 125, 50, 0.3) !important;
 }
 
-.woocommerce div.product p.stock.in-stock::before,
-.stock.in-stock::before {
+html body .woocommerce div.product p.stock.in-stock::before,
+html body .stock.in-stock::before {
 	content: "● ";
 	font-size: 0.75rem;
-}
-
-/* Single Product Summary */
-.woocommerce div.product .summary {
-	float: none !important;
-	width: 100% !important;
-	margin: 0 !important;
 }
 .woocommerce div.product .summary .product_title {
 	font-family: var(--font-serif) !important;

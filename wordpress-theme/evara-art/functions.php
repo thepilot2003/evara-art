@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.4.0' );
+define( 'EVARA_VERSION', '1.4.1' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -354,7 +354,7 @@ function evara_art_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'evara_art_scripts' );
+add_action( 'wp_enqueue_scripts', 'evara_art_scripts', 9999 );
 
 /**
  * 4. Free Shipping Progress Calculator

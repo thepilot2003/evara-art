@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 (function($) {
@@ -180,16 +180,27 @@
 
 		initHeroSlider();
 
-		// 7. Ensure floating cart logo is suppressed on mobile viewports
-		function checkMobileFloatingCart() {
+		// 7. Ensure floating cart logo and floating WhatsApp are suppressed on mobile viewports
+		function checkMobileFloatingElements() {
 			if (window.innerWidth <= 900) {
-				$('#moderncart-floating-cart, .moderncart-toggle-slide-out').attr('style', function(i, s) {
-					return (s || '') + '; display: none !important;';
+				$('#moderncart-floating-cart, .moderncart-toggle-slide-out, .evara-floating-whatsapp, #evara-floating-whatsapp').attr('style', function(i, s) {
+					return (s || '') + '; display: none !important; visibility: hidden !important; pointer-events: none !important;';
 				});
 			}
 		}
-		checkMobileFloatingCart();
-		$(window).on('resize orientationchange', checkMobileFloatingCart);
+		checkMobileFloatingElements();
+		$(window).on('resize orientationchange', checkMobileFloatingElements);
+
+		// 8. Enhance WooCommerce Single Product Gallery Direction Arrows & Thumbs
+		function enhanceProductGallery() {
+			var $gallery = $('.woocommerce-product-gallery');
+			if (!$gallery.length) return;
+
+			$gallery.find('.flex-direction-nav .flex-prev').attr('aria-label', 'Previous Artwork Image');
+			$gallery.find('.flex-direction-nav .flex-next').attr('aria-label', 'Next Artwork Image');
+		}
+		enhanceProductGallery();
+		$(window).on('load', enhanceProductGallery);
 
 	});
 

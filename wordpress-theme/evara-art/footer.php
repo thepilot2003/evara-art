@@ -3,7 +3,7 @@
  * The Footer for Evara Art Theme
  *
  * @package EvaraArt
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 $phone = get_theme_mod( 'evara_contact_phone', '+91 93281 43036' );

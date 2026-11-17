@@ -278,8 +278,9 @@
 		font-size: 0.75rem !important;
 	}
 	.woocommerce div.product {
-		grid-template-columns: 1fr !important;
-		gap: 20px !important;
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 0 !important;
 	}
 }
 
