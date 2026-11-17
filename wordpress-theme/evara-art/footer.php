@@ -3,7 +3,7 @@
  * The Footer for Evara Art Theme
  *
  * @package EvaraArt
- * @version 1.3.2
+ * @version 1.3.3
  */
 
 $phone = get_theme_mod( 'evara_contact_phone', '+91 93281 43036' );
@@ -32,12 +32,24 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 		
 		<!-- Brand & Mission Column -->
 		<div class="footer-col brand-col">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="footer-brand-link">
-				<img src="<?php echo esc_url( EVARA_URI . '/assets/images/evara-logo.png' ); ?>" 
-				     alt="<?php bloginfo( 'name' ); ?>" 
-				     class="footer-logo" 
-				     width="160" 
-				     height="46">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="footer-brand-link" aria-label="<?php bloginfo( 'name' ); ?>">
+				<?php
+				$footer_logo_custom = get_theme_mod( 'evara_footer_logo', '' );
+				if ( ! empty( $footer_logo_custom ) ) {
+					$footer_logo_url = $footer_logo_custom;
+				} else {
+					$custom_logo_id = get_theme_mod( 'custom_logo' );
+					$footer_logo_url = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : EVARA_URI . '/assets/images/evara-logo.png';
+				}
+				?>
+				<div class="footer-logo-badge">
+					<img src="<?php echo esc_url( $footer_logo_url ); ?>" 
+					     alt="<?php bloginfo( 'name' ); ?>" 
+					     class="footer-logo-img" 
+					     width="160" 
+					     height="48"
+					     style="max-height: 48px; width: auto; object-fit: contain; display: block;">
+				</div>
 			</a>
 			<p class="brand-bio">
 				<strong>&ldquo;Evara&rdquo;</strong> means <em>Gift of God</em>. We believe that art is a sacred bridge connecting emotion, soul, and sacred living spaces. Handcrafted in India with exquisite devotion.

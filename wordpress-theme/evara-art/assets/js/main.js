@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.3.2
+ * @version 1.3.3
  */
 
 (function($) {
@@ -115,7 +115,7 @@
 			if (total <= 1) return;
 
 			var current = 0;
-			var interval = parseInt($slider.data('interval'), 10) || 1000;
+			var interval = parseInt($slider.data('interval'), 10) || 2500;
 			var timer = null;
 
 			function goToSlide(idx) {

@@ -1133,10 +1133,33 @@ button, input, select, textarea {
 	width: 100%;
 }
 
+.footer-logo-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #FAF8F5;
+	padding: 8px 18px;
+	border-radius: var(--radius-sm, 8px);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+	margin-bottom: 20px;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.footer-logo-badge:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.32);
+}
+
+.footer-logo-img,
 .footer-logo {
-	height: clamp(46px, 5.5vw, 64px);
-	filter: brightness(0) invert(1);
-	margin-bottom: 18px;
+	height: 46px !important;
+	max-height: 48px !important;
+	width: auto !important;
+	max-width: 170px !important;
+	object-fit: contain !important;
+	display: block !important;
+	filter: none !important;
+	-webkit-filter: none !important;
 }
 
 .brand-bio {

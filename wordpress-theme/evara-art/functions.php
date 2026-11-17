@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.3.2
+ * @version 1.3.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.3.2' );
+define( 'EVARA_VERSION', '1.3.3' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -486,35 +486,105 @@ function evara_customize_register( $wp_customize ) {
 
 	// --- SECTION 2: Homepage Hero & Banner ---
 	$wp_customize->add_section( 'evara_hero_section', array(
-		'title'    => __( 'Homepage Hero & Banner', 'evara-art' ),
-		'panel'    => 'evara_theme_panel',
-		'priority' => 20,
+		'title'       => __( 'Homepage Hero & Banner', 'evara-art' ),
+		'panel'       => 'evara_theme_panel',
+		'description' => __( 'Upload your custom banners, set the banner text overlay, and adjust slider timing.', 'evara-art' ),
+		'priority'    => 20,
 	) );
 
-	$wp_customize->add_setting( 'evara_banner_source', array(
-		'default'           => 'auto',
-		'sanitize_callback' => 'sanitize_text_field',
+	// Banner Timing (2-3 seconds)
+	$wp_customize->add_setting( 'evara_hero_slider_interval', array(
+		'default'           => 2500,
+		'sanitize_callback' => 'absint',
 	) );
-	$wp_customize->add_control( 'evara_banner_source', array(
-		'label'       => __( 'Hero Banner Source', 'evara-art' ),
-		'description' => __( 'Choose whether to automatically fetch the banner from your latest artwork or upload a custom image.', 'evara-art' ),
+	$wp_customize->add_control( 'evara_hero_slider_interval', array(
+		'label'       => __( 'Banner Slider Timing (Seconds)', 'evara-art' ),
+		'description' => __( 'How long each banner slide stays visible before transitioning to the next (e.g. 2.5s).', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 		'type'        => 'select',
 		'choices'     => array(
-			'auto'   => __( 'Auto-fetch from Featured / Latest Artwork', 'evara-art' ),
-			'custom' => __( 'Use Custom Uploaded Image', 'evara-art' ),
+			2000 => __( '2.0 Seconds (Fast)', 'evara-art' ),
+			2500 => __( '2.5 Seconds (Recommended)', 'evara-art' ),
+			3000 => __( '3.0 Seconds (Relaxed)', 'evara-art' ),
+			4000 => __( '4.0 Seconds', 'evara-art' ),
+			5000 => __( '5.0 Seconds', 'evara-art' ),
 		),
 	) );
 
+	// Caption Toggle
+	$wp_customize->add_setting( 'evara_slider_show_caption', array(
+		'default'           => 'yes',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_slider_show_caption', array(
+		'label'       => __( 'Show Text Caption on Banners', 'evara-art' ),
+		'description' => __( 'Choose whether to display the text overlay badge and title on the banners.', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+		'type'        => 'select',
+		'choices'     => array(
+			'yes' => __( 'Yes — Show Text Box on Banners', 'evara-art' ),
+			'no'  => __( 'No — Hide Text Box (Images Only)', 'evara-art' ),
+		),
+	) );
+
+	// Custom Slide 1
+	$wp_customize->add_setting( 'evara_slide1_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide1_image', array(
+		'label'       => __( 'Banner 1: Custom Image', 'evara-art' ),
+		'description' => __( 'Upload image for Banner 1 (recommended 1600x600 or 1400x520).', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide1_title', array( 'default' => 'Art that connects to your Heart', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide1_title', array( 'label' => __( 'Banner 1: Text / Title', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide1_badge', array( 'default' => '✦ Original Canvas Artwork', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide1_badge', array( 'label' => __( 'Banner 1: Badge / Tag', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide1_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'evara_slide1_url', array( 'label' => __( 'Banner 1: Click Link URL', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'url' ) );
+
+	// Custom Slide 2
+	$wp_customize->add_setting( 'evara_slide2_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide2_image', array(
+		'label'       => __( 'Banner 2: Custom Image', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide2_title', array( 'default' => 'Divine Darshan of Lord Jagannath', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide2_title', array( 'label' => __( 'Banner 2: Text / Title', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide2_badge', array( 'default' => '✦ Sacred Spiritual Art', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide2_badge', array( 'label' => __( 'Banner 2: Badge / Tag', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide2_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'evara_slide2_url', array( 'label' => __( 'Banner 2: Click Link URL', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'url' ) );
+
+	// Custom Slide 3
+	$wp_customize->add_setting( 'evara_slide3_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide3_image', array(
+		'label'       => __( 'Banner 3: Custom Image', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide3_title', array( 'default' => 'Sacred Serenity Shiva Parvati', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide3_title', array( 'label' => __( 'Banner 3: Text / Title', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide3_badge', array( 'default' => '✦ Divine Harmony', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide3_badge', array( 'label' => __( 'Banner 3: Badge / Tag', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide3_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'evara_slide3_url', array( 'label' => __( 'Banner 3: Click Link URL', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'url' ) );
+
+	// Custom Slide 4
+	$wp_customize->add_setting( 'evara_slide4_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide4_image', array(
+		'label'       => __( 'Banner 4: Custom Image', 'evara-art' ),
+		'section'     => 'evara_hero_section',
+	) ) );
+	$wp_customize->add_setting( 'evara_slide4_title', array( 'default' => 'Annapakshi Lippan Mirror Craft', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide4_title', array( 'label' => __( 'Banner 4: Text / Title', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide4_badge', array( 'default' => '✦ Heritage Craft', 'sanitize_callback' => 'sanitize_text_field' ) );
+	$wp_customize->add_control( 'evara_slide4_badge', array( 'label' => __( 'Banner 4: Badge / Tag', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'text' ) );
+	$wp_customize->add_setting( 'evara_slide4_url', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_control( 'evara_slide4_url', array( 'label' => __( 'Banner 4: Click Link URL', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'url' ) );
+
+	// Backwards compatibility legacy field
 	$wp_customize->add_setting( 'evara_custom_banner_image', array(
 		'default'           => '',
 		'sanitize_callback' => 'esc_url_raw',
 	) );
-	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_custom_banner_image', array(
-		'label'       => __( 'Custom Hero Banner Image', 'evara-art' ),
-		'description' => __( 'Upload your custom banner here (recommended 1600x600 or 1200x520).', 'evara-art' ),
-		'section'     => 'evara_hero_section',
-	) ) );
 
 	$wp_customize->add_setting( 'evara_hero_badge', array(
 		'default'           => 'Handmade in India • Bespoke Fine Art',
@@ -630,7 +700,7 @@ function evara_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_setting( 'evara_phil_quote', array(
-		'default'           => '“Welcome to Evara Art – where creativity comes to life through every brushstroke. ‘Evara’ means Gift of God and I believe the art I create is truly a blessing and a form of divine expression.”',
+		'default'           => 'Welcome to Evara Art – where creativity comes to life through every brushstroke. “Evara” means Gift of God and I believe the art I create is truly a blessing and a form of divine expression.',
 		'sanitize_callback' => 'wp_kses_post',
 	) );
 	$wp_customize->add_control( 'evara_phil_quote', array(
@@ -654,12 +724,93 @@ function evara_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'evara_pillar3_desc', array( 'default' => 'Discover art that connects with your soul — timeless handmade canvas paintings and sacred Gujarat Lippan mirror craft.', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'evara_pillar3_desc', array( 'label' => __( 'Pillar 3 Description', 'evara-art' ), 'section' => 'evara_philosophy_section', 'type' => 'textarea' ) );
 
-	// --- SECTION 4: Studio Contact & Social Links ---
+	// --- SECTION 4: Signature Collections & Portfolios ---
+	$wp_customize->add_section( 'evara_collections_section', array(
+		'title'       => __( 'Signature Collections (Cards & Images)', 'evara-art' ),
+		'panel'       => 'evara_theme_panel',
+		'description' => __( 'Customize the card images, titles, and descriptions of the two signature collections on the homepage.', 'evara-art' ),
+		'priority'    => 35,
+	) );
+
+	// Canvas Collection Card
+	$wp_customize->add_setting( 'evara_canvas_collection_img', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_canvas_collection_img', array(
+		'label'       => __( 'Canvas Paintings: Card Image', 'evara-art' ),
+		'description' => __( 'Upload an image for the Canvas Paintings collection card (recommended 600x400 or 500x500).', 'evara-art' ),
+		'section'     => 'evara_collections_section',
+	) ) );
+
+	$wp_customize->add_setting( 'evara_canvas_collection_title', array(
+		'default'           => 'Canvas Paintings • Home Decor',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_canvas_collection_title', array(
+		'label'   => __( 'Canvas Paintings: Card Title', 'evara-art' ),
+		'section' => 'evara_collections_section',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'evara_canvas_collection_desc', array(
+		'default'           => 'Krishna, Shiv Shakti, Ganesha, and serene modern abstract portraits.',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_canvas_collection_desc', array(
+		'label'   => __( 'Canvas Paintings: Description', 'evara-art' ),
+		'section' => 'evara_collections_section',
+		'type'    => 'textarea',
+	) );
+
+	// Lippan Collection Card
+	$wp_customize->add_setting( 'evara_lippan_collection_img', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_lippan_collection_img', array(
+		'label'       => __( 'Lippan & Clay Art: Card Image', 'evara-art' ),
+		'description' => __( 'Upload an image for the Lippan Art collection card (recommended 600x400 or 500x500).', 'evara-art' ),
+		'section'     => 'evara_collections_section',
+	) ) );
+
+	$wp_customize->add_setting( 'evara_lippan_collection_title', array(
+		'default'           => 'Lippan Art • Home Decor',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_lippan_collection_title', array(
+		'label'   => __( 'Lippan Art: Card Title', 'evara-art' ),
+		'section' => 'evara_collections_section',
+		'type'    => 'text',
+	) );
+
+	$wp_customize->add_setting( 'evara_lippan_collection_desc', array(
+		'default'           => 'Intricate clay dough patterns and sparkling hand-cut mirrors for auspicious walls.',
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'evara_lippan_collection_desc', array(
+		'label'   => __( 'Lippan Art: Description', 'evara-art' ),
+		'section' => 'evara_collections_section',
+		'type'    => 'textarea',
+	) );
+
+	// --- SECTION 5: Studio Contact & Social Links ---
 	$wp_customize->add_section( 'evara_contact_section', array(
-		'title'    => __( 'Studio Contact & Social Media', 'evara-art' ),
+		'title'    => __( 'Studio Contact & Footer Settings', 'evara-art' ),
 		'panel'    => 'evara_theme_panel',
 		'priority' => 40,
 	) );
+
+	// Footer Logo (Dedicated full-color upload)
+	$wp_customize->add_setting( 'evara_footer_logo', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_footer_logo', array(
+		'label'       => __( 'Footer Brand Logo (Full Color)', 'evara-art' ),
+		'description' => __( 'Upload a full-color logo for the footer. If left empty, the main site logo will be used.', 'evara-art' ),
+		'section'     => 'evara_contact_section',
+	) ) );
 
 	$wp_customize->add_setting( 'evara_contact_phone', array( 'default' => '+91 93281 43036', 'sanitize_callback' => 'sanitize_text_field' ) );
 	$wp_customize->add_control( 'evara_contact_phone', array( 'label' => __( 'Studio Phone / WhatsApp', 'evara-art' ), 'section' => 'evara_contact_section', 'type' => 'text' ) );

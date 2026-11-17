@@ -3,7 +3,7 @@
  * The Front Page template for Evara Art (Auto 4-Slide Banner, Editorial & Reordered Sections)
  *
  * @package EvaraArt
- * @version 1.3.2
+ * @version 1.3.3
  */
 
 get_header(); ?>
@@ -13,63 +13,80 @@ get_header(); ?>
 $canvas_url = evara_get_category_url( array( 'canvas-painting-evara-art', 'canvas-paintings-home-decor', 'canvas-paintings' ), '/product-category/canvas-painting-evara-art/' );
 $lippan_url = evara_get_category_url( array( 'clay-art-evara-art', 'lippan-art-home-decor', 'lippan-art' ), '/product-category/clay-art-evara-art/' );
 
-// 1. Prepare 4 Banners for Automatic 1-Second Sliding Carousel
-$slider_products = array();
-if ( class_exists( 'WooCommerce' ) ) {
-	$slider_products = wc_get_products( array(
-		'status'   => 'publish',
-		'limit'    => 4,
-		'featured' => true,
-	) );
-	if ( count( $slider_products ) < 4 ) {
-		$more_prods = wc_get_products( array(
-			'status'  => 'publish',
-			'limit'   => 4 - count( $slider_products ),
-			'orderby' => 'date',
-			'order'   => 'DESC',
-			'exclude' => ! empty( $slider_products ) ? wp_list_pluck( $slider_products, 'id' ) : array(),
-		) );
-		$slider_products = array_merge( $slider_products, $more_prods );
+// Slider Timing (2-3 seconds configurable) & Captions
+$slider_interval = (int) get_theme_mod( 'evara_hero_slider_interval', 2500 );
+if ( $slider_interval < 1000 ) {
+	$slider_interval = 2500;
+}
+$show_caption = ( 'no' !== get_theme_mod( 'evara_slider_show_caption', 'yes' ) );
+
+// 1. Prepare Banners for Sliding Carousel (Supports 1-4 custom uploaded banners with custom text)
+$custom_slides = array();
+$legacy_banner = get_theme_mod( 'evara_custom_banner_image', '' );
+
+for ( $s = 1; $s <= 4; $s++ ) {
+	$s_img = get_theme_mod( "evara_slide{$s}_image", '' );
+	if ( 1 === $s && empty( $s_img ) && ! empty( $legacy_banner ) ) {
+		$s_img = $legacy_banner;
+	}
+	if ( ! empty( $s_img ) ) {
+		$s_title = get_theme_mod( "evara_slide{$s}_title", '' );
+		$s_badge = get_theme_mod( "evara_slide{$s}_badge", '✦ Evara Art Masterpiece' );
+		$s_url   = get_theme_mod( "evara_slide{$s}_url", '' );
+		$custom_slides[] = array(
+			'image' => $s_img,
+			'title' => ! empty( $s_title ) ? $s_title : get_bloginfo( 'name' ),
+			'badge' => $s_badge,
+			'url'   => ! empty( $s_url ) ? $s_url : $canvas_url,
+		);
 	}
 }
 
 $slides = array();
-$custom_banner = get_theme_mod( 'evara_custom_banner_image', '' );
-if ( ! empty( $custom_banner ) ) {
-	$slides[] = array(
-		'image' => $custom_banner,
-		'title' => get_theme_mod( 'evara_hero_title', 'Art that connects to your Heart' ),
-		'url'   => $canvas_url,
-	);
-}
-
-if ( ! empty( $slider_products ) ) {
-	foreach ( $slider_products as $p ) {
-		if ( count( $slides ) >= 4 ) {
-			break;
+if ( ! empty( $custom_slides ) ) {
+	$slides = $custom_slides;
+} else {
+	// Auto-fetch from WooCommerce featured/latest artworks
+	if ( class_exists( 'WooCommerce' ) ) {
+		$slider_products = wc_get_products( array(
+			'status'   => 'publish',
+			'limit'    => 4,
+			'featured' => true,
+		) );
+		if ( count( $slider_products ) < 4 ) {
+			$more_prods = wc_get_products( array(
+				'status'  => 'publish',
+				'limit'   => 4 - count( $slider_products ),
+				'orderby' => 'date',
+				'order'   => 'DESC',
+				'exclude' => ! empty( $slider_products ) ? wp_list_pluck( $slider_products, 'id' ) : array(),
+			) );
+			$slider_products = array_merge( $slider_products, $more_prods );
 		}
-		if ( has_post_thumbnail( $p->get_id() ) ) {
-			$img = get_the_post_thumbnail_url( $p->get_id(), 'full' );
-			$slides[] = array(
-				'image' => $img,
-				'title' => $p->get_name(),
-				'url'   => get_permalink( $p->get_id() ),
-			);
+		foreach ( $slider_products as $p ) {
+			if ( has_post_thumbnail( $p->get_id() ) ) {
+				$slides[] = array(
+					'image' => get_the_post_thumbnail_url( $p->get_id(), 'full' ),
+					'title' => $p->get_name(),
+					'badge' => '✦ Original Canvas Artwork',
+					'url'   => get_permalink( $p->get_id() ),
+				);
+			}
 		}
 	}
-}
 
-$fallback_data = array(
-	array( 'image' => EVARA_URI . '/assets/images/hero-banner-krishna.png', 'title' => 'Art that connects to your Heart', 'url' => $canvas_url ),
-	array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/07/18.jpg', 'title' => 'Divine Darshan of Lord Jagannath', 'url' => $canvas_url ),
-	array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/04/10.jpg', 'title' => 'Sacred Serenity Shiva Parvati', 'url' => $canvas_url ),
-	array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01.jpg', 'title' => 'Annapakshi Lippan Craft', 'url' => $lippan_url ),
-);
+	$fallback_data = array(
+		array( 'image' => EVARA_URI . '/assets/images/hero-banner-krishna.png', 'title' => 'Art that connects to your Heart', 'badge' => '✦ Original Canvas Artwork', 'url' => $canvas_url ),
+		array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/07/18.jpg', 'title' => 'Divine Darshan of Lord Jagannath', 'badge' => '✦ Sacred Spiritual Art', 'url' => $canvas_url ),
+		array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/04/10.jpg', 'title' => 'Sacred Serenity Shiva Parvati', 'badge' => '✦ Divine Harmony', 'url' => $canvas_url ),
+		array( 'image' => 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01.jpg', 'title' => 'Annapakshi Lippan Craft', 'badge' => '✦ Heritage Craft', 'url' => $lippan_url ),
+	);
 
-$f_idx = 0;
-while ( count( $slides ) < 4 ) {
-	$slides[] = $fallback_data[ $f_idx % 4 ];
-	$f_idx++;
+	$f_idx = 0;
+	while ( count( $slides ) < 4 ) {
+		$slides[] = $fallback_data[ $f_idx % 4 ];
+		$f_idx++;
+	}
 }
 
 // Customizer text options
@@ -106,9 +123,9 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 <section class="evara-hero-section">
 	<div class="evara-container">
 		
-		<!-- 4 Automatic Sliding Banners -->
+		<!-- Automatic Sliding Banners (Configurable 2-3s Timing & Custom Text) -->
 		<div class="evara-hero-slider-wrap">
-			<div class="evara-hero-slider" id="hero-slider" data-interval="1000">
+			<div class="evara-hero-slider" id="hero-slider" data-interval="<?php echo esc_attr( $slider_interval ); ?>">
 				<div class="slider-track" id="slider-track">
 					<?php foreach ( $slides as $index => $slide ) : ?>
 						<div class="slider-slide <?php echo ( 0 === $index ) ? 'is-active' : ''; ?>" data-index="<?php echo esc_attr( $index ); ?>">
@@ -119,21 +136,27 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 								     width="1400" 
 								     height="520" 
 								     <?php echo ( 0 === $index ) ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
-								<div class="slider-caption">
-									<span class="slider-pill">✦ <?php esc_html_e( 'Masterpiece Collection', 'evara-art' ); ?></span>
-									<h3 class="slider-artwork-title"><?php echo esc_html( $slide['title'] ); ?></h3>
-								</div>
+								<?php if ( $show_caption && ! empty( $slide['title'] ) ) : ?>
+									<div class="slider-caption">
+										<?php if ( ! empty( $slide['badge'] ) ) : ?>
+											<span class="slider-pill"><?php echo esc_html( $slide['badge'] ); ?></span>
+										<?php endif; ?>
+										<h3 class="slider-artwork-title"><?php echo esc_html( $slide['title'] ); ?></h3>
+									</div>
+								<?php endif; ?>
 							</a>
 						</div>
 					<?php endforeach; ?>
 				</div>
 
-				<!-- 4 Navigation Dots -->
-				<div class="slider-dots" id="slider-dots">
-					<?php for ( $d = 0; $d < count( $slides ); $d++ ) : ?>
-						<button type="button" class="slider-dot <?php echo ( 0 === $d ) ? 'active' : ''; ?>" data-slide="<?php echo esc_attr( $d ); ?>" aria-label="<?php printf( esc_attr__( 'Go to slide %d', 'evara-art' ), $d + 1 ); ?>"></button>
-					<?php endfor; ?>
-				</div>
+				<?php if ( count( $slides ) > 1 ) : ?>
+					<!-- Navigation Dots -->
+					<div class="slider-dots" id="slider-dots">
+						<?php for ( $d = 0; $d < count( $slides ); $d++ ) : ?>
+							<button type="button" class="slider-dot <?php echo ( 0 === $d ) ? 'active' : ''; ?>" data-slide="<?php echo esc_attr( $d ); ?>" aria-label="<?php printf( esc_attr__( 'Go to slide %d', 'evara-art' ), $d + 1 ); ?>"></button>
+						<?php endfor; ?>
+					</div>
+				<?php endif; ?>
 			</div>
 		</div>
 
@@ -276,8 +299,17 @@ if ( ! $lippan_cat ) {
 $canvas_count_str = ( $canvas_cat && $canvas_cat->count > 0 ) ? sprintf( esc_html__( '%d Original Works', 'evara-art' ), $canvas_cat->count ) : esc_html__( '11 Original Works', 'evara-art' );
 $lippan_count_str = ( $lippan_cat && $lippan_cat->count > 0 ) ? sprintf( esc_html__( '%d Handcrafted Pieces', 'evara-art' ), $lippan_cat->count ) : esc_html__( '10 Handcrafted Pieces', 'evara-art' );
 
-$canvas_img_url = 'https://evaraart.in/wp-content/uploads/2026/04/10-500x500.jpg';
-$lippan_img_url = 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01-500x500.jpg';
+// Customizer options for Signature Collections (Customizer editable images & titles)
+$canvas_custom_img   = get_theme_mod( 'evara_canvas_collection_img', '' );
+$canvas_custom_title = get_theme_mod( 'evara_canvas_collection_title', 'Canvas Paintings • Home Decor' );
+$canvas_custom_desc  = get_theme_mod( 'evara_canvas_collection_desc', 'Krishna, Shiv Shakti, Ganesha, and serene modern abstract portraits.' );
+
+$lippan_custom_img   = get_theme_mod( 'evara_lippan_collection_img', '' );
+$lippan_custom_title = get_theme_mod( 'evara_lippan_collection_title', 'Lippan Art • Home Decor' );
+$lippan_custom_desc  = get_theme_mod( 'evara_lippan_collection_desc', 'Intricate clay dough patterns and sparkling hand-cut mirrors for auspicious walls.' );
+
+$canvas_img_url = ! empty( $canvas_custom_img ) ? $canvas_custom_img : 'https://evaraart.in/wp-content/uploads/2026/04/10-500x500.jpg';
+$lippan_img_url = ! empty( $lippan_custom_img ) ? $lippan_custom_img : 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01-500x500.jpg';
 ?>
 <section class="evara-collections-section reveal-on-scroll">
 	<div class="evara-container">
@@ -293,13 +325,13 @@ $lippan_img_url = 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lip
 			<div class="collection-card">
 				<a href="<?php echo esc_url( $canvas_url ); ?>" class="collection-link">
 					<div class="collection-img-wrap">
-						<img src="<?php echo esc_url( $canvas_img_url ); ?>" alt="<?php esc_attr_e( 'Canvas Paintings Home Decor', 'evara-art' ); ?>" width="600" height="400">
+						<img src="<?php echo esc_url( $canvas_img_url ); ?>" alt="<?php echo esc_attr( $canvas_custom_title ); ?>" width="600" height="400">
 						<div class="collection-overlay"></div>
 					</div>
 					<div class="collection-info">
 						<span class="col-count"><?php echo esc_html( $canvas_count_str ); ?></span>
-						<h3 class="col-title"><?php esc_html_e( 'Canvas Paintings • Home Decor', 'evara-art' ); ?></h3>
-						<p class="col-desc"><?php esc_html_e( 'Krishna, Shiv Shakti, Ganesha, and serene modern abstract portraits.', 'evara-art' ); ?></p>
+						<h3 class="col-title"><?php echo esc_html( $canvas_custom_title ); ?></h3>
+						<p class="col-desc"><?php echo esc_html( $canvas_custom_desc ); ?></p>
 						<span class="col-action"><?php esc_html_e( 'Explore Collection', 'evara-art' ); ?> <i class="fa-solid fa-arrow-right"></i></span>
 					</div>
 				</a>
@@ -309,13 +341,13 @@ $lippan_img_url = 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lip
 			<div class="collection-card">
 				<a href="<?php echo esc_url( $lippan_url ); ?>" class="collection-link">
 					<div class="collection-img-wrap">
-						<img src="<?php echo esc_url( $lippan_img_url ); ?>" alt="<?php esc_attr_e( 'Lippan Art Home Decor', 'evara-art' ); ?>" width="600" height="400">
+						<img src="<?php echo esc_url( $lippan_img_url ); ?>" alt="<?php echo esc_attr( $lippan_custom_title ); ?>" width="600" height="400">
 						<div class="collection-overlay"></div>
 					</div>
 					<div class="collection-info">
 						<span class="col-count"><?php echo esc_html( $lippan_count_str ); ?></span>
-						<h3 class="col-title"><?php esc_html_e( 'Lippan Art • Home Decor', 'evara-art' ); ?></h3>
-						<p class="col-desc"><?php esc_html_e( 'Intricate clay dough patterns and sparkling hand-cut mirrors for auspicious walls.', 'evara-art' ); ?></p>
+						<h3 class="col-title"><?php echo esc_html( $lippan_custom_title ); ?></h3>
+						<p class="col-desc"><?php echo esc_html( $lippan_custom_desc ); ?></p>
 						<span class="col-action"><?php esc_html_e( 'Explore Collection', 'evara-art' ); ?> <i class="fa-solid fa-arrow-right"></i></span>
 					</div>
 				</a>
