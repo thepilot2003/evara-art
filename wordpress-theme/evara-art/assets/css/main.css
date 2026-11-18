@@ -4529,9 +4529,10 @@ textarea.studio-input {
 }
 
 /* ==========================================================================
-   WOOCOMMERCE SINGLE PRODUCT PAGE (Luxury Art Gallery Overhaul v1.4.1)
+   WOOCOMMERCE SINGLE PRODUCT PAGE (Luxury Art Gallery Overhaul v1.4.2)
    ========================================================================== */
-html body .woocommerce div.product,
+body.single-product div.product,
+body.woocommerce div.product,
 .woocommerce div.product {
 	display: block !important;
 	position: relative !important;
@@ -4541,10 +4542,11 @@ html body .woocommerce div.product,
 }
 
 /* --------------------------------------------------------------------------
-   DESKTOP DUAL-COLUMN GRID & MUSEUM GALLERY STAGE (> 900px)
+   DESKTOP DUAL-COLUMN GRID (> 900px)
    -------------------------------------------------------------------------- */
 @media (min-width: 901px) {
-	html body .woocommerce div.product,
+	body.single-product div.product,
+	body.woocommerce div.product,
 	.woocommerce div.product {
 		display: flex !important;
 		flex-direction: row !important;
@@ -4557,38 +4559,56 @@ html body .woocommerce div.product,
 		margin: 0 0 36px 0 !important;
 	}
 
-	/* Top-level Gallery Column (Only direct child of product) */
-	html body .woocommerce div.product > .avada-single-product-gallery-wrapper,
-	html body .woocommerce div.product > div.images,
-	html body .woocommerce div.product > .woocommerce-product-gallery {
+	/* Left Column: Gallery (Direct child of product) */
+	body.single-product div.product > .avada-single-product-gallery-wrapper,
+	body.single-product div.product > div.images,
+	body.single-product div.product > .woocommerce-product-gallery,
+	body.woocommerce div.product > .avada-single-product-gallery-wrapper,
+	body.woocommerce div.product > div.images,
+	body.woocommerce div.product > .woocommerce-product-gallery,
+	.woocommerce div.product > .avada-single-product-gallery-wrapper,
+	.woocommerce div.product > div.images,
+	.woocommerce div.product > .woocommerce-product-gallery {
 		width: 50% !important;
 		max-width: 50% !important;
 		flex: 0 0 50% !important;
-		float: none !important;
+		float: left !important;
 		position: sticky !important;
 		top: 90px !important;
 		margin: 0 !important;
-		padding-right: 24px !important;
+		padding-right: 28px !important;
 		box-sizing: border-box !important;
 	}
 
-	/* Top-level Summary Column (Only direct child of product) */
-	html body .woocommerce div.product > div.summary,
-	html body .woocommerce div.product > .summary {
+	/* Right Column: Summary (Direct child of product) */
+	body.single-product div.product > div.summary,
+	body.single-product div.product > .summary,
+	body.single-product div.product > .entry-summary,
+	body.woocommerce div.product > div.summary,
+	body.woocommerce div.product > .summary,
+	body.woocommerce div.product > .entry-summary,
+	.woocommerce div.product > div.summary,
+	.woocommerce div.product > .summary,
+	.woocommerce div.product > .entry-summary {
 		width: 50% !important;
 		max-width: 50% !important;
 		flex: 0 0 50% !important;
-		float: none !important;
+		float: right !important;
 		margin: 0 !important;
-		padding-left: 20px !important;
+		padding-left: 16px !important;
 		box-sizing: border-box !important;
+		clear: none !important;
 	}
 
-	/* Tabs and Related Products take full 100% width across both columns below */
-	html body .woocommerce div.product .woocommerce-tabs,
-	html body .woocommerce-tabs.wc-tabs-wrapper,
-	html body .woocommerce div.product .related.products,
-	html body .related.products {
+	/* Full-width Tabs & Related Products below */
+	body.single-product div.product > .woocommerce-tabs,
+	body.single-product div.product > .related.products,
+	body.woocommerce div.product > .woocommerce-tabs,
+	body.woocommerce div.product > .related.products,
+	.woocommerce div.product > .woocommerce-tabs,
+	.woocommerce div.product > .related.products,
+	.woocommerce-tabs.wc-tabs-wrapper,
+	.related.products {
 		width: 100% !important;
 		max-width: 100% !important;
 		flex: 0 0 100% !important;
@@ -4597,10 +4617,11 @@ html body .woocommerce div.product,
 }
 
 /* --------------------------------------------------------------------------
-   MOBILE SINGLE-COLUMN FLOW & OVERLAP PREVENTION (<= 900px)
+   MOBILE SINGLE-COLUMN FLOW (<= 900px)
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
-	html body .woocommerce div.product,
+	body.single-product div.product,
+	body.woocommerce div.product,
 	.woocommerce div.product {
 		display: flex !important;
 		flex-direction: column !important;
@@ -4609,9 +4630,15 @@ html body .woocommerce div.product,
 		padding: 0 !important;
 	}
 
-	html body .woocommerce div.product > .avada-single-product-gallery-wrapper,
-	html body .woocommerce div.product > div.images,
-	html body .woocommerce div.product > .woocommerce-product-gallery {
+	body.single-product div.product > .avada-single-product-gallery-wrapper,
+	body.single-product div.product > div.images,
+	body.single-product div.product > .woocommerce-product-gallery,
+	body.woocommerce div.product > .avada-single-product-gallery-wrapper,
+	body.woocommerce div.product > div.images,
+	body.woocommerce div.product > .woocommerce-product-gallery,
+	.woocommerce div.product > .avada-single-product-gallery-wrapper,
+	.woocommerce div.product > div.images,
+	.woocommerce div.product > .woocommerce-product-gallery {
 		width: 100% !important;
 		max-width: 100% !important;
 		flex: 1 1 100% !important;
@@ -4622,111 +4649,115 @@ html body .woocommerce div.product,
 		position: relative !important;
 	}
 
-	/* Force Summary below thumbnails with full clear to eliminate overlap */
-	html body .woocommerce div.product > div.summary,
-	html body .woocommerce div.product > .summary,
-	html body .woocommerce div.product .summary,
-	html body .summary.entry-summary {
+	body.single-product div.product > div.summary,
+	body.single-product div.product > .summary,
+	body.single-product div.product > .entry-summary,
+	body.woocommerce div.product > div.summary,
+	body.woocommerce div.product > .summary,
+	body.woocommerce div.product > .entry-summary,
+	.woocommerce div.product > div.summary,
+	.woocommerce div.product > .summary,
+	.woocommerce div.product > .entry-summary {
 		width: 100% !important;
 		max-width: 100% !important;
 		flex: 1 1 100% !important;
 		float: none !important;
 		clear: both !important;
 		display: block !important;
-		margin-top: 22px !important;
+		margin-top: 20px !important;
 		padding: 0 !important;
 	}
 
-	html body .woocommerce-tabs.wc-tabs-wrapper,
-	html body .related.products {
+	.woocommerce-tabs.wc-tabs-wrapper,
+	.related.products {
 		width: 100% !important;
 		clear: both !important;
 	}
 }
 
 /* --------------------------------------------------------------------------
-   GALLERY STAGE & ARTWORK MUSEUM FRAMING (Adapts to Square, Portrait, Landscape)
+   GALLERY STAGE & ARTWORK FRAMING (Flexslider-Safe Architecture)
    -------------------------------------------------------------------------- */
-/* All inner gallery wrappers MUST expand to 100% of their parent column */
-html body .avada-single-product-gallery-wrapper .woocommerce-product-gallery,
-html body .avada-single-product-gallery-wrapper div.images,
-html body .woocommerce-product-gallery,
-html body .woocommerce-product-gallery .flex-viewport,
-html body .woocommerce-product-gallery .woocommerce-product-gallery__wrapper {
+.avada-single-product-gallery-wrapper,
+.woocommerce-product-gallery {
 	width: 100% !important;
 	max-width: 100% !important;
-	min-width: 100% !important;
-	float: none !important;
+	position: relative !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	box-sizing: border-box !important;
-	position: relative !important;
 }
 
-/* Individual Slide Stage with Warm Museum Matting */
-html body .woocommerce-product-gallery .woocommerce-product-gallery__image {
-	position: relative !important;
+/* The Museum Matting Frame is placed on the Flexslider Viewport */
+.woocommerce-product-gallery .flex-viewport {
 	width: 100% !important;
-	max-width: 100% !important;
-	min-height: 420px !important;
-	max-height: 600px !important;
 	border-radius: var(--radius-lg, 16px) !important;
-	overflow: hidden !important;
 	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.28)) !important;
 	background: #FAF8F5 !important;
 	box-shadow: 0 8px 30px rgba(28, 22, 18, 0.08) !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	padding: 20px !important;
-	box-sizing: border-box !important;
+	overflow: hidden !important;
+	position: relative !important;
 }
 
-html body .woocommerce-product-gallery .woocommerce-product-gallery__image a {
+/* Let Flexslider handle wrapper width & transforms — DO NOT force width/float on wrapper */
+.woocommerce-product-gallery__wrapper {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* Slide item internal styling */
+.woocommerce-product-gallery .woocommerce-product-gallery__image {
+	padding: 16px !important;
+	box-sizing: border-box !important;
+	text-align: center !important;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.woocommerce-product-gallery .woocommerce-product-gallery__image a {
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
 	width: 100% !important;
-	height: 100% !important;
+	min-height: 400px !important;
 	text-decoration: none !important;
 }
 
-/* The High-Resolution Artwork Image (Proper scaling without tiny shrinkage) */
-html body .woocommerce-product-gallery .woocommerce-product-gallery__image img,
-html body .woocommerce-product-gallery img.wp-post-image {
-	width: 100% !important;
+/* Artwork Image inside slide: full size, crisp, properly centered */
+.woocommerce-product-gallery .woocommerce-product-gallery__image img,
+.woocommerce-product-gallery img.wp-post-image {
+	width: auto !important;
 	max-width: 100% !important;
 	height: auto !important;
-	max-height: 540px !important;
+	max-height: 520px !important;
 	object-fit: contain !important;
 	display: block !important;
 	margin: 0 auto !important;
 	border-radius: var(--radius-md, 10px) !important;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
 	transition: transform 0.35s ease !important;
 }
 
 @media (max-width: 768px) {
-	html body .woocommerce-product-gallery .woocommerce-product-gallery__image {
+	.woocommerce-product-gallery .woocommerce-product-gallery__image {
+		padding: 10px !important;
+	}
+	.woocommerce-product-gallery .woocommerce-product-gallery__image a {
 		min-height: 280px !important;
-		max-height: 440px !important;
-		padding: 12px !important;
 	}
-	html body .woocommerce-product-gallery .woocommerce-product-gallery__image a {
-		max-height: 440px !important;
-	}
-	html body .woocommerce-product-gallery .woocommerce-product-gallery__image img,
-	html body .woocommerce-product-gallery img.wp-post-image {
-		max-height: 410px !important;
+	.woocommerce-product-gallery .woocommerce-product-gallery__image img,
+	.woocommerce-product-gallery img.wp-post-image {
+		max-height: 380px !important;
 	}
 }
 
 /* --------------------------------------------------------------------------
-   IMAGE CHANGER DIRECTION BUTTONS (Luxury Frosted Glass Chevrons)
+   IMAGE CHANGER DIRECTION BUTTONS (Luxury Frosted Glass, Single Chevron)
    -------------------------------------------------------------------------- */
-html body .flexslider .flex-direction-nav,
-html body .woocommerce-product-gallery .flex-direction-nav,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav {
+.flexslider .flex-direction-nav,
+.woocommerce-product-gallery .flex-direction-nav,
+.avada-single-product-gallery-wrapper .flex-direction-nav {
 	list-style: none !important;
 	margin: 0 !important;
 	padding: 0 !important;
@@ -4734,22 +4765,29 @@ html body .avada-single-product-gallery-wrapper .flex-direction-nav {
 	z-index: 40 !important;
 }
 
-html body .flexslider .flex-direction-nav li,
-html body .woocommerce-product-gallery .flex-direction-nav li,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav li {
+.flexslider .flex-direction-nav li,
+.woocommerce-product-gallery .flex-direction-nav li,
+.avada-single-product-gallery-wrapper .flex-direction-nav li {
 	list-style: none !important;
 	margin: 0 !important;
 	padding: 0 !important;
 	display: block !important;
 }
 
-html body .flexslider .flex-direction-nav a,
-html body .woocommerce-product-gallery .flex-direction-nav a,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav a,
-html body .woocommerce-product-gallery .flex-direction-nav .flex-prev,
-html body .woocommerce-product-gallery .flex-direction-nav .flex-next,
-html body .flex-direction-nav .flex-prev,
-html body .flex-direction-nav .flex-next {
+/* Hide duplicate Avada inner icons */
+.flex-direction-nav .awb-icon-angle-left,
+.flex-direction-nav .awb-icon-angle-right,
+.flex-direction-nav i[class*="awb-icon"] {
+	display: none !important;
+}
+
+.flexslider .flex-direction-nav a,
+.woocommerce-product-gallery .flex-direction-nav a,
+.avada-single-product-gallery-wrapper .flex-direction-nav a,
+.woocommerce-product-gallery .flex-direction-nav .flex-prev,
+.woocommerce-product-gallery .flex-direction-nav .flex-next,
+.flex-direction-nav .flex-prev,
+.flex-direction-nav .flex-next {
 	position: absolute !important;
 	top: 50% !important;
 	transform: translateY(-50%) !important;
@@ -4764,7 +4802,6 @@ html body .flex-direction-nav .flex-next {
 	-webkit-backdrop-filter: blur(8px) !important;
 	border: 1px solid rgba(212, 175, 55, 0.45) !important;
 	color: #2D231E !important;
-	font-size: 16px !important;
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
@@ -4777,51 +4814,46 @@ html body .flex-direction-nav .flex-next {
 	z-index: 50 !important;
 	transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
 	overflow: hidden !important;
+	font-size: 0 !important; /* Prevents any raw text leaking through */
 }
 
-html body .flex-direction-nav .flex-prev,
-html body .woocommerce-product-gallery .flex-direction-nav .flex-prev,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-prev {
+.flex-direction-nav .flex-prev,
+.woocommerce-product-gallery .flex-direction-nav .flex-prev,
+.avada-single-product-gallery-wrapper .flex-direction-nav .flex-prev {
 	left: 14px !important;
 	right: auto !important;
 }
 
-html body .flex-direction-nav .flex-next,
-html body .woocommerce-product-gallery .flex-direction-nav .flex-next,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-next {
+.flex-direction-nav .flex-next,
+.woocommerce-product-gallery .flex-direction-nav .flex-next,
+.avada-single-product-gallery-wrapper .flex-direction-nav .flex-next {
 	right: 14px !important;
 	left: auto !important;
 }
 
-html body .flex-direction-nav .flex-prev::before,
-html body .woocommerce-product-gallery .flex-direction-nav .flex-prev::before,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-prev::before {
-	content: "\f053" !important;
+.flex-direction-nav .flex-prev::before {
+	content: "\f053" !important; /* FontAwesome fa-chevron-left */
 	font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
 	font-weight: 900 !important;
 	font-size: 14px !important;
 	color: #2D231E !important;
 	display: inline-block !important;
 	line-height: 1 !important;
-	text-indent: 0 !important;
 }
 
-html body .flex-direction-nav .flex-next::before,
-html body .woocommerce-product-gallery .flex-direction-nav .flex-next::before,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav .flex-next::before {
-	content: "\f054" !important;
+.flex-direction-nav .flex-next::before {
+	content: "\f054" !important; /* FontAwesome fa-chevron-right */
 	font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
 	font-weight: 900 !important;
 	font-size: 14px !important;
 	color: #2D231E !important;
 	display: inline-block !important;
 	line-height: 1 !important;
-	text-indent: 0 !important;
 }
 
-html body .flex-direction-nav a:hover,
-html body .woocommerce-product-gallery .flex-direction-nav a:hover,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav a:hover {
+.flex-direction-nav a:hover,
+.woocommerce-product-gallery .flex-direction-nav a:hover,
+.avada-single-product-gallery-wrapper .flex-direction-nav a:hover {
 	background: #B85034 !important;
 	border-color: #B85034 !important;
 	color: #FFFFFF !important;
@@ -4830,33 +4862,35 @@ html body .avada-single-product-gallery-wrapper .flex-direction-nav a:hover {
 	opacity: 1 !important;
 }
 
-html body .flex-direction-nav a:hover::before,
-html body .woocommerce-product-gallery .flex-direction-nav a:hover::before,
-html body .avada-single-product-gallery-wrapper .flex-direction-nav a:hover::before {
+.flex-direction-nav a:hover::before,
+.woocommerce-product-gallery .flex-direction-nav a:hover::before,
+.avada-single-product-gallery-wrapper .flex-direction-nav a:hover::before {
 	color: #FFFFFF !important;
 }
 
 @media (max-width: 768px) {
-	html body .woocommerce-product-gallery .flex-direction-nav a,
-	html body .avada-single-product-gallery-wrapper .flex-direction-nav a {
+	.woocommerce-product-gallery .flex-direction-nav a,
+	.avada-single-product-gallery-wrapper .flex-direction-nav a {
 		width: 38px !important;
 		height: 38px !important;
 		min-width: 38px !important;
 		min-height: 38px !important;
 		line-height: 38px !important;
-		font-size: 13px !important;
 		opacity: 1 !important;
 	}
-	html body .woocommerce-product-gallery .flex-direction-nav .flex-prev { left: 8px !important; }
-	html body .woocommerce-product-gallery .flex-direction-nav .flex-next { right: 8px !important; }
+	.woocommerce-product-gallery .flex-direction-nav a::before {
+		font-size: 12px !important;
+	}
+	.woocommerce-product-gallery .flex-direction-nav .flex-prev { left: 8px !important; }
+	.woocommerce-product-gallery .flex-direction-nav .flex-next { right: 8px !important; }
 }
 
 /* --------------------------------------------------------------------------
    SINGLE PRODUCT THUMBNAILS (Clean Flex Row, Isolated from Title)
    -------------------------------------------------------------------------- */
-html body .woocommerce-product-gallery .flex-control-thumbs,
-html body .avada-single-product-gallery-wrapper .flex-control-thumbs,
-html body .flex-control-thumbs {
+.woocommerce-product-gallery .flex-control-thumbs,
+.avada-single-product-gallery-wrapper .flex-control-thumbs,
+.flex-control-thumbs {
 	display: flex !important;
 	flex-wrap: wrap !important;
 	gap: 12px !important;
@@ -4871,9 +4905,9 @@ html body .flex-control-thumbs {
 	width: 100% !important;
 }
 
-html body .woocommerce-product-gallery .flex-control-thumbs li,
-html body .avada-single-product-gallery-wrapper .flex-control-thumbs li,
-html body .flex-control-thumbs li {
+.woocommerce-product-gallery .flex-control-thumbs li,
+.avada-single-product-gallery-wrapper .flex-control-thumbs li,
+.flex-control-thumbs li {
 	width: 66px !important;
 	height: 66px !important;
 	float: none !important;
@@ -4889,8 +4923,8 @@ html body .flex-control-thumbs li {
 	padding: 0 !important;
 }
 
-html body .woocommerce-product-gallery .flex-control-thumbs li img,
-html body .flex-control-thumbs li img {
+.woocommerce-product-gallery .flex-control-thumbs li img,
+.flex-control-thumbs li img {
 	width: 100% !important;
 	height: 100% !important;
 	object-fit: cover !important;
@@ -4899,13 +4933,13 @@ html body .flex-control-thumbs li img {
 	transition: opacity 0.2s ease !important;
 }
 
-html body .woocommerce-product-gallery .flex-control-thumbs li img.flex-active,
-html body .woocommerce-product-gallery .flex-control-thumbs li:hover img {
+.woocommerce-product-gallery .flex-control-thumbs li img.flex-active,
+.woocommerce-product-gallery .flex-control-thumbs li:hover img {
 	opacity: 1 !important;
 }
 
-html body .woocommerce-product-gallery .flex-control-thumbs li.flex-active,
-html body .woocommerce-product-gallery .flex-control-thumbs li:hover {
+.woocommerce-product-gallery .flex-control-thumbs li.flex-active,
+.woocommerce-product-gallery .flex-control-thumbs li:hover {
 	border-color: var(--evara-terracotta, #B85034) !important;
 	transform: scale(1.04);
 	box-shadow: 0 4px 12px rgba(184, 80, 52, 0.2) !important;
@@ -4914,9 +4948,9 @@ html body .woocommerce-product-gallery .flex-control-thumbs li:hover {
 /* --------------------------------------------------------------------------
    SALE BADGE PLACEMENT (Cleanly pinned top-left of artwork frame)
    -------------------------------------------------------------------------- */
-html body .woocommerce span.onsale,
-html body .woocommerce div.product .onsale,
-html body .avada-single-product-gallery-wrapper .onsale {
+.woocommerce span.onsale,
+.woocommerce div.product .onsale,
+.avada-single-product-gallery-wrapper .onsale {
 	position: absolute !important;
 	top: 14px !important;
 	left: 14px !important;
@@ -4940,9 +4974,9 @@ html body .avada-single-product-gallery-wrapper .onsale {
 /* --------------------------------------------------------------------------
    STOCK STATUS BADGES (Sold Out / In Stock)
    -------------------------------------------------------------------------- */
-html body .woocommerce div.product p.stock,
-html body .woocommerce div.product .stock,
-html body .stock {
+.woocommerce div.product p.stock,
+.woocommerce div.product .stock,
+.stock {
 	display: inline-flex !important;
 	align-items: center !important;
 	gap: 6px !important;
@@ -4956,30 +4990,30 @@ html body .stock {
 	text-transform: uppercase !important;
 }
 
-html body .woocommerce div.product p.stock.out-of-stock,
-html body .woocommerce div.product .out-of-stock,
-html body .stock.out-of-stock {
+.woocommerce div.product p.stock.out-of-stock,
+.woocommerce div.product .out-of-stock,
+.stock.out-of-stock {
 	background: rgba(184, 80, 52, 0.12) !important;
 	color: var(--evara-terracotta, #B85034) !important;
 	border: 1.5px solid var(--evara-terracotta, #B85034) !important;
 	box-shadow: 0 2px 8px rgba(184, 80, 52, 0.15) !important;
 }
 
-html body .woocommerce div.product p.stock.out-of-stock::before,
-html body .stock.out-of-stock::before {
+.woocommerce div.product p.stock.out-of-stock::before,
+.stock.out-of-stock::before {
 	content: "✦ ";
 	font-size: 0.95rem;
 }
 
-html body .woocommerce div.product p.stock.in-stock,
-html body .stock.in-stock {
+.woocommerce div.product p.stock.in-stock,
+.stock.in-stock {
 	background: rgba(46, 125, 50, 0.1) !important;
 	color: #2E7D32 !important;
 	border: 1px solid rgba(46, 125, 50, 0.3) !important;
 }
 
-html body .woocommerce div.product p.stock.in-stock::before,
-html body .stock.in-stock::before {
+.woocommerce div.product p.stock.in-stock::before,
+.stock.in-stock::before {
 	content: "● ";
 	font-size: 0.75rem;
 }

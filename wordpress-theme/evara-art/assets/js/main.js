@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.4.1
+ * @version 1.4.2
  */
 
 (function($) {
@@ -191,13 +191,19 @@
 		checkMobileFloatingElements();
 		$(window).on('resize orientationchange', checkMobileFloatingElements);
 
-		// 8. Enhance WooCommerce Single Product Gallery Direction Arrows & Thumbs
+		// 8. Enhance WooCommerce Single Product Gallery Direction Arrows & Visibility
 		function enhanceProductGallery() {
 			var $gallery = $('.woocommerce-product-gallery');
 			if (!$gallery.length) return;
 
+			$gallery.css({ 'opacity': '1', 'visibility': 'visible' });
 			$gallery.find('.flex-direction-nav .flex-prev').attr('aria-label', 'Previous Artwork Image');
 			$gallery.find('.flex-direction-nav .flex-next').attr('aria-label', 'Next Artwork Image');
+
+			// Trigger resize so Flexslider calculates active slide track width accurately
+			setTimeout(function() {
+				$(window).trigger('resize');
+			}, 80);
 		}
 		enhanceProductGallery();
 		$(window).on('load', enhanceProductGallery);

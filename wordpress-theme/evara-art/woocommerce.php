@@ -3,7 +3,7 @@
  * WooCommerce main layout wrapper
  *
  * @package EvaraArt
- * @version 1.4.1
+ * @version 1.4.2
  */
 
 get_header(); ?>
