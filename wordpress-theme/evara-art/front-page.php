@@ -3,7 +3,7 @@
  * The Front Page template for Evara Art (Auto 4-Slide Banner, Editorial & Reordered Sections)
  *
  * @package EvaraArt
- * @version 1.4.2
+ * @version 1.4.3
  */
 
 get_header(); ?>
@@ -29,8 +29,10 @@ for ( $s = 1; $s <= 4; $s++ ) {
 	if ( 1 === $s && empty( $s_img ) && ! empty( $legacy_banner ) ) {
 		$s_img = $legacy_banner;
 	}
-	if ( ! empty( $s_img ) ) {
+	$s_img_url = function_exists( 'evara_get_image_url' ) ? evara_get_image_url( $s_img ) : $s_img;
+	if ( ! empty( $s_img_url ) ) {
 		$s_mobile_img = get_theme_mod( "evara_slide{$s}_mobile_image", '' );
+		$s_mobile_img_url = function_exists( 'evara_get_image_url' ) ? evara_get_image_url( $s_mobile_img ) : $s_mobile_img;
 		$s_title = get_theme_mod( "evara_slide{$s}_title", '' );
 		if ( preg_match( '/\bheart\b/i', $s_title ) && ! preg_match( '/\bHEART\b/', $s_title ) ) {
 			$s_title = preg_replace( '/\bheart\b/i', 'HEART', $s_title );
@@ -38,8 +40,8 @@ for ( $s = 1; $s <= 4; $s++ ) {
 		$s_badge = get_theme_mod( "evara_slide{$s}_badge", '✦ Evara Art Masterpiece' );
 		$s_url   = get_theme_mod( "evara_slide{$s}_url", '' );
 		$custom_slides[] = array(
-			'image'        => $s_img,
-			'mobile_image' => $s_mobile_img,
+			'image'        => $s_img_url,
+			'mobile_image' => $s_mobile_img_url,
 			'title'        => ! empty( $s_title ) ? $s_title : get_bloginfo( 'name' ),
 			'badge'        => $s_badge,
 			'url'          => ! empty( $s_url ) ? $s_url : $canvas_url,
@@ -220,12 +222,13 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 
 			<!-- Featured Artwork Showcase Card (Fully Configurable via WordPress Customizer) -->
 			<?php
-			$showcase_show  = ( 'no' !== get_theme_mod( 'evara_showcase_card_show', 'yes' ) );
-			$showcase_img   = get_theme_mod( 'evara_showcase_card_image', '' );
-			$showcase_badge = get_theme_mod( 'evara_showcase_card_badge', '✦ Original Artwork' );
-			$showcase_title = get_theme_mod( 'evara_showcase_card_title', 'Sacred Spiritual Artworks' );
-			$showcase_cta   = get_theme_mod( 'evara_showcase_card_cta', 'Explore Collection' );
-			$showcase_url   = get_theme_mod( 'evara_showcase_card_url', '' );
+			$showcase_show    = ( 'no' !== get_theme_mod( 'evara_showcase_card_show', 'yes' ) );
+			$showcase_img_val = get_theme_mod( 'evara_showcase_card_image', '' );
+			$showcase_img     = function_exists( 'evara_get_image_url' ) ? evara_get_image_url( $showcase_img_val ) : $showcase_img_val;
+			$showcase_badge   = get_theme_mod( 'evara_showcase_card_badge', '✦ Original Artwork' );
+			$showcase_title   = get_theme_mod( 'evara_showcase_card_title', 'Sacred Spiritual Artworks' );
+			$showcase_cta     = get_theme_mod( 'evara_showcase_card_cta', 'Explore Collection' );
+			$showcase_url     = get_theme_mod( 'evara_showcase_card_url', '' );
 
 			if ( empty( $showcase_url ) ) {
 				$showcase_url = $canvas_url;

@@ -4453,23 +4453,34 @@ textarea.studio-input {
 .woocommerce ul.products li.product:hover img {
 	transform: scale(1.03);
 }
-.woocommerce ul.products li.product .onsale {
-	position: absolute;
-	top: 12px;
-	left: 12px;
-	background: var(--evara-terracotta);
-	color: #FFFFFF;
-	font-family: var(--font-sans);
-	font-size: 0.72rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	padding: 4px 10px;
-	border-radius: var(--radius-full);
-	line-height: 1;
-	z-index: 2;
-	min-height: unset;
-	min-width: unset;
+.woocommerce ul.products li.product .onsale,
+.woocommerce-page ul.products li.product .onsale,
+.related.products ul.products li.product .onsale {
+	position: absolute !important;
+	top: 12px !important;
+	left: 12px !important;
+	right: auto !important;
+	bottom: auto !important;
+	width: auto !important;
+	max-width: fit-content !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	height: auto !important;
+	display: inline-block !important;
+	line-height: 1 !important;
+	padding: 5px 12px !important;
+	border-radius: var(--radius-full, 9999px) !important;
+	background: var(--evara-terracotta, #B85034) !important;
+	color: #FFFFFF !important;
+	font-family: var(--font-sans) !important;
+	font-size: 0.72rem !important;
+	font-weight: 700 !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.05em !important;
+	box-shadow: 0 4px 10px rgba(184, 80, 52, 0.3) !important;
+	z-index: 10 !important;
+	border: none !important;
+	white-space: nowrap !important;
 }
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
 	font-family: var(--font-serif) !important;
@@ -4573,8 +4584,8 @@ body.woocommerce div.product,
 		max-width: 50% !important;
 		flex: 0 0 50% !important;
 		float: left !important;
-		position: sticky !important;
-		top: 90px !important;
+		position: relative !important;
+		top: auto !important;
 		margin: 0 !important;
 		padding-right: 28px !important;
 		box-sizing: border-box !important;
@@ -4705,6 +4716,31 @@ body.woocommerce div.product,
 	padding: 0 !important;
 }
 
+/* --------------------------------------------------------------------------
+   DISABLE HOVER ZOOM GHOST IMAGES & DUPLICATE LENSES
+   -------------------------------------------------------------------------- */
+.zoomImg,
+img.zoomImg,
+.woocommerce-product-gallery .zoomImg,
+.woocommerce-product-gallery__image .zoomImg,
+.woocommerce-product-gallery__image > img.zoomImg {
+	display: none !important;
+	opacity: 0 !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+	width: 0 !important;
+	height: 0 !important;
+	max-width: 0 !important;
+	max-height: 0 !important;
+	position: absolute !important;
+	clip: rect(0, 0, 0, 0) !important;
+	z-index: -9999 !important;
+}
+
+.avada-product-gallery-lightbox-trigger {
+	display: none !important;
+}
+
 /* Slide item internal styling */
 .woocommerce-product-gallery .woocommerce-product-gallery__image {
 	padding: 16px !important;
@@ -4713,6 +4749,7 @@ body.woocommerce div.product,
 	background: transparent !important;
 	border: none !important;
 	box-shadow: none !important;
+	position: relative !important;
 }
 
 .woocommerce-product-gallery .woocommerce-product-gallery__image a {
@@ -4720,13 +4757,17 @@ body.woocommerce div.product,
 	align-items: center !important;
 	justify-content: center !important;
 	width: 100% !important;
-	min-height: 400px !important;
+	min-height: 0 !important;
+	height: auto !important;
 	text-decoration: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
 }
 
-/* Artwork Image inside slide: full size, crisp, properly centered */
-.woocommerce-product-gallery .woocommerce-product-gallery__image img,
-.woocommerce-product-gallery img.wp-post-image {
+/* Artwork Image inside slide: full size, crisp, properly centered, no ghost clone */
+.woocommerce-product-gallery .woocommerce-product-gallery__image > a > img,
+.woocommerce-product-gallery .woocommerce-product-gallery__image > img:not(.zoomImg),
+.woocommerce-product-gallery img.wp-post-image:not(.zoomImg) {
 	width: auto !important;
 	max-width: 100% !important;
 	height: auto !important;
@@ -4735,20 +4776,31 @@ body.woocommerce div.product,
 	display: block !important;
 	margin: 0 auto !important;
 	border-radius: var(--radius-md, 10px) !important;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
 	transition: transform 0.35s ease !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+	.woocommerce-product-gallery .flex-viewport {
+		height: auto !important;
+		max-height: 70vh !important;
+	}
 	.woocommerce-product-gallery .woocommerce-product-gallery__image {
 		padding: 10px !important;
 	}
 	.woocommerce-product-gallery .woocommerce-product-gallery__image a {
-		min-height: 280px !important;
+		min-height: 0 !important;
+		height: auto !important;
 	}
-	.woocommerce-product-gallery .woocommerce-product-gallery__image img,
-	.woocommerce-product-gallery img.wp-post-image {
-		max-height: 380px !important;
+	.woocommerce-product-gallery .woocommerce-product-gallery__image > a > img,
+	.woocommerce-product-gallery .woocommerce-product-gallery__image > img:not(.zoomImg),
+	.woocommerce-product-gallery img.wp-post-image:not(.zoomImg) {
+		max-height: 55vh !important;
+		width: auto !important;
+		max-width: 100% !important;
+		height: auto !important;
+		object-fit: contain !important;
+		margin: 0 auto !important;
 	}
 }
 
@@ -4954,8 +5006,14 @@ body.woocommerce div.product,
 	position: absolute !important;
 	top: 14px !important;
 	left: 14px !important;
-	min-height: auto !important;
-	min-width: auto !important;
+	right: auto !important;
+	bottom: auto !important;
+	width: auto !important;
+	max-width: fit-content !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	height: auto !important;
+	display: inline-block !important;
 	line-height: 1 !important;
 	padding: 6px 14px !important;
 	border-radius: var(--radius-full, 9999px) !important;
@@ -4969,6 +5027,7 @@ body.woocommerce div.product,
 	box-shadow: 0 4px 12px rgba(184, 80, 52, 0.35) !important;
 	z-index: 25 !important;
 	border: none !important;
+	white-space: nowrap !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -6085,11 +6144,24 @@ body.woocommerce div.product,
 	.floating-cart-btn,
 	.floating-cart-button,
 	.xoo-wsc-cart-trigger,
+	.xoo-wsc-basket,
 	.woofc-count,
 	.woofc-btn,
+	#woofc-area,
+	.xt_floating_cart,
+	#xt_floating_cart,
+	.cartpops-floating-button,
+	.vi-wsc-floating-cart,
+	#vi-wsc-floating-cart,
 	.cart-floating-icon,
 	.wp-block-woocommerce-mini-cart,
-	.woocommerce-mini-cart-floating {
+	.woocommerce-mini-cart-floating,
+	[class*="floating-cart"],
+	[id*="floating-cart"],
+	[class*="cart-floating"],
+	[class*="fly-cart"],
+	[id*="fly-cart"],
+	[class*="cart-trigger"]:not(#evara-cart-open) {
 		display: none !important;
 		visibility: hidden !important;
 		opacity: 0 !important;
@@ -6100,7 +6172,8 @@ body.woocommerce div.product,
 	}
 
 	/* Don't keep floating WhatsApp above everything on mobile */
-	.evara-floating-whatsapp {
+	.evara-floating-whatsapp,
+	#evara-floating-whatsapp {
 		display: none !important;
 		visibility: hidden !important;
 		opacity: 0 !important;

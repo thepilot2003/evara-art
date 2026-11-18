@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.4.2
+ * @version 1.4.3
  */
 
 (function($) {
@@ -183,7 +183,7 @@
 		// 7. Ensure floating cart logo and floating WhatsApp are suppressed on mobile viewports
 		function checkMobileFloatingElements() {
 			if (window.innerWidth <= 900) {
-				$('#moderncart-floating-cart, .moderncart-toggle-slide-out, .evara-floating-whatsapp, #evara-floating-whatsapp').attr('style', function(i, s) {
+				$('#moderncart-floating-cart, .moderncart-toggle-slide-out, .moderncart-floating-cart-button, #floating-cart, .floating-cart, .evara-floating-cart, .xoo-wsc-cart-trigger, .woofc-btn, .woofc-count, #xt_floating_cart, .xt_floating_cart, .evara-floating-whatsapp, #evara-floating-whatsapp, [class*="floating-cart"], [id*="floating-cart"]').attr('style', function(i, s) {
 					return (s || '') + '; display: none !important; visibility: hidden !important; pointer-events: none !important;';
 				});
 			}
@@ -191,10 +191,13 @@
 		checkMobileFloatingElements();
 		$(window).on('resize orientationchange', checkMobileFloatingElements);
 
-		// 8. Enhance WooCommerce Single Product Gallery Direction Arrows & Visibility
+		// 8. Enhance WooCommerce Single Product Gallery & Strip Zombie Zoom Overlays
 		function enhanceProductGallery() {
 			var $gallery = $('.woocommerce-product-gallery');
 			if (!$gallery.length) return;
+
+			// Proactively remove any ghost zoom overlays dynamically injected by old scripts
+			$gallery.find('.zoomImg, img.zoomImg').remove();
 
 			$gallery.css({ 'opacity': '1', 'visibility': 'visible' });
 			$gallery.find('.flex-direction-nav .flex-prev').attr('aria-label', 'Previous Artwork Image');

@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Top-Left Brand Logo, Navigation Categories beside Logo, Right Actions)
  *
  * @package EvaraArt
- * @version 1.4.2
+ * @version 1.4.3
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>

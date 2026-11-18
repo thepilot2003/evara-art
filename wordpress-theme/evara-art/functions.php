@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.4.2
+ * @version 1.4.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.4.2' );
+define( 'EVARA_VERSION', '1.4.3' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -133,11 +133,17 @@ function evara_art_setup() {
 			'max_columns'     => 4,
 		),
 	) );
-	add_theme_support( 'wc-product-gallery-zoom' );
+	// Disable buggy hover zoom that injects duplicate floating .zoomImg overlays
+	// add_theme_support( 'wc-product-gallery-zoom' );
 	add_theme_support( 'wc-product-gallery-lightbox' );
 	add_theme_support( 'wc-product-gallery-slider' );
 }
 add_action( 'after_setup_theme', 'evara_art_setup' );
+
+// Proactively ensure wc-product-gallery-zoom is disabled even if plugins enable it
+add_action( 'after_setup_theme', function() {
+	remove_theme_support( 'wc-product-gallery-zoom' );
+}, 100 );
 
 /**
  * Helper: Resolve dynamic WooCommerce Category URLs with fallbacks
@@ -525,6 +531,40 @@ function evara_single_product_trust_box() {
 }
 
 /**
+ * Sanitizer for Customizer Image Controls (supports attachment ID, raw URL, or sanitized URL)
+ */
+function evara_sanitize_image_upload( $input ) {
+	if ( empty( $input ) ) {
+		return '';
+	}
+	if ( is_numeric( $input ) ) {
+		return absint( $input );
+	}
+	return esc_url_raw( $input );
+}
+
+/**
+ * Helper: Resolve image upload values (attachment ID or URL) safely into a valid image URL
+ */
+function evara_get_image_url( $val, $size = 'full' ) {
+	if ( empty( $val ) ) {
+		return '';
+	}
+	if ( is_numeric( $val ) ) {
+		$url = wp_get_attachment_image_url( (int) $val, $size );
+		return $url ? $url : '';
+	}
+	// Check if it's an accidental "http://<id>" caused by previous esc_url_raw
+	if ( preg_match( '#^https?://([0-9]+)$#', $val, $matches ) ) {
+		$url = wp_get_attachment_image_url( (int) $matches[1], $size );
+		if ( $url ) {
+			return $url;
+		}
+	}
+	return esc_url( $val );
+}
+
+/**
  * 10. WordPress Theme Customizer: Edit the Entire Website via Appearance > Customize
  */
 function evara_customize_register( $wp_customize ) {
@@ -598,13 +638,13 @@ function evara_customize_register( $wp_customize ) {
 	) );
 
 	// Custom Slide 1
-	$wp_customize->add_setting( 'evara_slide1_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide1_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide1_image', array(
 		'label'       => __( 'Banner 1: Desktop Image', 'evara-art' ),
 		'description' => __( 'Upload image for Banner 1 on desktop (recommended 1600x600 or 1400x520).', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
-	$wp_customize->add_setting( 'evara_slide1_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide1_mobile_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide1_mobile_image', array(
 		'label'       => __( 'Banner 1: Mobile Image (Optional)', 'evara-art' ),
 		'description' => __( 'Optional dedicated image for mobile screens (recommended 4:3 ratio: 1200x900 or 800x600). If empty, desktop image is centered automatically.', 'evara-art' ),
@@ -618,12 +658,12 @@ function evara_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'evara_slide1_url', array( 'label' => __( 'Banner 1: Click Link URL', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'url' ) );
 
 	// Custom Slide 2
-	$wp_customize->add_setting( 'evara_slide2_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide2_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide2_image', array(
 		'label'       => __( 'Banner 2: Desktop Image', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
-	$wp_customize->add_setting( 'evara_slide2_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide2_mobile_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide2_mobile_image', array(
 		'label'       => __( 'Banner 2: Mobile Image (Optional)', 'evara-art' ),
 		'description' => __( 'Optional mobile image (recommended 4:3 ratio: 1200x900 or 800x600).', 'evara-art' ),
@@ -637,12 +677,12 @@ function evara_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'evara_slide2_url', array( 'label' => __( 'Banner 2: Click Link URL', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'url' ) );
 
 	// Custom Slide 3
-	$wp_customize->add_setting( 'evara_slide3_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide3_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide3_image', array(
 		'label'       => __( 'Banner 3: Desktop Image', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
-	$wp_customize->add_setting( 'evara_slide3_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide3_mobile_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide3_mobile_image', array(
 		'label'       => __( 'Banner 3: Mobile Image (Optional)', 'evara-art' ),
 		'description' => __( 'Optional mobile image (recommended 4:3 ratio: 1200x900 or 800x600).', 'evara-art' ),
@@ -656,12 +696,12 @@ function evara_customize_register( $wp_customize ) {
 	$wp_customize->add_control( 'evara_slide3_url', array( 'label' => __( 'Banner 3: Click Link URL', 'evara-art' ), 'section' => 'evara_hero_section', 'type' => 'url' ) );
 
 	// Custom Slide 4
-	$wp_customize->add_setting( 'evara_slide4_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide4_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide4_image', array(
 		'label'       => __( 'Banner 4: Desktop Image', 'evara-art' ),
 		'section'     => 'evara_hero_section',
 	) ) );
-	$wp_customize->add_setting( 'evara_slide4_mobile_image', array( 'default' => '', 'sanitize_callback' => 'esc_url_raw' ) );
+	$wp_customize->add_setting( 'evara_slide4_mobile_image', array( 'default' => '', 'sanitize_callback' => 'evara_sanitize_image_upload' ) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_slide4_mobile_image', array(
 		'label'       => __( 'Banner 4: Mobile Image (Optional)', 'evara-art' ),
 		'description' => __( 'Optional mobile image (recommended 4:3 ratio: 1200x900 or 800x600).', 'evara-art' ),
@@ -784,7 +824,7 @@ function evara_customize_register( $wp_customize ) {
 
 	$wp_customize->add_setting( 'evara_showcase_card_image', array(
 		'default'           => '',
-		'sanitize_callback' => 'esc_url_raw',
+		'sanitize_callback' => 'evara_sanitize_image_upload',
 	) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_showcase_card_image', array(
 		'label'       => __( 'Hero Side Card: Custom Image', 'evara-art' ),
@@ -896,7 +936,7 @@ function evara_customize_register( $wp_customize ) {
 	// Canvas Collection Card
 	$wp_customize->add_setting( 'evara_canvas_collection_img', array(
 		'default'           => '',
-		'sanitize_callback' => 'esc_url_raw',
+		'sanitize_callback' => 'evara_sanitize_image_upload',
 	) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_canvas_collection_img', array(
 		'label'       => __( 'Canvas Paintings: Card Image', 'evara-art' ),
@@ -927,7 +967,7 @@ function evara_customize_register( $wp_customize ) {
 	// Lippan Collection Card
 	$wp_customize->add_setting( 'evara_lippan_collection_img', array(
 		'default'           => '',
-		'sanitize_callback' => 'esc_url_raw',
+		'sanitize_callback' => 'evara_sanitize_image_upload',
 	) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_lippan_collection_img', array(
 		'label'       => __( 'Lippan & Clay Art: Card Image', 'evara-art' ),
@@ -965,7 +1005,7 @@ function evara_customize_register( $wp_customize ) {
 	// Footer Logo (Dedicated full-color upload)
 	$wp_customize->add_setting( 'evara_footer_logo', array(
 		'default'           => '',
-		'sanitize_callback' => 'esc_url_raw',
+		'sanitize_callback' => 'evara_sanitize_image_upload',
 	) );
 	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'evara_footer_logo', array(
 		'label'       => __( 'Footer Brand Logo (Full Color)', 'evara-art' ),
