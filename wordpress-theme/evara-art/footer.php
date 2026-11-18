@@ -100,11 +100,7 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 				<?php endif; ?>
 				<li><a href="<?php echo esc_url( home_url( '/shipping-policy/' ) ); ?>"><?php esc_html_e( 'Shipping & Delivery Policy', 'evara-art' ); ?></a></li>
 				<li><a href="<?php echo esc_url( home_url( '/refund-returns/' ) ); ?>"><?php esc_html_e( 'Returns & Refund Policy', 'evara-art' ); ?></a></li>
-				<li>
-					<a href="<?php echo esc_url( function_exists( 'get_privacy_policy_url' ) && get_privacy_policy_url() ? get_privacy_policy_url() : home_url( '/privacy-policy/' ) ); ?>">
-						<?php esc_html_e( 'Privacy Policy', 'evara-art' ); ?>
-					</a>
-				</li>
+				<li><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'evara-art' ); ?></a></li>
 				<li><a href="<?php echo esc_url( home_url( '/terms-conditions/' ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'evara-art' ); ?></a></li>
 			</ul>
 		</div>

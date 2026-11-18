@@ -64,11 +64,11 @@ get_header(); ?>
 		</p>
 		
 		<div class="evara-404-actions">
-			<a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>" class="evara-btn btn-primary">
+			<a href="<?php echo esc_url( home_url( '/product-category/canvas-painting-evara-art/' ) ); ?>" class="evara-btn btn-primary">
 				<span><?php esc_html_e( 'Explore Canvas Paintings', 'evara-art' ); ?></span>
 				<i class="fa-solid fa-arrow-right"></i>
 			</a>
-			<a href="<?php echo esc_url( home_url( '/lippan-art-home-decor/' ) ); ?>" class="evara-btn btn-outline">
+			<a href="<?php echo esc_url( home_url( '/product-category/clay-art-evara-art/' ) ); ?>" class="evara-btn btn-outline">
 				<span><?php esc_html_e( 'Explore Lippan Art', 'evara-art' ); ?></span>
 			</a>
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="evara-btn btn-secondary">

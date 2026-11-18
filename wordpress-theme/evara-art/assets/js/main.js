@@ -263,8 +263,17 @@
 			var $gallery = $('.woocommerce-product-gallery');
 			if (!$gallery.length) return;
 
-			// Proactively remove any ghost zoom overlays dynamically injected by old scripts
-			$gallery.find('.zoomImg, img.zoomImg').remove();
+			// Check image count
+			var slideCount = $gallery.find('.woocommerce-product-gallery__image').length;
+			if (slideCount <= 1) {
+				$gallery.addClass('is-single-image');
+				$gallery.find('.flex-direction-nav, .flex-control-thumbs').hide();
+			} else {
+				$gallery.addClass('has-multiple-images');
+			}
+
+			// Proactively remove any ghost zoom or Avada fusion rollover overlays
+			$gallery.find('.zoomImg, img.zoomImg, .fusion-rollover, .avada-image-rollover').remove();
 
 			$gallery.css({ 'opacity': '1', 'visibility': 'visible' });
 			$gallery.find('.flex-direction-nav .flex-prev').attr('aria-label', 'Previous Artwork Image');
@@ -296,6 +305,21 @@
 		}
 		enhanceProductGallery();
 		$(window).on('load', enhanceProductGallery);
+
+		// 9. Fail-Safe Cart Trigger Binding
+		$(document).on('click', '#evara-cart-open, .cart-trigger', function(e) {
+			var $drawer = $('#evara-cart-drawer');
+			if ($drawer.length) {
+				e.preventDefault();
+				$drawer.addClass('is-open').attr('aria-hidden', 'false');
+				$('#evara-cart-open').attr('aria-expanded', 'true');
+				$('body').css('overflow', 'hidden');
+				var $close = $('#evara-cart-close');
+				if ($close.length) {
+					$close.focus();
+				}
+			}
+		});
 
 	});
 

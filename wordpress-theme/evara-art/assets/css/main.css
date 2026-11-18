@@ -4906,13 +4906,20 @@ body.woocommerce div.product,
 }
 
 /* --------------------------------------------------------------------------
-   DISABLE HOVER ZOOM GHOST IMAGES & DUPLICATE LENSES
+   DISABLE HOVER ZOOM GHOST IMAGES & AVADA FUSION ROLLOVERS
    -------------------------------------------------------------------------- */
 .zoomImg,
 img.zoomImg,
 .woocommerce-product-gallery .zoomImg,
 .woocommerce-product-gallery__image .zoomImg,
-.woocommerce-product-gallery__image > img.zoomImg {
+.woocommerce-product-gallery__image > img.zoomImg,
+.fusion-image-wrapper .fusion-rollover,
+.fusion-rollover,
+.avada-image-rollover,
+.woocommerce-product-gallery .fusion-rollover,
+.woocommerce-product-gallery .fusion-image-wrapper::after,
+.woocommerce-product-gallery .fusion-image-wrapper::before,
+.avada-product-gallery-lightbox-trigger {
 	display: none !important;
 	opacity: 0 !important;
 	visibility: hidden !important;
@@ -4924,10 +4931,6 @@ img.zoomImg,
 	position: absolute !important;
 	clip: rect(0, 0, 0, 0) !important;
 	z-index: -9999 !important;
-}
-
-.avada-product-gallery-lightbox-trigger {
-	display: none !important;
 }
 
 /* Slide item internal styling */
@@ -5080,6 +5083,15 @@ img.zoomImg,
 	transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
 	overflow: hidden !important;
 	font-size: 0 !important; /* Prevents any raw text leaking through */
+	text-indent: -9999px !important;
+}
+
+/* Hide arrows completely if product has only 1 image */
+.woocommerce-product-gallery.is-single-image .flex-direction-nav,
+.woocommerce-product-gallery:not(.has-multiple-images) .flex-direction-nav,
+.woocommerce-product-gallery:not(.flexslider) .flex-direction-nav,
+.woocommerce-product-gallery__wrapper:only-child .flex-direction-nav {
+	display: none !important;
 }
 
 .flex-direction-nav .flex-prev,
@@ -5096,24 +5108,34 @@ img.zoomImg,
 	left: auto !important;
 }
 
-.flex-direction-nav .flex-prev::before {
-	content: "\f053" !important; /* FontAwesome fa-chevron-left */
-	font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
-	font-weight: 900 !important;
-	font-size: 14px !important;
-	color: #2D231E !important;
-	display: inline-block !important;
-	line-height: 1 !important;
+/* Pure CSS Crisp Chevrons (Zero Font Dependencies) */
+.flex-direction-nav .flex-prev::after {
+	content: "" !important;
+	display: block !important;
+	width: 9px !important;
+	height: 9px !important;
+	border-left: 2.5px solid currentColor !important;
+	border-bottom: 2.5px solid currentColor !important;
+	transform: rotate(45deg) !important;
+	margin-left: 3px !important;
+	transition: all 0.2s ease !important;
 }
 
+.flex-direction-nav .flex-next::after {
+	content: "" !important;
+	display: block !important;
+	width: 9px !important;
+	height: 9px !important;
+	border-right: 2.5px solid currentColor !important;
+	border-top: 2.5px solid currentColor !important;
+	transform: rotate(45deg) !important;
+	margin-right: 3px !important;
+	transition: all 0.2s ease !important;
+}
+
+.flex-direction-nav .flex-prev::before,
 .flex-direction-nav .flex-next::before {
-	content: "\f054" !important; /* FontAwesome fa-chevron-right */
-	font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
-	font-weight: 900 !important;
-	font-size: 14px !important;
-	color: #2D231E !important;
-	display: inline-block !important;
-	line-height: 1 !important;
+	display: none !important;
 }
 
 .flex-direction-nav a:hover,
@@ -5127,12 +5149,6 @@ img.zoomImg,
 	opacity: 1 !important;
 }
 
-.flex-direction-nav a:hover::before,
-.woocommerce-product-gallery .flex-direction-nav a:hover::before,
-.avada-single-product-gallery-wrapper .flex-direction-nav a:hover::before {
-	color: #FFFFFF !important;
-}
-
 @media (max-width: 768px) {
 	.woocommerce-product-gallery .flex-direction-nav a,
 	.avada-single-product-gallery-wrapper .flex-direction-nav a {
@@ -5143,8 +5159,11 @@ img.zoomImg,
 		line-height: 38px !important;
 		opacity: 1 !important;
 	}
-	.woocommerce-product-gallery .flex-direction-nav a::before {
-		font-size: 12px !important;
+	.flex-direction-nav .flex-prev::after,
+	.flex-direction-nav .flex-next::after {
+		width: 7px !important;
+		height: 7px !important;
+		border-width: 2px !important;
 	}
 	.woocommerce-product-gallery .flex-direction-nav .flex-prev { left: 8px !important; }
 	.woocommerce-product-gallery .flex-direction-nav .flex-next { right: 8px !important; }
@@ -5508,12 +5527,16 @@ img.zoomImg,
 	background: #FAF8F5 !important;
 	border: 1px solid rgba(212, 175, 55, 0.2) !important;
 	border-radius: var(--radius-lg) !important;
-	padding: clamp(22px, 3.5vw, 36px) !important;
+	padding: clamp(20px, 3vw, 32px) !important;
 	font-family: var(--font-sans);
 	font-size: 0.96rem;
 	line-height: 1.75;
 	color: var(--evara-text-secondary);
 	box-shadow: 0 3px 14px rgba(28, 22, 18, 0.03);
+}
+.woocommerce-Tabs-panel #tab-description > h2:first-of-type,
+.woocommerce-Tabs-panel.woocommerce-Tabs-panel--description > h2:first-of-type {
+	display: none !important;
 }
 .woocommerce-Tabs-panel h2:first-of-type {
 	font-family: var(--font-serif) !important;
@@ -5530,10 +5553,27 @@ img.zoomImg,
 .related.products,
 .woocommerce div.product .related.products {
 	margin-top: 36px !important;
-	margin-bottom: 16px !important;
+	margin-bottom: 0 !important;
 	border-top: 1px solid rgba(212, 175, 55, 0.22) !important;
 	padding-top: 28px !important;
 	padding-bottom: 0 !important;
+}
+@media (max-width: 900px) {
+	.woocommerce div.product .woocommerce-tabs {
+		margin-top: 24px !important;
+		padding-top: 18px !important;
+	}
+	.woocommerce-Tabs-panel {
+		padding: 16px !important;
+		border-radius: var(--radius-md) !important;
+	}
+	.related.products,
+	.woocommerce div.product .related.products {
+		margin-top: 24px !important;
+		padding-top: 18px !important;
+		margin-bottom: 0 !important;
+		padding-bottom: 0 !important;
+	}
 }
 .related.products > h2 {
 	font-family: var(--font-serif);

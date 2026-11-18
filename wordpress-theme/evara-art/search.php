@@ -83,7 +83,7 @@ get_header(); ?>
 			</div>
 			<h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 12px;"><?php esc_html_e( 'No Matching Creations Found', 'evara-art' ); ?></h3>
 			<p style="color: var(--evara-text-secondary); max-width: 500px; margin: 0 auto 28px;"><?php esc_html_e( 'Please check your spelling or try searching for keywords like Krishna, Lippan Art, Ganesha, or Canvas.', 'evara-art' ); ?></p>
-			<a href="<?php echo esc_url( home_url( '/canvas-paintings-home-decor/' ) ); ?>" class="evara-btn btn-primary">
+			<a href="<?php echo esc_url( home_url( '/categories/' ) ); ?>" class="evara-btn btn-primary">
 				<span><?php esc_html_e( 'Browse All Collections', 'evara-art' ); ?></span>
 			</a>
 		</div>

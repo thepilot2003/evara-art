@@ -3,14 +3,24 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.4.4
+ * @version 1.4.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.4.6' );
+// Graceful fatal error logger to prevent silent critical death
+register_shutdown_function( function() {
+	$error = error_get_last();
+	if ( $error && in_array( $error['type'], array( E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR ) ) ) {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( sprintf( '[EvaraArt] Fatal shutdown error: %s in %s on line %d', $error['message'], $error['file'], $error['line'] ) );
+		}
+	}
+} );
+
+define( 'EVARA_VERSION', '1.4.7' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -207,21 +217,77 @@ function evara_get_custom_art_url() {
 }
 
 /**
- * Redirect legacy/empty static pages to live WooCommerce product category archives
+ * Redirect legacy URLs to their canonical destinations:
+ * - /canvas-paintings-home-decor/ -> /product-category/canvas-painting-evara-art/
+ * - /lippan-art-home-decor/ -> /product-category/clay-art-evara-art/
+ * - /coming-soon/ -> /
+ * - /privacy-policy-2/ & ?page_id=3 -> /privacy-policy/
+ * - /refund_returns/ & ?page_id=25 -> /refund-returns/
+ * - /product/annapakshi/ -> /product/annapakshi-lippan-wall-hanging-set-of-2/
+ * - /product/lotus-pichwai/ -> /product/18-inch-lotus-pichwai-lippan-wall-hanging/
  */
-add_action( 'template_redirect', 'evara_redirect_old_category_pages' );
+add_action( 'template_redirect', 'evara_redirect_old_category_pages', 2 );
 function evara_redirect_old_category_pages() {
-	if ( is_page( 'canvas-paintings-home-decor' ) ) {
-		$target = evara_get_category_url( array( 'canvas-painting-evara-art' ), '/product-category/canvas-painting-evara-art/' );
-		wp_safe_redirect( $target, 301 );
+	if ( is_admin() ) {
+		return;
+	}
+
+	$req_uri  = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$raw_path = trim( parse_url( $req_uri, PHP_URL_PATH ), '/' );
+
+	// Subfolder path normalization
+	$home_path = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
+	if ( ! empty( $home_path ) && strpos( $raw_path, $home_path ) === 0 ) {
+		$raw_path = trim( substr( $raw_path, strlen( $home_path ) ), '/' );
+	}
+
+	// 1. Old category pages & coming soon
+	if ( 'canvas-paintings-home-decor' === $raw_path || is_page( 'canvas-paintings-home-decor' ) ) {
+		wp_safe_redirect( home_url( '/product-category/canvas-painting-evara-art/' ), 301 );
 		exit;
 	}
-	if ( is_page( 'lippan-art-home-decor' ) ) {
-		$target = evara_get_category_url( array( 'clay-art-evara-art' ), '/product-category/clay-art-evara-art/' );
-		wp_safe_redirect( $target, 301 );
+	if ( 'lippan-art-home-decor' === $raw_path || is_page( 'lippan-art-home-decor' ) ) {
+		wp_safe_redirect( home_url( '/product-category/clay-art-evara-art/' ), 301 );
+		exit;
+	}
+	if ( 'coming-soon' === $raw_path || is_page( 'coming-soon' ) ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+
+	// 2. Harmonize Privacy Policies (redirect /privacy-policy-2/ and ?page_id=3 or ?p=3 or ?p=192 to /privacy-policy/)
+	if ( 'privacy-policy-2' === $raw_path || ( isset( $_GET['page_id'] ) && 3 == (int) $_GET['page_id'] ) || ( isset( $_GET['p'] ) && 3 == (int) $_GET['p'] ) || ( isset( $_GET['p'] ) && 192 == (int) $_GET['p'] ) ) {
+		wp_safe_redirect( home_url( '/privacy-policy/' ), 301 );
+		exit;
+	}
+
+	// 3. Harmonize Refund Policies (redirect /refund_returns/ and ?page_id=25 or ?p=25 to /refund-returns/)
+	if ( 'refund_returns' === $raw_path || ( isset( $_GET['page_id'] ) && 25 == (int) $_GET['page_id'] ) || ( isset( $_GET['p'] ) && 25 == (int) $_GET['p'] ) ) {
+		wp_safe_redirect( home_url( '/refund-returns/' ), 301 );
+		exit;
+	}
+
+	// 4. Product Slugs Aliases (redirect shortcut slugs to full canonical products)
+	if ( 'product/annapakshi' === $raw_path ) {
+		wp_safe_redirect( home_url( '/product/annapakshi-lippan-wall-hanging-set-of-2/' ), 301 );
+		exit;
+	}
+	if ( 'product/lotus-pichwai' === $raw_path ) {
+		wp_safe_redirect( home_url( '/product/18-inch-lotus-pichwai-lippan-wall-hanging/' ), 301 );
 		exit;
 	}
 }
+
+/**
+ * Harmonize Privacy Policy URL across WordPress core & WooCommerce
+ */
+add_filter( 'privacy_policy_url', function( $url ) {
+	return home_url( '/privacy-policy/' );
+} );
+add_filter( 'woocommerce_get_privacy_policy_page_id', function( $id ) {
+	$page = get_page_by_path( 'privacy-policy' );
+	return $page ? $page->ID : $id;
+} );
 
 /**
  * Enable Customer Account Creation on WooCommerce My Account page
@@ -394,9 +460,11 @@ function evara_art_scripts() {
 		}
 		wp_enqueue_script( 'evara-cart-drawer', EVARA_URI . '/assets/js/cart-drawer.js', $cart_deps, EVARA_VERSION, true );
 
+		$wc_ajax_endpoint = class_exists( 'WC_AJAX' ) ? WC_AJAX::get_endpoint( '%%endpoint%%' ) : add_query_arg( 'wc-ajax', '%%endpoint%%', home_url( '/' ) );
+
 		wp_localize_script( 'evara-cart-drawer', 'evara_vars', array(
 			'ajax_url'          => admin_url( 'admin-ajax.php' ),
-			'wc_ajax_url'       => WC_AJAX::get_endpoint( '%%endpoint%%' ),
+			'wc_ajax_url'       => $wc_ajax_endpoint,
 			'cart_url'          => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' ),
 			'free_shipping_min' => evara_get_free_shipping_threshold(),
 			'currency_symbol'   => get_woocommerce_currency_symbol(),
@@ -1128,9 +1196,9 @@ function evara_ensure_product_categories() {
 /**
  * 11. WooCommerce Account Registration & Instant Password Entry (No Email Dependency)
  */
-add_filter( 'pre_option_woocommerce_enable_myaccount_registration', '__return_yes' );
-add_filter( 'pre_option_woocommerce_registration_generate_password', '__return_no' );
-add_filter( 'pre_option_woocommerce_registration_generate_username', '__return_no' );
+add_filter( 'pre_option_woocommerce_enable_myaccount_registration', function() { return 'yes'; } );
+add_filter( 'pre_option_woocommerce_registration_generate_password', function() { return 'no'; } );
+add_filter( 'pre_option_woocommerce_registration_generate_username', function() { return 'no'; } );
 
 /**
  * 12. Search Refinements:
@@ -1199,6 +1267,10 @@ function evara_ajax_live_search() {
 add_action( 'init', 'evara_auto_provision_essential_pages' );
 add_action( 'after_switch_theme', 'evara_auto_provision_essential_pages' );
 function evara_auto_provision_essential_pages() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	$pages_to_provision = array(
 		'about' => array(
 			'title'    => 'About & Studio Story',
@@ -1268,6 +1340,142 @@ function evara_auto_provision_essential_pages() {
 		}
 	}
 }
+
+/**
+ * 15. Auto-Provision and Recover Missing Catalog Products in WooCommerce
+ * Ensures Peacock Harmony, The Forever Frame, Annapakshi Lippan, and 18 Inch Lotus Pichwai are published.
+ * Also populates Boho Art and Abstract Painting categories if empty.
+ */
+add_action( 'init', 'evara_auto_provision_catalog_products' );
+add_action( 'after_switch_theme', 'evara_auto_provision_catalog_products' );
+function evara_auto_provision_catalog_products() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	if ( ! class_exists( 'WooCommerce' ) ) {
+		return;
+	}
+
+	$catalog_products = array(
+		'peacock-harmony' => array(
+			'title'       => 'Peacock Harmony Lippan Art',
+			'price'       => '1499',
+			'regular'     => '1999',
+			'sku'         => 'EVARA-PEACOCK-01',
+			'categories'  => array( 'clay-art-evara-art' ),
+			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/Peacock-Harmony-02-500x500.jpg',
+			'description' => 'Exquisite handcrafted Kutch Lippan art featuring the majestic peacock, symbolizing grace, beauty, and renewal. Adorned with authentic hand-cut mirrors and textured clay relief on moisture-sealed MDF board.',
+		),
+		'the-forever-frame' => array(
+			'title'       => 'The Forever Frame',
+			'price'       => '2499',
+			'regular'     => '3599',
+			'sku'         => 'EVARA-FOREVER-01',
+			'categories'  => array( 'canvas-painting-evara-art' ),
+			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/1-01-1-500x500.jpg',
+			'description' => 'A timeless contemporary canvas artwork capturing eternal intimacy and delicate aesthetic emotion. Hand-painted acrylic on premium 380 GSM cotton canvas by lead artist Shraddha Parmar.',
+		),
+		'annapakshi-lippan-wall-hanging-set-of-2' => array(
+			'title'       => 'Annapakshi Lippan Wall Hanging (Set of 2)',
+			'price'       => '7999',
+			'regular'     => '9999',
+			'sku'         => 'EVARA-ANNAPAKSHI-02',
+			'categories'  => array( 'clay-art-evara-art' ),
+			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01-500x500.jpg',
+			'description' => 'A sacred pair of heritage Annapakshi divine bird Lippan wall hangings. Hand-sculpted clay with sacred mirror inlay reflecting prosperity, divine purity, and good fortune for your home temple or living room.',
+		),
+		'18-inch-lotus-pichwai-lippan-wall-hanging' => array(
+			'title'       => '18 Inch Lotus Pichwai Lippan Wall Hanging',
+			'price'       => '3999',
+			'regular'     => '4999',
+			'sku'         => 'EVARA-PICHWAI-18',
+			'categories'  => array( 'clay-art-evara-art' ),
+			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/15-Inch-Ganpati-Lippan-Art-Set-of-2-Wall-Hanging-02-2-500x500.jpg',
+			'description' => 'A 18-inch statement Lippan art piece celebrating the divine Pichwai lotus motif. Handcrafted mud relief work studded with sparkling convex mirrors that dance with every ray of light.',
+		),
+	);
+
+	foreach ( $catalog_products as $slug => $data ) {
+		$existing = new WP_Query( array(
+			'name'           => $slug,
+			'post_type'      => 'product',
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+		) );
+
+		if ( ! empty( $existing->posts ) ) {
+			$product_id = $existing->posts[0];
+			if ( 'publish' !== get_post_status( $product_id ) ) {
+				wp_update_post( array(
+					'ID'          => $product_id,
+					'post_status' => 'publish',
+				) );
+			}
+			update_post_meta( $product_id, '_price', $data['price'] );
+			update_post_meta( $product_id, '_regular_price', $data['regular'] );
+			update_post_meta( $product_id, '_sale_price', $data['price'] );
+			update_post_meta( $product_id, '_stock_status', 'instock' );
+		} else {
+			$new_id = wp_insert_post( array(
+				'post_title'   => $data['title'],
+				'post_name'    => $slug,
+				'post_content' => $data['description'],
+				'post_status'  => 'publish',
+				'post_type'    => 'product',
+			) );
+
+			if ( $new_id && ! is_wp_error( $new_id ) ) {
+				update_post_meta( $new_id, '_visibility', 'visible' );
+				update_post_meta( $new_id, '_stock_status', 'instock' );
+				update_post_meta( $new_id, 'total_sales', '0' );
+				update_post_meta( $new_id, '_downloadable', 'no' );
+				update_post_meta( $new_id, '_virtual', 'no' );
+				update_post_meta( $new_id, '_regular_price', $data['regular'] );
+				update_post_meta( $new_id, '_sale_price', $data['price'] );
+				update_post_meta( $new_id, '_price', $data['price'] );
+				update_post_meta( $new_id, '_sku', $data['sku'] );
+				wp_set_object_terms( $new_id, 'simple', 'product_type' );
+
+				if ( ! empty( $data['categories'] ) ) {
+					wp_set_object_terms( $new_id, $data['categories'], 'product_cat', true );
+				}
+			}
+		}
+	}
+
+	// Auto-populate Boho Art & Abstract Painting terms if empty
+	$boho_term = get_term_by( 'slug', 'boho-art', 'product_cat' );
+	if ( $boho_term && $boho_term->count == 0 ) {
+		$candidates = array( 'crimson-bloom-modern-portrait-canvas-art', 'sunset-whispers-by-the-lake', 'whispers-of-the-woodland' );
+		foreach ( $candidates as $cand_slug ) {
+			$cand = get_page_by_path( $cand_slug, OBJECT, 'product' );
+			if ( $cand ) {
+				wp_set_object_terms( $cand->ID, 'boho-art', 'product_cat', true );
+			}
+		}
+	}
+
+	$abstract_term = get_term_by( 'slug', 'abstract-painting', 'product_cat' );
+	if ( $abstract_term && $abstract_term->count == 0 ) {
+		$candidates = array( 'metamorphosis-abstract-butterfly-portrait-canvas-art', 'cosmic-harmony-krishna-shiva-universe-canvas-art', 'divine-union-shiv-shakti-canvas-painting' );
+		foreach ( $candidates as $cand_slug ) {
+			$cand = get_page_by_path( $cand_slug, OBJECT, 'product' );
+			if ( $cand ) {
+				wp_set_object_terms( $cand->ID, 'abstract-painting', 'product_cat', true );
+			}
+		}
+	}
+}
+
+/**
+ * Purge LiteSpeed Cache on Theme Activation / Update
+ */
+add_action( 'after_switch_theme', function() {
+	if ( has_action( 'litespeed_purge_all' ) ) {
+		do_action( 'litespeed_purge_all' );
+	}
+} );
 
 /**
  * 15. Early Intercept on template_redirect for Core Pages

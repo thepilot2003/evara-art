@@ -27,8 +27,8 @@ get_header(); ?>
 			<p><?php esc_html_e( 'Original art is fragile. Despite our multi-layered wooden crating, if your artwork sustains any damage during transit, Evara Art takes 100% financial and replacement responsibility. You will never be left at a loss.', 'evara-art' ); ?></p>
 			
 			<div class="policy-highlight-box">
-				<strong>✦ <?php esc_html_e( '48-Hour Unboxing Notice Protocol:', 'evara-art' ); ?></strong><br>
-				<?php esc_html_e( 'Because transit damage claims require courier insurance verification, please record a short continuous video while unboxing your wooden crate. If any damage or mirror crack is found, send the video and clear photos to WhatsApp at +91 93281 43036 or email support@evaraart.in within 48 hours of delivery.', 'evara-art' ); ?>
+				<strong>✦ <?php esc_html_e( '24 to 48-Hour Unboxing Notice Protocol:', 'evara-art' ); ?></strong><br>
+				<?php esc_html_e( 'Because transit damage claims require courier insurance verification, please record a short continuous video while unboxing your wooden crate. If any damage or mirror crack is found, send the video and clear photos to WhatsApp at +91 93281 43036 or email support@evaraart.in within 24 to 48 hours of delivery.', 'evara-art' ); ?>
 			</div>
 			<p><?php esc_html_e( 'Upon verification, we will immediately initiate your choice of:', 'evara-art' ); ?></p>
 			<ul>
