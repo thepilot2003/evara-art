@@ -4057,11 +4057,27 @@ textarea.studio-input {
 /* ==========================================================================
    WOOCOMMERCE MY ACCOUNT STYLING
    ========================================================================== */
-.woocommerce-account .woocommerce {
-	display: grid;
-	grid-template-columns: 260px 1fr;
-	gap: 40px;
-	margin-top: 20px;
+.woocommerce-account.logged-in .woocommerce {
+	display: grid !important;
+	grid-template-columns: 280px 1fr !important;
+	gap: 40px !important;
+	align-items: start !important;
+	margin-top: 20px !important;
+}
+
+.woocommerce-account:not(.logged-in) .woocommerce,
+.woocommerce-account .woocommerce:not(:has(.woocommerce-MyAccount-navigation)) {
+	display: block !important;
+	max-width: 1040px !important;
+	margin: 20px auto 50px !important;
+	width: 100% !important;
+}
+
+@media (max-width: 850px) {
+	.woocommerce-account.logged-in .woocommerce {
+		grid-template-columns: 1fr !important;
+		gap: 24px !important;
+	}
 }
 .woocommerce-MyAccount-navigation ul {
 	list-style: none;
@@ -6110,65 +6126,164 @@ img.zoomImg,
 }
 
 /* ==========================================================================
-   MY ACCOUNT: LOGIN & REGISTRATION SIDE-BY-SIDE
+   MY ACCOUNT: LOGIN & REGISTRATION SIDE-BY-SIDE (LUXURY DESKTOP & MOBILE)
    ========================================================================== */
-.woocommerce-account #customer_login {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 40px;
-	margin-top: 24px;
+.woocommerce-account .page-content-container {
+	max-width: 1140px !important;
+	margin: 0 auto !important;
+	padding-top: 30px !important;
+	padding-bottom: 80px !important;
 }
-@media (max-width: 768px) {
-	.woocommerce-account #customer_login {
-		grid-template-columns: 1fr;
-		gap: 30px;
+
+.woocommerce-account #customer_login,
+.woocommerce-account .col2-set#customer_login {
+	display: grid !important;
+	grid-template-columns: 1fr 1fr !important;
+	gap: 48px !important;
+	width: 100% !important;
+	margin: 24px 0 0 !important;
+	float: none !important;
+}
+
+@media (max-width: 850px) {
+	.woocommerce-account #customer_login,
+	.woocommerce-account .col2-set#customer_login {
+		grid-template-columns: 1fr !important;
+		gap: 36px !important;
 	}
 }
-.woocommerce-account #customer_login h2 {
-	font-family: var(--font-serif);
-	font-size: 1.6rem;
-	margin-top: 0;
-	margin-bottom: 18px;
-	color: var(--evara-text-primary);
+
+.woocommerce-account #customer_login .u-column1,
+.woocommerce-account #customer_login .u-column2,
+.woocommerce-account #customer_login .col-1,
+.woocommerce-account #customer_login .col-2 {
+	float: none !important;
+	width: 100% !important;
+	padding: 0 !important;
+	margin: 0 !important;
 }
+
+.woocommerce-account #customer_login h2 {
+	font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif) !important;
+	font-size: clamp(1.6rem, 2.5vw, 2.1rem) !important;
+	font-weight: 600 !important;
+	margin-top: 0 !important;
+	margin-bottom: 22px !important;
+	color: var(--evara-text-primary, #2C2420) !important;
+	padding-bottom: 12px !important;
+	border-bottom: 1px solid var(--evara-border, #E8DFD8) !important;
+}
+
 .woocommerce-form-login,
 .woocommerce-form-register {
-	background: #FFFFFF;
-	border: 1px solid var(--evara-border);
-	border-radius: var(--radius-md);
-	padding: 32px;
-	box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+	background: #FFFFFF !important;
+	border: 1px solid var(--evara-border, #E8DFD8) !important;
+	border-radius: var(--radius-md, 12px) !important;
+	padding: clamp(24px, 4vw, 38px) !important;
+	box-shadow: 0 8px 30px rgba(44, 36, 32, 0.05) !important;
 }
-.woocommerce-form-login .woocommerce-form-row input.input-text,
-.woocommerce-form-register .woocommerce-form-row input.input-text {
-	width: 100%;
-	padding: 12px 16px;
-	border: 1px solid var(--evara-border);
-	border-radius: var(--radius-sm);
-	font-size: 0.95rem;
-	outline: none;
-	transition: border-color 0.2s ease;
+
+.woocommerce-form-login .form-row,
+.woocommerce-form-register .form-row {
+	margin-bottom: 20px !important;
+	padding: 0 !important;
+	float: none !important;
+	width: 100% !important;
 }
-.woocommerce-form-login .woocommerce-form-row input.input-text:focus,
-.woocommerce-form-register .woocommerce-form-row input.input-text:focus {
-	border-color: var(--evara-terracotta);
+
+.woocommerce-form-login label,
+.woocommerce-form-register label {
+	display: block !important;
+	font-family: var(--font-sans, 'Outfit', sans-serif) !important;
+	font-size: 0.88rem !important;
+	font-weight: 600 !important;
+	color: var(--evara-text-primary, #2C2420) !important;
+	margin-bottom: 6px !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.04em !important;
 }
+
+.woocommerce-form-login input.input-text,
+.woocommerce-form-register input.input-text {
+	width: 100% !important;
+	height: 48px !important;
+	padding: 10px 16px !important;
+	background: #FDFBF7 !important;
+	border: 1px solid var(--evara-border, #E8DFD8) !important;
+	border-radius: var(--radius-sm, 8px) !important;
+	font-family: var(--font-sans, 'Outfit', sans-serif) !important;
+	font-size: 0.95rem !important;
+	color: var(--evara-text-primary, #2C2420) !important;
+	outline: none !important;
+	transition: all 0.2s ease !important;
+	box-sizing: border-box !important;
+}
+
+.woocommerce-form-login input.input-text:focus,
+.woocommerce-form-register input.input-text:focus {
+	border-color: var(--evara-terracotta, #B84D2B) !important;
+	background: #FFFFFF !important;
+	box-shadow: 0 0 0 3px rgba(184, 77, 43, 0.12) !important;
+}
+
 .woocommerce-form-login .woocommerce-button,
 .woocommerce-form-register .woocommerce-button {
-	background: var(--evara-terracotta) !important;
+	width: 100% !important;
+	height: 50px !important;
+	background: var(--evara-terracotta, #B84D2B) !important;
 	color: #FFFFFF !important;
 	border: none !important;
 	padding: 12px 28px !important;
-	border-radius: var(--radius-full) !important;
-	font-family: var(--font-sans) !important;
+	border-radius: var(--radius-full, 9999px) !important;
+	font-family: var(--font-sans, 'Outfit', sans-serif) !important;
+	font-size: 0.95rem !important;
 	font-weight: 600 !important;
+	letter-spacing: 0.04em !important;
+	text-transform: uppercase !important;
 	cursor: pointer !important;
 	transition: all 0.25s ease !important;
+	margin-top: 12px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	box-shadow: 0 4px 14px rgba(184, 77, 43, 0.25) !important;
 }
+
 .woocommerce-form-login .woocommerce-button:hover,
 .woocommerce-form-register .woocommerce-button:hover {
-	background: var(--evara-terracotta-dark, #9C3D22) !important;
-	transform: translateY(-2px);
+	background: #963D20 !important;
+	transform: translateY(-2px) !important;
+	box-shadow: 0 6px 20px rgba(184, 77, 43, 0.35) !important;
+}
+
+.woocommerce-form-login .woocommerce-form-login__rememberme {
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	font-size: 0.88rem !important;
+	font-weight: 400 !important;
+	text-transform: none !important;
+	margin-top: 10px !important;
+	cursor: pointer !important;
+}
+
+.woocommerce-form-login .lost_password {
+	margin-top: 16px !important;
+	margin-bottom: 0 !important;
+	text-align: center !important;
+}
+
+.woocommerce-form-login .lost_password a {
+	color: var(--evara-terracotta, #B84D2B) !important;
+	font-size: 0.88rem !important;
+	text-decoration: underline !important;
+}
+
+.woocommerce-privacy-policy-text {
+	font-size: 0.82rem !important;
+	color: var(--evara-text-secondary, #756A63) !important;
+	line-height: 1.5 !important;
+	margin-bottom: 16px !important;
 }
 
 /* ==========================================================================
@@ -6445,55 +6560,56 @@ img.zoomImg,
 }
 
 /* ==========================================================================
-   MOBILE VIEW REFINEMENTS (v1.4.0)
-   - Completely remove floating cart logo & notifications in mobile view
-   - Suppress floating WhatsApp button from covering mobile content
-   - Clean category navigation links without tags
+   GLOBAL SUPPRESSION OF THIRD-PARTY FLOATING CART PLUGINS (DESKTOP & MOBILE)
+   Ensure only the theme's top-right art bag and luxury drawer exist
    ========================================================================== */
 .link-badge {
 	display: none !important;
 }
 
-@media (max-width: 900px) {
-	#moderncart-floating-cart,
-	.moderncart-toggle-slide-out,
-	.moderncart-floating-cart-button,
-	.moderncart-add-to-cart-notification,
-	.moderncart-floating-cart-count,
-	#floating-cart,
-	.floating-cart,
-	.evara-floating-cart,
-	#floating-cart-btn,
-	.floating-cart-btn,
-	.floating-cart-button,
-	.xoo-wsc-cart-trigger,
-	.xoo-wsc-basket,
-	.woofc-count,
-	.woofc-btn,
-	#woofc-area,
-	.xt_floating_cart,
-	#xt_floating_cart,
-	.cartpops-floating-button,
-	.vi-wsc-floating-cart,
-	#vi-wsc-floating-cart,
-	.cart-floating-icon,
-	.wp-block-woocommerce-mini-cart,
-	.woocommerce-mini-cart-floating,
-	[class*="floating-cart"],
-	[id*="floating-cart"],
-	[class*="cart-floating"],
-	[class*="fly-cart"],
-	[id*="fly-cart"],
-	[class*="cart-trigger"]:not(#evara-cart-open) {
-		display: none !important;
-		visibility: hidden !important;
-		opacity: 0 !important;
-		pointer-events: none !important;
-		height: 0 !important;
-		width: 0 !important;
-		overflow: hidden !important;
-	}
+#moderncart-floating-cart,
+.moderncart-toggle-slide-out,
+.moderncart-floating-cart-button,
+.moderncart-add-to-cart-notification,
+.moderncart-floating-cart-count,
+#floating-cart,
+.floating-cart,
+.evara-floating-cart,
+#floating-cart-btn,
+.floating-cart-btn,
+.floating-cart-button,
+.xoo-wsc-cart-trigger,
+.xoo-wsc-basket,
+.woofc-count,
+.woofc-btn,
+#woofc-area,
+.xt_floating_cart,
+#xt_floating_cart,
+.cartpops-floating-button,
+.vi-wsc-floating-cart,
+#vi-wsc-floating-cart,
+.cart-floating-icon,
+.wp-block-woocommerce-mini-cart,
+.woocommerce-mini-cart-floating,
+[class*="floating-cart"],
+[id*="floating-cart"],
+[class*="cart-floating"],
+[class*="fly-cart"],
+[id*="fly-cart"],
+[class*="cart-trigger"]:not(#evara-cart-open) {
+	display: none !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+	position: fixed !important;
+	clip: rect(0, 0, 0, 0) !important;
+	width: 0 !important;
+	height: 0 !important;
+	overflow: hidden !important;
+	z-index: -9999 !important;
+}
 
+@media (max-width: 900px) {
 	/* Don't keep floating WhatsApp above everything on mobile */
 	.evara-floating-whatsapp,
 	#evara-floating-whatsapp {

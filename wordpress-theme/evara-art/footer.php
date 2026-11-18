@@ -3,7 +3,7 @@
  * The Footer for Evara Art Theme
  *
  * @package EvaraArt
- * @version 1.4.4
+ * @version 1.4.5
  */
 
 $phone = get_theme_mod( 'evara_contact_phone', '+91 93281 43036' );
@@ -99,7 +99,7 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 					<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Track Your Order', 'evara-art' ); ?></a></li>
 				<?php endif; ?>
 				<li><a href="<?php echo esc_url( home_url( '/shipping-policy/' ) ); ?>"><?php esc_html_e( 'Shipping & Delivery Policy', 'evara-art' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/refund_returns/' ) ); ?>"><?php esc_html_e( 'Returns & Refund Policy', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( home_url( '/refund-returns/' ) ); ?>"><?php esc_html_e( 'Returns & Refund Policy', 'evara-art' ); ?></a></li>
 				<li>
 					<a href="<?php echo esc_url( function_exists( 'get_privacy_policy_url' ) && get_privacy_policy_url() ? get_privacy_policy_url() : home_url( '/privacy-policy/' ) ); ?>">
 						<?php esc_html_e( 'Privacy Policy', 'evara-art' ); ?>
@@ -143,6 +143,13 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 		</div>
 	</div>
 </footer>
+
+<?php
+// Slide-out AJAX Cart Drawer (Theme Native)
+if ( class_exists( 'WooCommerce' ) ) {
+	get_template_part( 'template-parts/cart-drawer' );
+}
+?>
 
 <?php wp_footer(); ?>
 </body>

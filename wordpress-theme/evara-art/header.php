@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Top-Left Brand Logo, Navigation Categories beside Logo, Right Actions)
  *
  * @package EvaraArt
- * @version 1.4.4
+ * @version 1.4.5
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -83,7 +83,11 @@
 			</a>
 
 			<!-- Cart Drawer Trigger -->
-			<button class="action-btn cart-trigger" id="evara-cart-open" aria-label="<?php esc_attr_e( 'View Cart', 'evara-art' ); ?>" aria-expanded="false" aria-controls="evara-cart-drawer">
+			<button class="action-btn cart-trigger" id="evara-cart-open" 
+			        data-cart-url="<?php echo esc_url( class_exists( 'WooCommerce' ) ? wc_get_cart_url() : home_url( '/cart/' ) ); ?>"
+			        aria-label="<?php esc_attr_e( 'View Cart', 'evara-art' ); ?>" 
+			        aria-expanded="false" 
+			        aria-controls="evara-cart-drawer">
 				<span class="cart-icon-wrap">
 					<i class="fa-solid fa-bag-shopping"></i>
 					<span class="cart-count-badge" id="evara-cart-badge">

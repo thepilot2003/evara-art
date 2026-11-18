@@ -2,7 +2,7 @@
  * Evara Art - AJAX Cart Drawer Interactions
  *
  * @package EvaraArt
- * @version 1.4.4
+ * @version 1.4.5
  */
 
 (function($) {
@@ -10,44 +10,61 @@
 
 	$(document).ready(function() {
 
-		const $drawer = $('#evara-cart-drawer');
-		const $openBtn = $('#evara-cart-open');
-		const $closeBtn = $('#evara-cart-close');
-		const $overlay = $('#evara-cart-close-overlay');
+		function getDrawer() {
+			return $('#evara-cart-drawer');
+		}
 
 		// Open Drawer
 		function openDrawer() {
-			$drawer.addClass('is-open').attr('aria-hidden', 'false');
-			$openBtn.attr('aria-expanded', 'true');
-			$('body').css('overflow', 'hidden');
-			$closeBtn.focus();
+			var $drawer = getDrawer();
+			var $openBtn = $('#evara-cart-open');
+			var $closeBtn = $('#evara-cart-close');
+
+			if ($drawer.length) {
+				$drawer.addClass('is-open').attr('aria-hidden', 'false');
+				$openBtn.attr('aria-expanded', 'true');
+				$('body').css('overflow', 'hidden');
+				if ($closeBtn.length) {
+					$closeBtn.focus();
+				}
+			} else {
+				// Fallback: If drawer element is not found, navigate directly to cart page
+				var fallbackUrl = $openBtn.data('cart-url') || (typeof evara_vars !== 'undefined' && evara_vars.cart_url ? evara_vars.cart_url : '/cart/');
+				window.location.href = fallbackUrl;
+			}
 		}
 
 		// Close Drawer
 		function closeDrawer() {
+			var $drawer = getDrawer();
+			var $openBtn = $('#evara-cart-open');
 			$drawer.removeClass('is-open').attr('aria-hidden', 'true');
 			$openBtn.attr('aria-expanded', 'false');
 			$('body').css('overflow', '');
-			$openBtn.focus();
+			if ($openBtn.length) {
+				$openBtn.focus();
+			}
 		}
 
-		$openBtn.on('click', function(e) {
+		// Delegated click handler so clicks on #evara-cart-open always fire reliably
+		$(document).on('click', '#evara-cart-open', function(e) {
 			e.preventDefault();
 			openDrawer();
 		});
 
-		$closeBtn.on('click', function(e) {
+		$(document).on('click', '#evara-cart-close', function(e) {
 			e.preventDefault();
 			closeDrawer();
 		});
 
-		$overlay.on('click', function() {
+		$(document).on('click', '#evara-cart-close-overlay', function() {
 			closeDrawer();
 		});
 
 		// Close on ESC key with full accessibility restoration
 		$(document).on('keydown', function(e) {
 			if (e.key === 'Escape' || e.keyCode === 27) {
+				var $drawer = getDrawer();
 				if ($drawer.hasClass('is-open')) {
 					closeDrawer();
 				}
@@ -62,8 +79,8 @@
 		// Delegate Remove Item from Side Drawer via AJAX
 		$(document).on('click', '.remove-cart-item', function(e) {
 			e.preventDefault();
-			const $itemRow = $(this).closest('.cart-item-row');
-			const removeUrl = $(this).attr('href');
+			var $itemRow = $(this).closest('.cart-item-row');
+			var removeUrl = $(this).attr('href');
 
 			$itemRow.css({
 				'opacity': '0.35',
@@ -72,7 +89,7 @@
 			});
 
 			// Safety timeout: If wc_fragment_refresh doesn't swap DOM within 2.5s, restore row
-			const safetyTimer = setTimeout(function() {
+			var safetyTimer = setTimeout(function() {
 				if ($itemRow.length && $.contains(document.documentElement, $itemRow[0])) {
 					$itemRow.css({ 'opacity': '1', 'pointer-events': '' });
 				}

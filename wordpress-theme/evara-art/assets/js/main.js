@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.4.4
+ * @version 1.4.5
  */
 
 (function($) {
@@ -180,16 +180,27 @@
 
 		initHeroSlider();
 
-		// 7. Ensure floating cart logo and floating WhatsApp are suppressed on mobile viewports
-		function checkMobileFloatingElements() {
+		// 7. Ensure duplicate floating cart plugins are suppressed globally (Desktop & Mobile)
+		function suppressDuplicateFloatingCarts() {
+			var $floating = $('#moderncart-floating-cart, .moderncart-toggle-slide-out, .moderncart-floating-cart-button, .moderncart-add-to-cart-notification, .moderncart-floating-cart-count, #floating-cart, .floating-cart, .evara-floating-cart, #floating-cart-btn, .floating-cart-btn, .floating-cart-button, .xoo-wsc-cart-trigger, .xoo-wsc-basket, .woofc-count, .woofc-btn, #woofc-area, .xt_floating_cart, #xt_floating_cart, .cartpops-floating-button, .vi-wsc-floating-cart, #vi-wsc-floating-cart, .cart-floating-icon, .wp-block-woocommerce-mini-cart, .woocommerce-mini-cart-floating, [class*="floating-cart"], [id*="floating-cart"], [class*="cart-floating"], [class*="fly-cart"], [id*="fly-cart"], [class*="cart-trigger"]:not(#evara-cart-open)');
+			if ($floating.length) {
+				$floating.attr('style', function(i, s) {
+					return (s || '') + '; display: none !important; visibility: hidden !important; pointer-events: none !important; opacity: 0 !important; width: 0 !important; height: 0 !important;';
+				});
+			}
+
+			// On mobile viewports, also suppress floating WhatsApp overlay
 			if (window.innerWidth <= 900) {
-				$('#moderncart-floating-cart, .moderncart-toggle-slide-out, .moderncart-floating-cart-button, #floating-cart, .floating-cart, .evara-floating-cart, .xoo-wsc-cart-trigger, .woofc-btn, .woofc-count, #xt_floating_cart, .xt_floating_cart, .evara-floating-whatsapp, #evara-floating-whatsapp, [class*="floating-cart"], [id*="floating-cart"]').attr('style', function(i, s) {
+				$('.evara-floating-whatsapp, #evara-floating-whatsapp').attr('style', function(i, s) {
 					return (s || '') + '; display: none !important; visibility: hidden !important; pointer-events: none !important;';
 				});
 			}
 		}
-		checkMobileFloatingElements();
-		$(window).on('resize orientationchange', checkMobileFloatingElements);
+		suppressDuplicateFloatingCarts();
+		$(window).on('load resize orientationchange', suppressDuplicateFloatingCarts);
+		// Run delayed passes in case external cart plugins load asynchronously
+		setTimeout(suppressDuplicateFloatingCarts, 400);
+		setTimeout(suppressDuplicateFloatingCarts, 1200);
 
 		// 8. Enhance WooCommerce Single Product Gallery & Strip Zombie Zoom Overlays
 		function enhanceProductGallery() {
