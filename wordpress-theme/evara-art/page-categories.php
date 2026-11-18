@@ -5,7 +5,7 @@
  * Dedicated Hub Page displaying all curated art categories with direct selection.
  *
  * @package EvaraArt
- * @version 1.4.3
+ * @version 1.4.4
  */
 
 get_header();

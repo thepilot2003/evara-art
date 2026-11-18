@@ -3,7 +3,7 @@
  * WooCommerce main layout wrapper
  *
  * @package EvaraArt
- * @version 1.4.3
+ * @version 1.4.4
  */
 
 get_header(); ?>
@@ -16,11 +16,6 @@ get_header(); ?>
 			<h1 class="shop-page-title category-title">
 				<?php woocommerce_page_title(); ?>
 			</h1>
-			<?php if ( is_product_taxonomy() && term_description() ) : ?>
-				<div class="archive-description section-desc" style="max-width: 720px; margin-top: 8px;">
-					<?php echo wp_kses_post( term_description() ); ?>
-				</div>
-			<?php endif; ?>
 		</div>
 	</div>
 <?php endif; ?>

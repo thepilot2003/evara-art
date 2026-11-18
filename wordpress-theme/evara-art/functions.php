@@ -3,14 +3,14 @@
  * Evara Art Theme Functions & Security Hardening
  *
  * @package EvaraArt
- * @version 1.4.3
+ * @version 1.4.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.4.3' );
+define( 'EVARA_VERSION', '1.4.4' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -145,6 +145,12 @@ add_action( 'after_setup_theme', function() {
 	remove_theme_support( 'wc-product-gallery-zoom' );
 }, 100 );
 
+// Remove category descriptions from all WooCommerce product category and archive pages
+add_action( 'init', function() {
+	remove_action( 'woocommerce_archive_description', 'woocommerce_taxonomy_archive_description', 10 );
+	remove_action( 'woocommerce_archive_description', 'woocommerce_product_archive_description', 10 );
+} );
+
 /**
  * Helper: Resolve dynamic WooCommerce Category URLs with fallbacks
  */
@@ -161,6 +167,43 @@ function evara_get_category_url( $slug_variants, $fallback_path ) {
 		}
 	}
 	return home_url( $fallback_path );
+}
+
+/**
+ * Helper: Resolve dynamic About & Studio Story URL
+ */
+function evara_get_about_url() {
+	$page = get_page_by_path( 'about' );
+	if ( ! $page ) {
+		$page = get_page_by_path( 'about-us' );
+	}
+	if ( ! $page ) {
+		$page = get_page_by_path( 'studio-story' );
+	}
+	if ( ! $page ) {
+		$page = get_page_by_path( 'about-studio-story' );
+	}
+	if ( $page ) {
+		return get_permalink( $page->ID );
+	}
+	return home_url( '/about/' );
+}
+
+/**
+ * Helper: Resolve dynamic Custom Art Commissions URL
+ */
+function evara_get_custom_art_url() {
+	$page = get_page_by_path( 'custom-art' );
+	if ( ! $page ) {
+		$page = get_page_by_path( 'custom-commission' );
+	}
+	if ( ! $page ) {
+		$page = get_page_by_path( 'commissions' );
+	}
+	if ( $page ) {
+		return get_permalink( $page->ID );
+	}
+	return home_url( '/custom-art/' );
 }
 
 /**
@@ -203,8 +246,8 @@ function evara_default_primary_menu() {
 	echo '<li><a href="' . esc_url( $animal_url ) . '">' . esc_html__( 'Animal Painting', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( $boho_url ) . '">' . esc_html__( 'Boho Art', 'evara-art' ) . '</a></li>';
 	echo '<li><a href="' . esc_url( $abstract_url ) . '">' . esc_html__( 'Abstract Painting', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/custom-art/' ) ) . '" class="nav-highlight">' . esc_html__( 'Custom Art', 'evara-art' ) . '</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/#about' ) ) . '">' . esc_html__( 'About', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( evara_get_custom_art_url() ) . '" class="nav-highlight">' . esc_html__( 'Custom Art', 'evara-art' ) . '</a></li>';
+	echo '<li><a href="' . esc_url( evara_get_about_url() ) . '">' . esc_html__( 'About', 'evara-art' ) . '</a></li>';
 	echo '</ul>';
 }
 
@@ -269,7 +312,7 @@ function evara_default_mobile_menu() {
 			<span class="d-comm-badge">✦ <?php esc_html_e( 'Bespoke Fine Art', 'evara-art' ); ?></span>
 			<h4 class="d-comm-title"><?php esc_html_e( 'Request Custom Painting', 'evara-art' ); ?></h4>
 			<p class="d-comm-desc"><?php esc_html_e( 'Have a personalized artwork painted by lead artist Shraddha Parmar.', 'evara-art' ); ?></p>
-			<a href="<?php echo esc_url( home_url( '/custom-art/' ) ); ?>" class="d-comm-btn">
+			<a href="<?php echo esc_url( evara_get_custom_art_url() ); ?>" class="d-comm-btn">
 				<span><?php esc_html_e( 'Start Commission', 'evara-art' ); ?></span>
 				<i class="fa-solid fa-arrow-right"></i>
 			</a>
@@ -280,7 +323,7 @@ function evara_default_mobile_menu() {
 			<span class="drawer-group-label">✦ <?php esc_html_e( 'Studio & Account', 'evara-art' ); ?></span>
 			<ul class="mobile-nav-list sub-list">
 				<li>
-					<a href="<?php echo esc_url( home_url( '/#about' ) ); ?>" class="drawer-nav-link-sub">
+					<a href="<?php echo esc_url( evara_get_about_url() ); ?>" class="drawer-nav-link-sub">
 						<i class="fa-regular fa-compass"></i>
 						<span><?php esc_html_e( 'About & Studio Story', 'evara-art' ); ?></span>
 					</a>

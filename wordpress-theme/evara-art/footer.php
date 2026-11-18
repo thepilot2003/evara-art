@@ -3,7 +3,7 @@
  * The Footer for Evara Art Theme
  *
  * @package EvaraArt
- * @version 1.4.3
+ * @version 1.4.4
  */
 
 $phone = get_theme_mod( 'evara_contact_phone', '+91 93281 43036' );
@@ -86,7 +86,7 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'animal-painting' ), '/product-category/animal-painting/' ) ); ?>"><?php esc_html_e( 'Animal Painting', 'evara-art' ); ?></a></li>
 				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'boho-art' ), '/product-category/boho-art/' ) ); ?>"><?php esc_html_e( 'Boho Art', 'evara-art' ); ?></a></li>
 				<li><a href="<?php echo esc_url( evara_get_category_url( array( 'abstract-painting' ), '/product-category/abstract-painting/' ) ); ?>"><?php esc_html_e( 'Abstract Painting', 'evara-art' ); ?></a></li>
-				<li><a href="<?php echo esc_url( home_url( '/custom-art/' ) ); ?>"><?php esc_html_e( 'Custom Art Commissions', 'evara-art' ); ?></a></li>
+				<li><a href="<?php echo esc_url( function_exists( 'evara_get_custom_art_url' ) ? evara_get_custom_art_url() : home_url( '/custom-art/' ) ); ?>"><?php esc_html_e( 'Custom Art Commissions', 'evara-art' ); ?></a></li>
 			</ul>
 		</div>
 
@@ -94,6 +94,7 @@ $li = get_theme_mod( 'evara_linkedin_url', 'https://www.linkedin.com/company/eva
 		<div class="footer-col">
 			<h4 class="footer-heading"><?php esc_html_e( 'Client Care', 'evara-art' ); ?></h4>
 			<ul class="footer-links">
+				<li><a href="<?php echo esc_url( function_exists( 'evara_get_about_url' ) ? evara_get_about_url() : home_url( '/about/' ) ); ?>"><?php esc_html_e( 'About & Studio Story', 'evara-art' ); ?></a></li>
 				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 					<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Track Your Order', 'evara-art' ); ?></a></li>
 				<?php endif; ?>
