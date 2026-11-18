@@ -20,7 +20,7 @@ register_shutdown_function( function() {
 	}
 } );
 
-define( 'EVARA_VERSION', '1.4.7' );
+define( 'EVARA_VERSION', '1.4.8' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -267,13 +267,13 @@ function evara_redirect_old_category_pages() {
 		exit;
 	}
 
-	// 4. Product Slugs Aliases (redirect shortcut slugs to full canonical products)
-	if ( 'product/annapakshi' === $raw_path ) {
-		wp_safe_redirect( home_url( '/product/annapakshi-lippan-wall-hanging-set-of-2/' ), 301 );
+	// 4. Product Slugs Aliases & Deleted Product Redirects (never 404)
+	if ( in_array( $raw_path, array( 'product/peacock-harmony', 'product/peacock-lippanart', 'product/annapakshi-lippan-wall-hanging-set-of-2', 'product/annapakshi', 'product/18-inch-lotus-pichwai-lippan-wall-hanging', 'product/lotus-pichwai' ) ) ) {
+		wp_safe_redirect( home_url( '/product-category/clay-art-evara-art/' ), 301 );
 		exit;
 	}
-	if ( 'product/lotus-pichwai' === $raw_path ) {
-		wp_safe_redirect( home_url( '/product/18-inch-lotus-pichwai-lippan-wall-hanging/' ), 301 );
+	if ( in_array( $raw_path, array( 'product/the-forever-frame' ) ) ) {
+		wp_safe_redirect( home_url( '/product-category/canvas-painting-evara-art/' ), 301 );
 		exit;
 	}
 }
@@ -1262,9 +1262,8 @@ function evara_ajax_live_search() {
 
 /**
  * 14. Auto-Provision Core Pages in Database (About, Custom Art, Categories, Policies)
- * Recovers drafts/trashed pages to 'publish' so they never 404
+ * Runs safely ONLY on theme activation (never intercepts manual admin trashing/deletions)
  */
-add_action( 'init', 'evara_auto_provision_essential_pages' );
 add_action( 'after_switch_theme', 'evara_auto_provision_essential_pages' );
 function evara_auto_provision_essential_pages() {
 	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
@@ -1307,7 +1306,6 @@ function evara_auto_provision_essential_pages() {
 	);
 
 	foreach ( $pages_to_provision as $slug => $data ) {
-		// Search across ANY status (draft, trash, publish) to recover accidental trashes
 		$query = new WP_Query( array(
 			'name'           => $slug,
 			'post_type'      => 'page',
@@ -1318,12 +1316,6 @@ function evara_auto_provision_essential_pages() {
 
 		if ( ! empty( $query->posts ) ) {
 			$page_id = $query->posts[0];
-			if ( 'publish' !== get_post_status( $page_id ) ) {
-				wp_update_post( array(
-					'ID'          => $page_id,
-					'post_status' => 'publish',
-				) );
-			}
 			update_post_meta( $page_id, '_wp_page_template', $data['template'] );
 		} else {
 			$new_id = wp_insert_post( array(
@@ -1342,128 +1334,28 @@ function evara_auto_provision_essential_pages() {
 }
 
 /**
- * 15. Auto-Provision and Recover Missing Catalog Products in WooCommerce
- * Ensures Peacock Harmony, The Forever Frame, Annapakshi Lippan, and 18 Inch Lotus Pichwai are published.
- * Also populates Boho Art and Abstract Painting categories if empty.
+ * 15. Safe One-Time Cleanup on Theme Activation: Move Unwanted Test/Draft Products to Trash
+ * The theme NEVER forcibly recreates or un-trashes products. The store owner has 100% control to delete or empty trash.
  */
-add_action( 'init', 'evara_auto_provision_catalog_products' );
-add_action( 'after_switch_theme', 'evara_auto_provision_catalog_products' );
-function evara_auto_provision_catalog_products() {
-	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-	if ( ! class_exists( 'WooCommerce' ) ) {
-		return;
-	}
-
-	$catalog_products = array(
-		'peacock-harmony' => array(
-			'title'       => 'Peacock Harmony Lippan Art',
-			'price'       => '1499',
-			'regular'     => '1999',
-			'sku'         => 'EVARA-PEACOCK-01',
-			'categories'  => array( 'clay-art-evara-art' ),
-			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/Peacock-Harmony-02-500x500.jpg',
-			'description' => 'Exquisite handcrafted Kutch Lippan art featuring the majestic peacock, symbolizing grace, beauty, and renewal. Adorned with authentic hand-cut mirrors and textured clay relief on moisture-sealed MDF board.',
-		),
-		'the-forever-frame' => array(
-			'title'       => 'The Forever Frame',
-			'price'       => '2499',
-			'regular'     => '3599',
-			'sku'         => 'EVARA-FOREVER-01',
-			'categories'  => array( 'canvas-painting-evara-art' ),
-			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/1-01-1-500x500.jpg',
-			'description' => 'A timeless contemporary canvas artwork capturing eternal intimacy and delicate aesthetic emotion. Hand-painted acrylic on premium 380 GSM cotton canvas by lead artist Shraddha Parmar.',
-		),
-		'annapakshi-lippan-wall-hanging-set-of-2' => array(
-			'title'       => 'Annapakshi Lippan Wall Hanging (Set of 2)',
-			'price'       => '7999',
-			'regular'     => '9999',
-			'sku'         => 'EVARA-ANNAPAKSHI-02',
-			'categories'  => array( 'clay-art-evara-art' ),
-			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/Annapakshi-Lippan-Wall-Hanging-Set-of-2-01-500x500.jpg',
-			'description' => 'A sacred pair of heritage Annapakshi divine bird Lippan wall hangings. Hand-sculpted clay with sacred mirror inlay reflecting prosperity, divine purity, and good fortune for your home temple or living room.',
-		),
-		'18-inch-lotus-pichwai-lippan-wall-hanging' => array(
-			'title'       => '18 Inch Lotus Pichwai Lippan Wall Hanging',
-			'price'       => '3999',
-			'regular'     => '4999',
-			'sku'         => 'EVARA-PICHWAI-18',
-			'categories'  => array( 'clay-art-evara-art' ),
-			'image'       => 'https://evaraart.in/wp-content/uploads/2026/06/15-Inch-Ganpati-Lippan-Art-Set-of-2-Wall-Hanging-02-2-500x500.jpg',
-			'description' => 'A 18-inch statement Lippan art piece celebrating the divine Pichwai lotus motif. Handcrafted mud relief work studded with sparkling convex mirrors that dance with every ray of light.',
-		),
+add_action( 'after_switch_theme', 'evara_cleanup_unwanted_products' );
+function evara_cleanup_unwanted_products() {
+	$unwanted_slugs = array(
+		'peacock-harmony',
+		'the-forever-frame',
+		'annapakshi-lippan-wall-hanging-set-of-2',
+		'18-inch-lotus-pichwai-lippan-wall-hanging',
 	);
 
-	foreach ( $catalog_products as $slug => $data ) {
-		$existing = new WP_Query( array(
-			'name'           => $slug,
-			'post_type'      => 'product',
-			'post_status'    => 'any',
-			'posts_per_page' => 1,
-			'fields'         => 'ids',
+	foreach ( $unwanted_slugs as $slug ) {
+		$posts = get_posts( array(
+			'name'        => $slug,
+			'post_type'   => 'product',
+			'post_status' => 'publish',
+			'numberposts' => 1,
+			'fields'      => 'ids',
 		) );
-
-		if ( ! empty( $existing->posts ) ) {
-			$product_id = $existing->posts[0];
-			if ( 'publish' !== get_post_status( $product_id ) ) {
-				wp_update_post( array(
-					'ID'          => $product_id,
-					'post_status' => 'publish',
-				) );
-			}
-			update_post_meta( $product_id, '_price', $data['price'] );
-			update_post_meta( $product_id, '_regular_price', $data['regular'] );
-			update_post_meta( $product_id, '_sale_price', $data['price'] );
-			update_post_meta( $product_id, '_stock_status', 'instock' );
-		} else {
-			$new_id = wp_insert_post( array(
-				'post_title'   => $data['title'],
-				'post_name'    => $slug,
-				'post_content' => $data['description'],
-				'post_status'  => 'publish',
-				'post_type'    => 'product',
-			) );
-
-			if ( $new_id && ! is_wp_error( $new_id ) ) {
-				update_post_meta( $new_id, '_visibility', 'visible' );
-				update_post_meta( $new_id, '_stock_status', 'instock' );
-				update_post_meta( $new_id, 'total_sales', '0' );
-				update_post_meta( $new_id, '_downloadable', 'no' );
-				update_post_meta( $new_id, '_virtual', 'no' );
-				update_post_meta( $new_id, '_regular_price', $data['regular'] );
-				update_post_meta( $new_id, '_sale_price', $data['price'] );
-				update_post_meta( $new_id, '_price', $data['price'] );
-				update_post_meta( $new_id, '_sku', $data['sku'] );
-				wp_set_object_terms( $new_id, 'simple', 'product_type' );
-
-				if ( ! empty( $data['categories'] ) ) {
-					wp_set_object_terms( $new_id, $data['categories'], 'product_cat', true );
-				}
-			}
-		}
-	}
-
-	// Auto-populate Boho Art & Abstract Painting terms if empty
-	$boho_term = get_term_by( 'slug', 'boho-art', 'product_cat' );
-	if ( $boho_term && $boho_term->count == 0 ) {
-		$candidates = array( 'crimson-bloom-modern-portrait-canvas-art', 'sunset-whispers-by-the-lake', 'whispers-of-the-woodland' );
-		foreach ( $candidates as $cand_slug ) {
-			$cand = get_page_by_path( $cand_slug, OBJECT, 'product' );
-			if ( $cand ) {
-				wp_set_object_terms( $cand->ID, 'boho-art', 'product_cat', true );
-			}
-		}
-	}
-
-	$abstract_term = get_term_by( 'slug', 'abstract-painting', 'product_cat' );
-	if ( $abstract_term && $abstract_term->count == 0 ) {
-		$candidates = array( 'metamorphosis-abstract-butterfly-portrait-canvas-art', 'cosmic-harmony-krishna-shiva-universe-canvas-art', 'divine-union-shiv-shakti-canvas-painting' );
-		foreach ( $candidates as $cand_slug ) {
-			$cand = get_page_by_path( $cand_slug, OBJECT, 'product' );
-			if ( $cand ) {
-				wp_set_object_terms( $cand->ID, 'abstract-painting', 'product_cat', true );
-			}
+		if ( ! empty( $posts ) ) {
+			wp_trash_post( $posts[0] );
 		}
 	}
 }
