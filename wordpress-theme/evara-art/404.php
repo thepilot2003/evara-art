@@ -1,10 +1,56 @@
 <?php
 /**
- * The template for displaying 404 pages (not found)
+ * The template for displaying 404 pages (not found) & Virtual Route Fail-Safe
  *
  * @package EvaraArt
- * @version 1.2.0
+ * @version 1.4.6
  */
+
+$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+$clean_path = trim( parse_url( $request_uri, PHP_URL_PATH ), '/' );
+
+// Strip subfolder if WordPress is installed in a subdirectory
+$home_path = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
+if ( ! empty( $home_path ) && strpos( $clean_path, $home_path ) === 0 ) {
+	$clean_path = trim( substr( $clean_path, strlen( $home_path ) ), '/' );
+}
+
+$virtual_templates = array(
+	'about'                        => 'page-about.php',
+	'about-us'                     => 'page-about.php',
+	'studio-story'                 => 'page-about.php',
+	'custom-art'                   => 'page-custom-art.php',
+	'custom-commission'            => 'page-custom-art.php',
+	'commissions'                  => 'page-custom-art.php',
+	'categories'                   => 'page-categories.php',
+	'collections'                  => 'page-categories.php',
+	'all-categories'               => 'page-categories.php',
+	'shipping-policy'              => 'page-shipping-policy.php',
+	'shipping-and-delivery-policy' => 'page-shipping-policy.php',
+	'shipping-delivery-policy'     => 'page-shipping-policy.php',
+	'refund_returns'               => 'page-refund-returns.php',
+	'refund-returns'               => 'page-refund-returns.php',
+	'returns-policy'               => 'page-refund-returns.php',
+	'refund-and-return-policy'     => 'page-refund-returns.php',
+	'privacy-policy'               => 'page-privacy-policy.php',
+	'terms-conditions'             => 'page-terms-conditions.php',
+	'terms-and-conditions'         => 'page-terms-conditions.php',
+);
+
+if ( isset( $virtual_templates[ $clean_path ] ) ) {
+	status_header( 200 );
+	global $wp_query;
+	if ( isset( $wp_query ) ) {
+		$wp_query->is_404 = false;
+		$wp_query->is_page = true;
+		$wp_query->is_singular = true;
+	}
+	$target_tpl = locate_template( array( $virtual_templates[ $clean_path ] ) );
+	if ( $target_tpl && file_exists( $target_tpl ) ) {
+		require $target_tpl;
+		return;
+	}
+}
 
 get_header(); ?>
 

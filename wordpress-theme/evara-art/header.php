@@ -3,7 +3,7 @@
  * The Header for Evara Art Theme (Top-Left Brand Logo, Navigation Categories beside Logo, Right Actions)
  *
  * @package EvaraArt
- * @version 1.4.5
+ * @version 1.4.6
  */
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -154,6 +154,8 @@
 				<button type="submit" class="search-submit"><?php esc_html_e( 'Search', 'evara-art' ); ?></button>
 			</div>
 		</form>
+		<!-- Instant Live Search Dropdown -->
+		<div class="evara-live-search-dropdown" id="evara-live-search-results" style="display: none;" aria-live="polite"></div>
 		<div class="search-quick-tags">
 			<span><?php esc_html_e( 'Popular searches:', 'evara-art' ); ?></span>
 			<a href="<?php echo esc_url( home_url( '/?s=Krishna' . ( class_exists( 'WooCommerce' ) ? '&post_type=product' : '' ) ) ); ?>">Krishna</a>

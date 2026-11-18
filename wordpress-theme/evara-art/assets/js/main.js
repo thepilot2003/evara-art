@@ -2,7 +2,7 @@
  * Evara Art - Main JavaScript
  *
  * @package EvaraArt
- * @version 1.4.5
+ * @version 1.4.6
  */
 
 (function($) {
@@ -74,6 +74,62 @@
 
 		$('#evara-search-close, #evara-search-close-backdrop').on('click', function() {
 			closeSearchModal();
+		});
+
+		// Instant AJAX Live Search
+		var $searchInput = $('#evara-search-input');
+		var $searchResults = $('#evara-live-search-results');
+		var liveSearchTimer = null;
+
+		$searchInput.on('input', function() {
+			var query = $(this).val().trim();
+			clearTimeout(liveSearchTimer);
+
+			if (query.length < 2) {
+				$searchResults.hide().empty();
+				return;
+			}
+
+			$searchResults.show().html('<div class="live-search-loading"><i class="fa-solid fa-spinner fa-spin"></i> Searching artworks...</div>');
+
+			liveSearchTimer = setTimeout(function() {
+				var ajaxUrl = (typeof evara_main_vars !== 'undefined' && evara_main_vars.ajax_url) ? evara_main_vars.ajax_url : '/wp-admin/admin-ajax.php';
+				$.ajax({
+					url: ajaxUrl,
+					type: 'GET',
+					data: {
+						action: 'evara_live_search',
+						keyword: query
+					},
+					dataType: 'json',
+					success: function(res) {
+						if (res.success && res.data.results && res.data.results.length > 0) {
+							var html = '<div class="live-search-header"><span>Matching Artworks (' + res.data.total + ')</span></div>';
+							html += '<div class="live-search-list">';
+							res.data.results.forEach(function(item) {
+								html += '<a href="' + item.permalink + '" class="live-search-item">';
+								html += '  <img src="' + item.thumbnail + '" alt="' + item.title + '" class="live-search-thumb" />';
+								html += '  <div class="live-search-info">';
+								html += '    <h4 class="live-search-title">' + item.title + '</h4>';
+								html += '    <div class="live-search-price">' + item.price + '</div>';
+								html += '  </div>';
+								html += '  <i class="fa-solid fa-arrow-right live-search-arrow"></i>';
+								html += '</a>';
+							});
+							html += '</div>';
+							if (res.data.total > res.data.results.length) {
+								html += '<a href="' + res.data.all_url + '" class="live-search-view-all">View all ' + res.data.total + ' results &rarr;</a>';
+							}
+							$searchResults.html(html);
+						} else {
+							$searchResults.html('<div class="live-search-empty">No artworks found for &ldquo;' + query + '&rdquo;. Try searching for <em>Krishna, Lippan Art, or Ganesha</em>.</div>');
+						}
+					},
+					error: function() {
+						$searchResults.hide().empty();
+					}
+				});
+			}, 250);
 		});
 
 		// 4. Close on ESC key with full accessibility restoration
@@ -214,10 +270,29 @@
 			$gallery.find('.flex-direction-nav .flex-prev').attr('aria-label', 'Previous Artwork Image');
 			$gallery.find('.flex-direction-nav .flex-next').attr('aria-label', 'Next Artwork Image');
 
+			// Force centering on slide containers, links, and images
+			$gallery.find('.woocommerce-product-gallery__image, .woocommerce-product-gallery__image a').css({
+				'float': 'none',
+				'display': 'flex',
+				'justify-content': 'center',
+				'align-items': 'center',
+				'margin-left': 'auto',
+				'margin-right': 'auto'
+			});
+			$gallery.find('.woocommerce-product-gallery__image img').css({
+				'float': 'none',
+				'display': 'block',
+				'margin-left': 'auto',
+				'margin-right': 'auto'
+			});
+
 			// Trigger resize so Flexslider calculates active slide track width accurately
 			setTimeout(function() {
 				$(window).trigger('resize');
 			}, 80);
+			setTimeout(function() {
+				$(window).trigger('resize');
+			}, 300);
 		}
 		enhanceProductGallery();
 		$(window).on('load', enhanceProductGallery);

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'EVARA_VERSION', '1.4.5' );
+define( 'EVARA_VERSION', '1.4.6' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -381,6 +381,10 @@ function evara_art_scripts() {
 	}
 
 	wp_enqueue_script( 'evara-main-js', EVARA_URI . '/assets/js/main.js', array( 'jquery' ), EVARA_VERSION, true );
+	wp_localize_script( 'evara-main-js', 'evara_main_vars', array(
+		'ajax_url' => admin_url( 'admin-ajax.php' ),
+		'home_url' => home_url( '/' ),
+	) );
 
 	if ( class_exists( 'WooCommerce' ) ) {
 		// Include wc-cart-fragments as dependency so drawer stays reactive
@@ -1129,16 +1133,72 @@ add_filter( 'pre_option_woocommerce_registration_generate_password', '__return_n
 add_filter( 'pre_option_woocommerce_registration_generate_username', '__return_no' );
 
 /**
- * 12. Auto-Provision Core Pages in Database (About, Custom Art, Categories, Policies)
+ * 12. Search Refinements:
+ * - Do NOT automatically redirect to single product when only 1 result is found
+ * - Keep user on full search results gallery so they see all related options
+ */
+add_filter( 'woocommerce_redirect_single_search_result', '__return_false' );
+
+/**
+ * 13. Instant Live AJAX Search for Header Search Modal
+ */
+add_action( 'wp_ajax_evara_live_search', 'evara_ajax_live_search' );
+add_action( 'wp_ajax_nopriv_evara_live_search', 'evara_ajax_live_search' );
+function evara_ajax_live_search() {
+	$keyword = isset( $_GET['keyword'] ) ? sanitize_text_field( wp_unslash( $_GET['keyword'] ) ) : '';
+	if ( strlen( $keyword ) < 2 ) {
+		wp_send_json_success( array( 'results' => array(), 'total' => 0, 'keyword' => $keyword ) );
+	}
+
+	$args = array(
+		'post_type'      => 'product',
+		'post_status'    => 'publish',
+		'posts_per_page' => 6,
+		's'              => $keyword,
+	);
+
+	$query = new WP_Query( $args );
+	$results = array();
+
+	if ( $query->have_posts() ) {
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			$product = wc_get_product( get_the_ID() );
+			if ( ! $product ) {
+				continue;
+			}
+
+			$thumb = get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' );
+			if ( ! $thumb ) {
+				$thumb = wc_placeholder_img_src( 'thumbnail' );
+			}
+
+			$results[] = array(
+				'id'        => get_the_ID(),
+				'title'     => get_the_title(),
+				'permalink' => get_permalink(),
+				'thumbnail' => $thumb,
+				'price'     => $product->get_price_html(),
+			);
+		}
+		wp_reset_postdata();
+	}
+
+	wp_send_json_success( array(
+		'results' => $results,
+		'total'   => (int) $query->found_posts,
+		'keyword' => $keyword,
+		'all_url' => add_query_arg( array( 's' => $keyword, 'post_type' => 'product' ), home_url( '/' ) ),
+	) );
+}
+
+/**
+ * 14. Auto-Provision Core Pages in Database (About, Custom Art, Categories, Policies)
+ * Recovers drafts/trashed pages to 'publish' so they never 404
  */
 add_action( 'init', 'evara_auto_provision_essential_pages' );
 add_action( 'after_switch_theme', 'evara_auto_provision_essential_pages' );
 function evara_auto_provision_essential_pages() {
-	$provisioned_ver = get_option( 'evara_pages_provisioned_ver' );
-	if ( '1.4.5' === $provisioned_ver && ! is_admin() ) {
-		return;
-	}
-
 	$pages_to_provision = array(
 		'about' => array(
 			'title'    => 'About & Studio Story',
@@ -1160,6 +1220,10 @@ function evara_auto_provision_essential_pages() {
 			'title'    => 'Returns & Refund Policy',
 			'template' => 'page-refund-returns.php',
 		),
+		'refund_returns' => array(
+			'title'    => 'Returns & Refund Policy',
+			'template' => 'page-refund_returns.php',
+		),
 		'privacy-policy' => array(
 			'title'    => 'Privacy Policy',
 			'template' => 'page-privacy-policy.php',
@@ -1170,11 +1234,27 @@ function evara_auto_provision_essential_pages() {
 		),
 	);
 
-	$flushed = false;
 	foreach ( $pages_to_provision as $slug => $data ) {
-		$page = get_page_by_path( $slug );
-		if ( ! $page ) {
-			$page_id = wp_insert_post( array(
+		// Search across ANY status (draft, trash, publish) to recover accidental trashes
+		$query = new WP_Query( array(
+			'name'           => $slug,
+			'post_type'      => 'page',
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+		) );
+
+		if ( ! empty( $query->posts ) ) {
+			$page_id = $query->posts[0];
+			if ( 'publish' !== get_post_status( $page_id ) ) {
+				wp_update_post( array(
+					'ID'          => $page_id,
+					'post_status' => 'publish',
+				) );
+			}
+			update_post_meta( $page_id, '_wp_page_template', $data['template'] );
+		} else {
+			$new_id = wp_insert_post( array(
 				'post_title'     => $data['title'],
 				'post_name'      => $slug,
 				'post_status'    => 'publish',
@@ -1182,56 +1262,75 @@ function evara_auto_provision_essential_pages() {
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 			) );
-			if ( $page_id && ! is_wp_error( $page_id ) ) {
-				update_post_meta( $page_id, '_wp_page_template', $data['template'] );
-				$flushed = true;
-			}
-		} else {
-			$curr_tpl = get_post_meta( $page->ID, '_wp_page_template', true );
-			if ( empty( $curr_tpl ) || 'default' === $curr_tpl ) {
-				update_post_meta( $page->ID, '_wp_page_template', $data['template'] );
+			if ( $new_id && ! is_wp_error( $new_id ) ) {
+				update_post_meta( $new_id, '_wp_page_template', $data['template'] );
 			}
 		}
 	}
-
-	if ( $flushed ) {
-		flush_rewrite_rules( false );
-	}
-
-	update_option( 'evara_pages_provisioned_ver', '1.4.5' );
 }
 
 /**
- * 13. Virtual Route & Direct Template Loader (Bulletproof Fallback Against 404s)
- * Automatically serves dedicated templates even before permalink flushes or page creation
+ * 15. Early Intercept on template_redirect for Core Pages
  */
-add_action( 'init', 'evara_register_core_page_rewrites' );
-function evara_register_core_page_rewrites() {
-	add_rewrite_rule( '^(about|about-us|studio-story)/?$', 'index.php?evara_virtual_route=about', 'top' );
-	add_rewrite_rule( '^(custom-art|custom-commission|commissions)/?$', 'index.php?evara_virtual_route=custom-art', 'top' );
-	add_rewrite_rule( '^(categories|collections|all-categories)/?$', 'index.php?evara_virtual_route=categories', 'top' );
-	add_rewrite_rule( '^(shipping-policy|shipping-and-delivery-policy|shipping-delivery-policy)/?$', 'index.php?evara_virtual_route=shipping-policy', 'top' );
-	add_rewrite_rule( '^(refund-returns|refund_returns|returns-policy|refund-and-return-policy)/?$', 'index.php?evara_virtual_route=refund-returns', 'top' );
-	add_rewrite_rule( '^(privacy-policy)/?$', 'index.php?evara_virtual_route=privacy-policy', 'top' );
-	add_rewrite_rule( '^(terms-conditions|terms-and-conditions)/?$', 'index.php?evara_virtual_route=terms-conditions', 'top' );
-}
-
-add_filter( 'query_vars', 'evara_core_virtual_query_vars' );
-function evara_core_virtual_query_vars( $vars ) {
-	$vars[] = 'evara_virtual_route';
-	return $vars;
-}
-
-add_filter( 'template_include', 'evara_core_virtual_page_template_loader', 99 );
-function evara_core_virtual_page_template_loader( $template ) {
+add_action( 'template_redirect', 'evara_intercept_core_virtual_pages', 1 );
+function evara_intercept_core_virtual_pages() {
 	global $wp_query;
-
-	$route_var = get_query_var( 'evara_virtual_route' );
 
 	$req_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	$raw_path = trim( parse_url( $req_uri, PHP_URL_PATH ), '/' );
 
-	// Strip subdirectory install prefix if exists
+	$home_path = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
+	if ( ! empty( $home_path ) && strpos( $raw_path, $home_path ) === 0 ) {
+		$raw_path = trim( substr( $raw_path, strlen( $home_path ) ), '/' );
+	}
+
+	$slug_map = array(
+		'about'                        => 'page-about.php',
+		'about-us'                     => 'page-about.php',
+		'studio-story'                 => 'page-about.php',
+		'custom-art'                   => 'page-custom-art.php',
+		'custom-commission'            => 'page-custom-art.php',
+		'commissions'                  => 'page-custom-art.php',
+		'categories'                   => 'page-categories.php',
+		'collections'                  => 'page-categories.php',
+		'all-categories'               => 'page-categories.php',
+		'shipping-policy'              => 'page-shipping-policy.php',
+		'shipping-and-delivery-policy' => 'page-shipping-policy.php',
+		'shipping-delivery-policy'     => 'page-shipping-policy.php',
+		'refund-returns'               => 'page-refund-returns.php',
+		'refund_returns'               => 'page-refund_returns.php',
+		'returns-policy'               => 'page-refund-returns.php',
+		'refund-and-return-policy'     => 'page-refund-returns.php',
+		'privacy-policy'               => 'page-privacy-policy.php',
+		'terms-conditions'             => 'page-terms-conditions.php',
+		'terms-and-conditions'         => 'page-terms-conditions.php',
+	);
+
+	if ( isset( $slug_map[ $raw_path ] ) ) {
+		$target_file = locate_template( array( $slug_map[ $raw_path ] ) );
+		if ( $target_file && file_exists( $target_file ) ) {
+			status_header( 200 );
+			if ( isset( $wp_query ) ) {
+				$wp_query->is_404 = false;
+				$wp_query->is_page = true;
+				$wp_query->is_singular = true;
+			}
+			require $target_file;
+			exit;
+		}
+	}
+}
+
+/**
+ * 16. Template Include Filter Fallback
+ */
+add_filter( 'template_include', 'evara_core_virtual_page_template_loader', 99 );
+function evara_core_virtual_page_template_loader( $template ) {
+	global $wp_query;
+
+	$req_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$raw_path = trim( parse_url( $req_uri, PHP_URL_PATH ), '/' );
+
 	$home_path = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
 	if ( ! empty( $home_path ) && strpos( $raw_path, $home_path ) === 0 ) {
 		$raw_path = trim( substr( $raw_path, strlen( $home_path ) ), '/' );
@@ -1251,7 +1350,7 @@ function evara_core_virtual_page_template_loader( $template ) {
 		'shipping-and-delivery-policy' => 'page-shipping-policy.php',
 		'shipping-delivery-policy'     => 'page-shipping-policy.php',
 		'refund-returns'               => 'page-refund-returns.php',
-		'refund_returns'               => 'page-refund-returns.php',
+		'refund_returns'               => 'page-refund_returns.php',
 		'returns-policy'               => 'page-refund-returns.php',
 		'refund-and-return-policy'     => 'page-refund-returns.php',
 		'privacy-policy'               => 'page-privacy-policy.php',
@@ -1259,15 +1358,8 @@ function evara_core_virtual_page_template_loader( $template ) {
 		'terms-and-conditions'         => 'page-terms-conditions.php',
 	);
 
-	$target_slug = '';
-	if ( ! empty( $route_var ) && isset( $slug_to_template[ $route_var ] ) ) {
-		$target_slug = $route_var;
-	} elseif ( isset( $slug_to_template[ $raw_path ] ) ) {
-		$target_slug = $raw_path;
-	}
-
-	if ( ! empty( $target_slug ) && isset( $slug_to_template[ $target_slug ] ) ) {
-		$custom_template = locate_template( array( $slug_to_template[ $target_slug ] ) );
+	if ( isset( $slug_to_template[ $raw_path ] ) ) {
+		$custom_template = locate_template( array( $slug_to_template[ $raw_path ] ) );
 		if ( $custom_template && file_exists( $custom_template ) ) {
 			status_header( 200 );
 			if ( isset( $wp_query ) ) {
