@@ -279,6 +279,7 @@
 				this.style.removeProperty('margin-right');
 				this.style.removeProperty('justify-content');
 				this.style.removeProperty('align-items');
+				this.style.setProperty('padding', '0', 'important');
 			});
 
 			// Proactively remove any ghost zoom or Avada fusion rollover overlays
@@ -298,9 +299,15 @@
 			// Trigger resize so Flexslider calculates active slide track width accurately
 			setTimeout(function() {
 				$(window).trigger('resize');
+				if ($gallery.data('flexslider')) {
+					try { $gallery.data('flexslider').resize(); } catch(e) {}
+				}
 			}, 80);
 			setTimeout(function() {
 				$(window).trigger('resize');
+				if ($gallery.data('flexslider')) {
+					try { $gallery.data('flexslider').resize(); } catch(e) {}
+				}
 			}, 300);
 		}
 		enhanceProductGallery();
