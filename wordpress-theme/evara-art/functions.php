@@ -20,7 +20,7 @@ register_shutdown_function( function() {
 	}
 } );
 
-define( 'EVARA_VERSION', '1.4.8' );
+define( 'EVARA_VERSION', '1.4.9' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -1473,5 +1473,232 @@ function evara_core_virtual_page_template_loader( $template ) {
 
 	return $template;
 }
+
+/**
+ * --------------------------------------------------------------------------
+ * EVARA ART: LUXURY ORDERS DASHBOARD & ORDER DETAILS ENHANCEMENTS
+ * --------------------------------------------------------------------------
+ */
+
+// 1. Add "Artwork / Items" column to My Account Orders table
+add_filter( 'woocommerce_account_orders_columns', 'evara_add_order_items_column', 20 );
+function evara_add_order_items_column( $columns ) {
+	$new_columns = array();
+	foreach ( $columns as $key => $title ) {
+		$new_columns[ $key ] = $title;
+		if ( 'order-date' === $key ) {
+			$new_columns['order-items'] = __( 'Artwork / Items', 'evara-art' );
+		}
+	}
+	if ( ! isset( $new_columns['order-items'] ) ) {
+		$new_columns['order-items'] = __( 'Artwork / Items', 'evara-art' );
+	}
+	return $new_columns;
+}
+
+// 2. Render Artwork / Items in the Orders table
+add_action( 'woocommerce_my_account_my_orders_column_order-items', 'evara_render_order_items_column', 10, 1 );
+function evara_render_order_items_column( $order ) {
+	if ( ! $order ) {
+		return;
+	}
+	$items = $order->get_items( apply_filters( 'woocommerce_purchase_order_item_types', 'line_item' ) );
+	if ( empty( $items ) ) {
+		echo '<span class="text-muted">&mdash;</span>';
+		return;
+	}
+
+	echo '<div class="evara-account-order-items-list">';
+	foreach ( $items as $item_id => $item ) {
+		$product = $item->get_product();
+		$thumb   = $product ? $product->get_image( array( 64, 64 ), array( 'class' => 'evara-order-row-thumb' ) ) : '';
+		if ( ! $thumb ) {
+			$thumb = '<div class="evara-order-row-thumb-placeholder">🎨</div>';
+		}
+		$name      = $item->get_name();
+		$qty       = $item->get_quantity();
+		$permalink = ( $product && $product->is_visible() ) ? $product->get_permalink( $item ) : '';
+
+		echo '<div class="evara-account-order-item-chip">';
+		if ( $permalink ) {
+			echo '<a href="' . esc_url( $permalink ) . '" class="evara-order-item-thumb-link" title="' . esc_attr( $name ) . '">' . $thumb . '</a>';
+		} else {
+			echo '<span class="evara-order-item-thumb-static">' . $thumb . '</span>';
+		}
+		echo '<div class="evara-order-item-chip-details">';
+		if ( $permalink ) {
+			echo '<a href="' . esc_url( $permalink ) . '" class="evara-order-item-chip-title">' . esc_html( $name ) . '</a>';
+		} else {
+			echo '<span class="evara-order-item-chip-title">' . esc_html( $name ) . '</span>';
+		}
+		echo '<div class="evara-order-item-chip-meta">';
+		echo '<span class="evara-order-item-qty">Qty: ' . intval( $qty ) . '</span>';
+		echo '<span class="evara-order-item-artist">By <strong>Shraddha Parmar</strong></span>';
+		echo '</div>';
+		echo '</div>';
+		echo '</div>';
+	}
+	echo '</div>';
+}
+
+// 3. Render Luxury Status Badges in Orders Table
+add_action( 'woocommerce_my_account_my_orders_column_order-status', 'evara_render_order_status_column', 10, 1 );
+function evara_render_order_status_column( $order ) {
+	if ( ! $order ) {
+		return;
+	}
+	$status = $order->get_status();
+	$status_label = wc_get_order_status_name( $status );
+
+	$badge_class = 'evara-status-badge--default';
+	$icon = '•';
+
+	switch ( $status ) {
+		case 'processing':
+			$badge_class = 'evara-status-badge--processing';
+			$icon = '<span class="evara-pulse-dot"></span>';
+			$status_label = __( 'In Studio • Preparing', 'evara-art' );
+			break;
+		case 'completed':
+			$badge_class = 'evara-status-badge--completed';
+			$icon = '✓';
+			$status_label = __( 'Delivered', 'evara-art' );
+			break;
+		case 'on-hold':
+		case 'pending':
+			$badge_class = 'evara-status-badge--pending';
+			$icon = '⏳';
+			$status_label = __( 'Payment Pending', 'evara-art' );
+			break;
+		case 'cancelled':
+		case 'failed':
+		case 'refunded':
+			$badge_class = 'evara-status-badge--cancelled';
+			$icon = '✕';
+			break;
+	}
+
+	echo '<span class="evara-status-badge ' . esc_attr( $badge_class ) . '">' . $icon . ' ' . esc_html( $status_label ) . '</span>';
+}
+
+// 4. In View-Order / Order-Received: Add Order Progress Stepper before Order Table
+add_action( 'woocommerce_order_details_before_order_table', 'evara_render_order_progress_stepper', 5, 1 );
+function evara_render_order_progress_stepper( $order ) {
+	if ( ! $order ) {
+		return;
+	}
+	$status = $order->get_status();
+	$order_number = $order->get_order_number();
+	$date_created = $order->get_date_created() ? $order->get_date_created()->date_i18n( get_option( 'date_format' ) ) : '';
+
+	// Stepper stages: 1 = Confirmed, 2 = Handcrafting / In Studio, 3 = Armored Crating, 4 = Delivered
+	$step = 2; // Default for processing
+	if ( 'completed' === $status ) {
+		$step = 4;
+	} elseif ( 'on-hold' === $status || 'pending' === $status ) {
+		$step = 1;
+	} elseif ( 'cancelled' === $status || 'failed' === $status || 'refunded' === $status ) {
+		$step = 0;
+	}
+	?>
+	<div class="evara-order-stepper-container">
+		<div class="evara-order-stepper-header">
+			<div class="evara-order-stepper-title-wrap">
+				<span class="evara-order-stepper-badge">Order #<?php echo esc_html( $order_number ); ?></span>
+				<h3 class="evara-order-stepper-heading"><?php esc_html_e( 'Order Tracking & Studio Progress', 'evara-art' ); ?></h3>
+			</div>
+			<div class="evara-order-stepper-meta">
+				<span>Placed on: <strong><?php echo esc_html( $date_created ); ?></strong></span>
+				<span>Status: <strong class="evara-text-terracotta"><?php echo esc_html( wc_get_order_status_name( $status ) ); ?></strong></span>
+			</div>
+		</div>
+
+		<?php if ( $step > 0 ) : ?>
+		<div class="evara-order-stepper-track">
+			<!-- Step 1: Confirmed -->
+			<div class="evara-stepper-step <?php echo $step >= 1 ? 'is-complete' : ''; ?>">
+				<div class="evara-step-icon"><?php echo $step >= 1 ? '✓' : '1'; ?></div>
+				<div class="evara-step-content">
+					<div class="evara-step-label"><?php esc_html_e( 'Order Confirmed', 'evara-art' ); ?></div>
+					<div class="evara-step-sub"><?php esc_html_e( 'Payment verified via Razorpay', 'evara-art' ); ?></div>
+				</div>
+			</div>
+
+			<!-- Step 2: Handcrafting & Studio Inspection -->
+			<div class="evara-stepper-step <?php echo $step >= 2 ? ( $step === 2 ? 'is-active' : 'is-complete' ) : ''; ?>">
+				<div class="evara-step-icon"><?php echo $step > 2 ? '✓' : '🎨'; ?></div>
+				<div class="evara-step-content">
+					<div class="evara-step-label"><?php esc_html_e( 'Studio Handcrafting', 'evara-art' ); ?></div>
+					<div class="evara-step-sub"><?php esc_html_e( 'Inspected by Shraddha Parmar', 'evara-art' ); ?></div>
+				</div>
+			</div>
+
+			<!-- Step 3: Armored Crating -->
+			<div class="evara-stepper-step <?php echo $step >= 3 ? ( $step === 3 ? 'is-active' : 'is-complete' ) : ''; ?>">
+				<div class="evara-step-icon"><?php echo $step > 3 ? '✓' : '📦'; ?></div>
+				<div class="evara-step-content">
+					<div class="evara-step-label"><?php esc_html_e( 'Armored Wooden Crating', 'evara-art' ); ?></div>
+					<div class="evara-step-sub"><?php esc_html_e( 'Zero-risk transit packaging', 'evara-art' ); ?></div>
+				</div>
+			</div>
+
+			<!-- Step 4: Dispatched & Delivered -->
+			<div class="evara-stepper-step <?php echo $step >= 4 ? 'is-complete' : ''; ?>">
+				<div class="evara-step-icon"><?php echo $step >= 4 ? '✓' : '🚚'; ?></div>
+				<div class="evara-step-content">
+					<div class="evara-step-label"><?php esc_html_e( 'Pan-India Delivery', 'evara-art' ); ?></div>
+					<div class="evara-step-sub"><?php esc_html_e( 'Insured courier to doorstep', 'evara-art' ); ?></div>
+				</div>
+			</div>
+		</div>
+		<?php else : ?>
+		<div class="evara-order-status-notice evara-order-status-notice--alert">
+			<p><?php esc_html_e( 'This order has been cancelled or refunded. If you have any questions, please reach out directly to lead artist Shraddha Parmar.', 'evara-art' ); ?></p>
+		</div>
+		<?php endif; ?>
+	</div>
+	<?php
+}
+
+// 5. In View-Order / Order-Received: Add Concierge & Support Card after Order Table
+add_action( 'woocommerce_order_details_after_order_table', 'evara_render_order_support_card', 10, 1 );
+function evara_render_order_support_card( $order ) {
+	if ( ! $order ) {
+		return;
+	}
+	$order_number = $order->get_order_number();
+	$order_total  = $order->get_formatted_order_total();
+	$whatsapp_msg = rawurlencode( "Hello Shraddha, I have an inquiry regarding my Evara Art Order #{$order_number} ({$order_total}). Could you please update me on its studio status?" );
+	$whatsapp_url = "https://wa.me/919328143036?text={$whatsapp_msg}";
+	?>
+	<div class="evara-order-concierge-card">
+		<div class="evara-concierge-grid">
+			<div class="evara-concierge-col">
+				<div class="evara-concierge-icon">✨</div>
+				<div class="evara-concierge-text">
+					<h4><?php esc_html_e( 'Studio Authenticity Guarantee', 'evara-art' ); ?></h4>
+					<p><?php esc_html_e( 'Every artwork is an authentic, original creation handcrafted with premium materials under the direct supervision of lead artist Shraddha Parmar.', 'evara-art' ); ?></p>
+				</div>
+			</div>
+			<div class="evara-concierge-col">
+				<div class="evara-concierge-icon">🛡️</div>
+				<div class="evara-concierge-text">
+					<h4><?php esc_html_e( 'Zero-Risk Transit Protection', 'evara-art' ); ?></h4>
+					<p><?php esc_html_e( 'Shipped in heavy-duty armored wooden crating with corner protectors. In the rare event of transit damage, 100% free replacement is guaranteed.', 'evara-art' ); ?></p>
+				</div>
+			</div>
+		</div>
+		<div class="evara-concierge-actions">
+			<a href="<?php echo esc_url( $whatsapp_url ); ?>" target="_blank" rel="noopener noreferrer" class="evara-btn evara-btn-whatsapp">
+				<i class="fa-brands fa-whatsapp"></i> <?php printf( esc_html__( 'Inquire About Order #%s on WhatsApp', 'evara-art' ), esc_html( $order_number ) ); ?>
+			</a>
+			<button type="button" onclick="window.print();" class="evara-btn evara-btn-outline evara-btn-print">
+				<i class="fa-solid fa-print"></i> <?php esc_html_e( 'Print Order Receipt', 'evara-art' ); ?>
+			</button>
+		</div>
+	</div>
+	<?php
+}
+
 
 

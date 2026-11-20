@@ -279,17 +279,8 @@
 			$gallery.find('.flex-direction-nav .flex-prev').attr('aria-label', 'Previous Artwork Image');
 			$gallery.find('.flex-direction-nav .flex-next').attr('aria-label', 'Next Artwork Image');
 
-			// Force centering on slide containers, links, and images
-			$gallery.find('.woocommerce-product-gallery__image, .woocommerce-product-gallery__image a').css({
-				'float': 'none',
-				'display': 'flex',
-				'justify-content': 'center',
-				'align-items': 'center',
-				'margin-left': 'auto',
-				'margin-right': 'auto'
-			});
+			// Ensure images are block and centered horizontally within the slide
 			$gallery.find('.woocommerce-product-gallery__image img').css({
-				'float': 'none',
 				'display': 'block',
 				'margin-left': 'auto',
 				'margin-right': 'auto'

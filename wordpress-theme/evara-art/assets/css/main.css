@@ -4933,7 +4933,7 @@ img.zoomImg,
 	z-index: -9999 !important;
 }
 
-/* Slide item internal styling */
+/* Slide item internal styling — Fully compatible with WooCommerce Flexslider & Single Images */
 .woocommerce-product-gallery .woocommerce-product-gallery__image {
 	padding: 16px !important;
 	box-sizing: border-box !important;
@@ -4942,17 +4942,23 @@ img.zoomImg,
 	border: none !important;
 	box-shadow: none !important;
 	position: relative !important;
+	float: left !important;
+	display: block !important;
+	margin: 0 !important;
+}
+
+/* Fallback for products with single images (no flexslider carousel) */
+.woocommerce-product-gallery.is-single-image .woocommerce-product-gallery__image,
+.woocommerce-product-gallery:not(.flexslider) .woocommerce-product-gallery__image {
 	float: none !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
+	display: block !important;
 	margin: 0 auto !important;
+	width: 100% !important;
 }
 
 .woocommerce-product-gallery .woocommerce-product-gallery__image a {
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
+	display: block !important;
+	text-align: center !important;
 	width: 100% !important;
 	min-height: 0 !important;
 	height: auto !important;
@@ -4961,7 +4967,7 @@ img.zoomImg,
 	margin: 0 auto !important;
 	float: none !important;
 	clear: both !important;
-	text-align: center !important;
+	line-height: 0 !important;
 }
 
 /* Artwork Image inside slide: full size, crisp, strictly centered horizontally */
@@ -4989,21 +4995,26 @@ img.zoomImg,
 	}
 	.woocommerce-product-gallery .woocommerce-product-gallery__image {
 		padding: 12px !important;
-		display: flex !important;
-		align-items: center !important;
-		justify-content: center !important;
+		display: block !important;
+		float: left !important;
+		text-align: center !important;
+		margin: 0 !important;
+	}
+	.woocommerce-product-gallery.is-single-image .woocommerce-product-gallery__image,
+	.woocommerce-product-gallery:not(.flexslider) .woocommerce-product-gallery__image {
 		float: none !important;
+		display: block !important;
 		margin: 0 auto !important;
+		width: 100% !important;
 	}
 	.woocommerce-product-gallery .woocommerce-product-gallery__image a {
 		min-height: 0 !important;
 		height: auto !important;
-		display: flex !important;
-		align-items: center !important;
-		justify-content: center !important;
-		float: none !important;
+		display: block !important;
+		text-align: center !important;
 		margin: 0 auto !important;
 		width: 100% !important;
+		line-height: 0 !important;
 	}
 	.woocommerce-product-gallery .woocommerce-product-gallery__image > a > img,
 	.woocommerce-product-gallery .woocommerce-product-gallery__image > img:not(.zoomImg),
@@ -5134,7 +5145,11 @@ img.zoomImg,
 }
 
 .flex-direction-nav .flex-prev::before,
-.flex-direction-nav .flex-next::before {
+.flex-direction-nav .flex-next::before,
+.flex-direction-nav a i,
+.woocommerce-product-gallery .flex-direction-nav a i,
+.woocommerce-product-gallery .flex-direction-nav a [class*="icon"],
+.woocommerce-product-gallery .flex-direction-nav a span {
 	display: none !important;
 }
 
@@ -6867,6 +6882,767 @@ img.zoomImg,
 .category-header-banner .section-desc,
 .woocommerce-category-description {
 	display: none !important;
+}
+
+/* ==========================================================================
+   EVARA ART: LUXURY ORDERS DASHBOARD & ORDER DETAILS STYLING
+   ========================================================================== */
+
+/* Orders Wrapper */
+.evara-account-orders-wrapper {
+	width: 100%;
+}
+
+.evara-account-orders-header {
+	margin-bottom: 24px;
+	border-bottom: 1px solid var(--evara-border, rgba(212, 175, 55, 0.2));
+	padding-bottom: 16px;
+}
+
+.evara-account-orders-title {
+	font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+	font-size: 1.6rem;
+	font-weight: 600;
+	color: var(--evara-text-primary, #1C1612);
+	margin: 0 0 6px 0;
+}
+
+.evara-account-orders-sub {
+	font-size: 0.92rem;
+	color: var(--evara-text-secondary, #7A6F68);
+	margin: 0;
+}
+
+/* Orders Table */
+.evara-luxury-orders-table {
+	width: 100% !important;
+	border-collapse: separate !important;
+	border-spacing: 0 !important;
+	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.25)) !important;
+	border-radius: var(--radius-md, 12px) !important;
+	overflow: hidden !important;
+	background: #FFFFFF !important;
+	box-shadow: 0 4px 18px rgba(28, 22, 18, 0.04) !important;
+	margin-bottom: 28px !important;
+}
+
+.evara-luxury-orders-table thead th {
+	background: #FAF8F5 !important;
+	padding: 14px 18px !important;
+	font-size: 0.85rem !important;
+	font-weight: 600 !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.05em !important;
+	color: var(--evara-text-secondary, #7A6F68) !important;
+	border-bottom: 1px solid var(--evara-border, rgba(212, 175, 55, 0.2)) !important;
+}
+
+.evara-luxury-orders-table tbody td {
+	padding: 16px 18px !important;
+	vertical-align: middle !important;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+	font-size: 0.95rem !important;
+}
+
+.evara-luxury-orders-table tbody tr:last-child td {
+	border-bottom: none !important;
+}
+
+.evara-luxury-orders-table tbody tr:hover td {
+	background: #FCFBF9 !important;
+}
+
+.evara-order-number-link {
+	font-weight: 700 !important;
+	color: var(--evara-terracotta, #B85034) !important;
+	text-decoration: none !important;
+}
+
+.evara-order-number-link:hover {
+	text-decoration: underline !important;
+}
+
+/* Order Item Chips in History Table */
+.evara-account-order-items-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.evara-account-order-item-chip {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.evara-order-item-thumb-link,
+.evara-order-item-thumb-static {
+	flex-shrink: 0;
+	width: 54px;
+	height: 54px;
+	border-radius: 8px;
+	overflow: hidden;
+	background: #FAF8F5;
+	border: 1px solid rgba(212, 175, 55, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.evara-order-row-thumb {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	display: block !important;
+}
+
+.evara-order-row-thumb-placeholder {
+	font-size: 24px;
+	line-height: 1;
+}
+
+.evara-order-item-chip-details {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.evara-order-item-chip-title {
+	font-weight: 600;
+	font-size: 0.92rem;
+	color: var(--evara-text-primary, #1C1612);
+	text-decoration: none;
+	line-height: 1.3;
+	transition: color 0.2s ease;
+}
+
+.evara-order-item-chip-title:hover {
+	color: var(--evara-terracotta, #B85034);
+}
+
+.evara-order-item-chip-meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.78rem;
+	color: var(--evara-text-secondary, #7A6F68);
+}
+
+.evara-order-item-qty {
+	background: #F3EFEA;
+	padding: 2px 7px;
+	border-radius: 4px;
+	font-weight: 600;
+	color: #3C332A;
+}
+
+.evara-order-item-artist {
+	color: #8C6D38;
+}
+
+/* Status Badges */
+.evara-status-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 12px;
+	border-radius: 50px;
+	font-size: 0.8rem;
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.evara-status-badge--processing {
+	background: #FEF7EE;
+	color: #B45309;
+	border: 1px solid rgba(217, 119, 6, 0.35);
+}
+
+.evara-pulse-dot {
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #D97706;
+	box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.6);
+	animation: evaraPulse 1.8s infinite;
+}
+
+@keyframes evaraPulse {
+	0% {
+		box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.6);
+	}
+	70% {
+		box-shadow: 0 0 0 6px rgba(217, 119, 6, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(217, 119, 6, 0);
+	}
+}
+
+.evara-status-badge--completed {
+	background: #ECFDF5;
+	color: #065F46;
+	border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.evara-status-badge--pending {
+	background: #FFFBEB;
+	color: #92400E;
+	border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.evara-status-badge--cancelled {
+	background: #FEF2F2;
+	color: #991B1B;
+	border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.evara-status-badge--default {
+	background: #F3EFEA;
+	color: #4A4036;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.evara-order-total-formatted {
+	font-weight: 700;
+	color: var(--evara-text-primary, #1C1612);
+	display: block;
+}
+
+.evara-order-item-count-sub {
+	font-size: 0.78rem;
+	color: var(--evara-text-secondary, #7A6F68);
+	display: block;
+	margin-top: 2px;
+}
+
+/* Empty Orders Card */
+.evara-empty-orders-card {
+	text-align: center;
+	padding: 50px 24px;
+	background: #FAF8F5;
+	border: 1px dashed var(--evara-border, rgba(212, 175, 55, 0.3));
+	border-radius: var(--radius-md, 12px);
+}
+
+.evara-empty-orders-icon {
+	font-size: 42px;
+	margin-bottom: 12px;
+}
+
+.evara-empty-orders-card h3 {
+	font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+	font-size: 1.4rem;
+	color: var(--evara-text-primary, #1C1612);
+	margin-bottom: 8px;
+}
+
+.evara-empty-orders-card p {
+	font-size: 0.95rem;
+	color: var(--evara-text-secondary, #7A6F68);
+	max-width: 480px;
+	margin: 0 auto 20px auto;
+}
+
+/* ==========================================================================
+   ORDER DETAILS VIEW (/my-account/view-order/ & /order-received/)
+   ========================================================================== */
+
+/* Progress Stepper */
+.evara-order-stepper-container {
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.28));
+	border-radius: var(--radius-md, 12px);
+	padding: 24px 28px;
+	margin-bottom: 30px;
+	box-shadow: 0 4px 18px rgba(28, 22, 18, 0.04);
+}
+
+.evara-order-stepper-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px;
+	padding-bottom: 18px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+	margin-bottom: 22px;
+}
+
+.evara-order-stepper-badge {
+	display: inline-block;
+	background: #FAF4EF;
+	border: 1px solid rgba(184, 80, 52, 0.25);
+	color: var(--evara-terracotta, #B85034);
+	padding: 3px 10px;
+	border-radius: 4px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	margin-bottom: 4px;
+}
+
+.evara-order-stepper-heading {
+	font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+	font-size: 1.35rem;
+	color: var(--evara-text-primary, #1C1612);
+	margin: 0;
+}
+
+.evara-order-stepper-meta {
+	font-size: 0.88rem;
+	color: var(--evara-text-secondary, #7A6F68);
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.evara-text-terracotta {
+	color: var(--evara-terracotta, #B85034);
+}
+
+/* Stepper Track */
+.evara-order-stepper-track {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 16px;
+	position: relative;
+}
+
+.evara-stepper-step {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	position: relative;
+}
+
+.evara-stepper-step::before {
+	content: "";
+	position: absolute;
+	top: 18px;
+	left: -50%;
+	width: 100%;
+	height: 2px;
+	background: #E8E3DD;
+	z-index: 1;
+}
+
+.evara-stepper-step:first-child::before {
+	display: none;
+}
+
+.evara-stepper-step.is-complete::before {
+	background: #065F46;
+}
+
+.evara-stepper-step.is-active::before {
+	background: var(--evara-terracotta, #B85034);
+}
+
+.evara-step-icon {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: #F3EFEA;
+	border: 2px solid #E8E3DD;
+	color: #7A6F68;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.9rem;
+	font-weight: 700;
+	z-index: 2;
+	position: relative;
+	margin-bottom: 10px;
+	transition: all 0.25s ease;
+}
+
+.evara-stepper-step.is-complete .evara-step-icon {
+	background: #ECFDF5;
+	border-color: #065F46;
+	color: #065F46;
+	box-shadow: 0 2px 8px rgba(6, 95, 70, 0.2);
+}
+
+.evara-stepper-step.is-active .evara-step-icon {
+	background: #FEF7EE;
+	border-color: var(--evara-terracotta, #B85034);
+	color: var(--evara-terracotta, #B85034);
+	box-shadow: 0 0 0 4px rgba(184, 80, 52, 0.15);
+	transform: scale(1.08);
+}
+
+.evara-step-label {
+	font-weight: 600;
+	font-size: 0.88rem;
+	color: var(--evara-text-primary, #1C1612);
+	margin-bottom: 3px;
+	line-height: 1.25;
+}
+
+.evara-stepper-step.is-active .evara-step-label {
+	color: var(--evara-terracotta, #B85034);
+	font-weight: 700;
+}
+
+.evara-step-sub {
+	font-size: 0.76rem;
+	color: var(--evara-text-secondary, #7A6F68);
+	line-height: 1.25;
+}
+
+/* Order Details Items Table */
+.evara-luxury-order-details {
+	margin-top: 24px;
+}
+
+.evara-order-details-title-main {
+	font-family: var(--font-serif, "Playfair Display", Georgia, serif) !important;
+	font-size: 1.45rem !important;
+	color: var(--evara-text-primary, #1C1612) !important;
+	margin-bottom: 16px !important;
+	font-weight: 600 !important;
+}
+
+.evara-order-items-table {
+	width: 100% !important;
+	border-collapse: separate !important;
+	border-spacing: 0 !important;
+	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.25)) !important;
+	border-radius: var(--radius-md, 12px) !important;
+	overflow: hidden !important;
+	background: #FFFFFF !important;
+	box-shadow: 0 4px 18px rgba(28, 22, 18, 0.04) !important;
+	margin-bottom: 28px !important;
+}
+
+.evara-order-items-table thead th {
+	background: #FAF8F5 !important;
+	padding: 14px 20px !important;
+	font-size: 0.85rem !important;
+	font-weight: 600 !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.05em !important;
+	color: var(--evara-text-secondary, #7A6F68) !important;
+	border-bottom: 1px solid var(--evara-border, rgba(212, 175, 55, 0.2)) !important;
+}
+
+.evara-order-items-table tbody td {
+	padding: 18px 20px !important;
+	vertical-align: middle !important;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.evara-order-product-card {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.evara-order-product-thumb {
+	flex-shrink: 0;
+	width: 72px;
+	height: 72px;
+	border-radius: 8px;
+	overflow: hidden;
+	background: #FAF8F5;
+	border: 1px solid rgba(212, 175, 55, 0.35);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.evara-order-line-item-img {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	display: block !important;
+}
+
+.evara-order-line-item-img-placeholder {
+	font-size: 30px;
+}
+
+.evara-order-product-body {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.evara-order-product-title a,
+.evara-order-product-title span {
+	font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+	font-weight: 600;
+	font-size: 1.05rem;
+	color: var(--evara-text-primary, #1C1612);
+	text-decoration: none;
+	line-height: 1.3;
+	transition: color 0.2s ease;
+}
+
+.evara-order-product-title a:hover {
+	color: var(--evara-terracotta, #B85034);
+}
+
+.evara-order-product-meta-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	margin-top: 2px;
+}
+
+.evara-meta-pill {
+	display: inline-block;
+	font-size: 0.78rem;
+	padding: 2px 8px;
+	border-radius: 4px;
+	background: #FAF8F5;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	color: var(--evara-text-secondary, #7A6F68);
+}
+
+.evara-meta-pill--artist {
+	background: #FEF7EE;
+	border-color: rgba(217, 119, 6, 0.25);
+	color: #92400E;
+}
+
+.evara-meta-pill--artist strong {
+	color: #78350F;
+}
+
+.evara-order-product-qty-row {
+	margin-top: 2px;
+}
+
+.evara-qty-tag {
+	font-size: 0.82rem;
+	color: var(--evara-text-secondary, #7A6F68);
+}
+
+.evara-qty-tag strong {
+	color: var(--evara-text-primary, #1C1612);
+}
+
+.evara-order-line-total {
+	font-weight: 700 !important;
+	font-size: 1.05rem !important;
+	color: var(--evara-text-primary, #1C1612) !important;
+	text-align: right !important;
+}
+
+/* Order Totals in Foot */
+.evara-order-items-table tfoot th {
+	padding: 12px 20px !important;
+	text-align: right !important;
+	font-size: 0.92rem !important;
+	color: var(--evara-text-secondary, #7A6F68) !important;
+	border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.evara-order-items-table tfoot td {
+	padding: 12px 20px !important;
+	text-align: right !important;
+	font-size: 0.95rem !important;
+	color: var(--evara-text-primary, #1C1612) !important;
+	border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.evara-order-total-row--order_total th,
+.evara-order-total-row--order_total td {
+	font-size: 1.15rem !important;
+	font-weight: 700 !important;
+	color: var(--evara-terracotta, #B85034) !important;
+	background: #FAF8F5 !important;
+}
+
+/* Collector Concierge & Support Card */
+.evara-order-concierge-card {
+	background: #FAF8F5;
+	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.3));
+	border-radius: var(--radius-md, 12px);
+	padding: 24px;
+	margin-top: 28px;
+	box-shadow: 0 4px 18px rgba(28, 22, 18, 0.04);
+}
+
+.evara-concierge-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 20px;
+	margin-bottom: 20px;
+}
+
+.evara-concierge-col {
+	display: flex;
+	gap: 14px;
+	align-items: flex-start;
+}
+
+.evara-concierge-icon {
+	font-size: 28px;
+	line-height: 1;
+	flex-shrink: 0;
+	margin-top: 2px;
+}
+
+.evara-concierge-text h4 {
+	font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+	font-size: 1.05rem;
+	font-weight: 600;
+	color: var(--evara-text-primary, #1C1612);
+	margin: 0 0 6px 0;
+}
+
+.evara-concierge-text p {
+	font-size: 0.88rem;
+	color: var(--evara-text-secondary, #7A6F68);
+	line-height: 1.45;
+	margin: 0;
+}
+
+.evara-concierge-actions {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	padding-top: 18px;
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.evara-btn-whatsapp {
+	background-color: #25D366 !important;
+	color: #FFFFFF !important;
+	border: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	font-weight: 600 !important;
+	padding: 12px 22px !important;
+	border-radius: var(--radius-full, 50px) !important;
+	text-decoration: none !important;
+	box-shadow: 0 4px 14px rgba(37, 211, 102, 0.28) !important;
+	transition: all 0.25s ease !important;
+}
+
+.evara-btn-whatsapp:hover {
+	background-color: #1EBE5D !important;
+	transform: translateY(-2px) !important;
+	box-shadow: 0 6px 20px rgba(37, 211, 102, 0.38) !important;
+}
+
+.evara-btn-print {
+	background: #FFFFFF !important;
+	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.35)) !important;
+	color: var(--evara-text-primary, #1C1612) !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 8px !important;
+	font-weight: 600 !important;
+	padding: 12px 22px !important;
+	border-radius: var(--radius-full, 50px) !important;
+	cursor: pointer !important;
+	transition: all 0.25s ease !important;
+}
+
+.evara-btn-print:hover {
+	background: #FAF8F5 !important;
+	border-color: var(--evara-terracotta, #B85034) !important;
+	color: var(--evara-terracotta, #B85034) !important;
+}
+
+/* Customer Addresses Styling */
+.woocommerce-customer-details {
+	margin-top: 36px;
+	background: #FFFFFF;
+	border: 1px solid var(--evara-border, rgba(212, 175, 55, 0.25));
+	border-radius: var(--radius-md, 12px);
+	padding: 24px;
+	box-shadow: 0 4px 18px rgba(28, 22, 18, 0.04);
+}
+
+.woocommerce-customer-details .woocommerce-column__title {
+	font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+	font-size: 1.25rem;
+	color: var(--evara-text-primary, #1C1612);
+	margin-bottom: 14px;
+	font-weight: 600;
+}
+
+.woocommerce-customer-details address {
+	background: #FAF8F5;
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	border-radius: 8px;
+	padding: 16px;
+	font-size: 0.92rem;
+	line-height: 1.6;
+	color: var(--evara-text-secondary, #7A6F68);
+	font-style: normal;
+}
+
+/* Mobile Responsiveness for Stepper & Orders */
+@media (max-width: 768px) {
+	.evara-order-stepper-track {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+	.evara-stepper-step {
+		flex-direction: row;
+		text-align: left;
+		gap: 14px;
+	}
+	.evara-stepper-step::before {
+		top: 18px;
+		left: 17px;
+		width: 2px;
+		height: calc(100% + 20px);
+	}
+	.evara-step-icon {
+		margin-bottom: 0;
+		flex-shrink: 0;
+	}
+	.evara-order-product-card {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+	.evara-luxury-orders-table thead {
+		display: none;
+	}
+	.evara-luxury-orders-table tbody tr {
+		display: block;
+		margin-bottom: 16px;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		border-radius: 8px;
+		padding: 12px;
+	}
+	.evara-luxury-orders-table tbody td {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 8px 0 !important;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+	}
+	.evara-luxury-orders-table tbody td:last-child {
+		border-bottom: none !important;
+	}
+	.evara-luxury-orders-table tbody td::before {
+		content: attr(data-title);
+		font-weight: 600;
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		color: var(--evara-text-secondary, #7A6F68);
+	}
+	.evara-luxury-orders-table tbody td.woocommerce-orders-table__cell-order-items {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 6px;
+	}
 }
 
 
