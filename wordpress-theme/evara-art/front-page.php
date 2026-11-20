@@ -102,7 +102,7 @@ $hero_title     = get_theme_mod( 'evara_hero_title', 'Art that connects to your 
 if ( preg_match( '/\bheart\b/i', $hero_title ) && ! preg_match( '/\bHEART\b/', $hero_title ) ) {
 	$hero_title = preg_replace( '/\bheart\b/i', 'HEART', $hero_title );
 }
-$hero_subtitle  = get_theme_mod( 'evara_hero_subtitle', 'Welcome to Evara Art – where creativity comes to life through every brushstroke. “Evara” means Gift of God, turning sacred imagination into meaningful, handcrafted wall art for your sanctuary.' );
+$hero_subtitle  = get_theme_mod( 'evara_hero_subtitle', 'Discover original, handcrafted canvas paintings and sacred Lippan mirror craft. Created with spiritual devotion by lead artist Shraddha Parmar to bring peace, beauty, and timeless inspiration into your sanctuary.' );
 
 $hero_cta1_text = get_theme_mod( 'evara_hero_cta1_text', 'Explore Canvas Paintings' );
 $hero_cta1_url  = get_theme_mod( 'evara_hero_cta1_url', '' );
@@ -151,7 +151,9 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 									     height="520" 
 									     <?php echo ( 0 === $index ) ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
 								</picture>
-								<?php if ( $show_caption && ! empty( $slide['title'] ) ) : ?>
+								<?php
+								$is_generic_title = empty( $slide['title'] ) || in_array( strtolower( trim( $slide['title'] ) ), array( 'shop now', 'shop', 'evara art', 'art', 'shop now shop now' ) );
+								if ( $show_caption && ! $is_generic_title ) : ?>
 									<div class="slider-caption">
 										<?php if ( ! empty( $slide['badge'] ) ) : ?>
 											<span class="slider-pill"><?php echo esc_html( $slide['badge'] ); ?></span>
@@ -225,8 +227,8 @@ $pillar3_desc  = get_theme_mod( 'evara_pillar3_desc', 'Discover art that connect
 			$showcase_show    = ( 'no' !== get_theme_mod( 'evara_showcase_card_show', 'yes' ) );
 			$showcase_img_val = get_theme_mod( 'evara_showcase_card_image', '' );
 			$showcase_img     = function_exists( 'evara_get_image_url' ) ? evara_get_image_url( $showcase_img_val ) : $showcase_img_val;
-			$showcase_badge   = get_theme_mod( 'evara_showcase_card_badge', '✦ Original Artwork' );
-			$showcase_title   = get_theme_mod( 'evara_showcase_card_title', 'Sacred Spiritual Artworks' );
+			$showcase_badge   = get_theme_mod( 'evara_showcase_card_badge', '✦ Studio Highlight' );
+			$showcase_title   = get_theme_mod( 'evara_showcase_card_title', 'Signature Collection' );
 			$showcase_cta     = get_theme_mod( 'evara_showcase_card_cta', 'Explore Collection' );
 			$showcase_url     = get_theme_mod( 'evara_showcase_card_url', '' );
 
@@ -433,7 +435,7 @@ $lippan_img_url = ! empty( $lippan_custom_img ) ? $lippan_custom_img : 'https://
 										   data-product_id="<?php echo esc_attr( $product->get_id() ); ?>" 
 										   data-quantity="1" 
 										   class="add-to-bag-btn add_to_cart_button <?php echo $ajax_enabled ? 'ajax_add_to_cart' : ''; ?>">
-											<i class="fa-solid fa-plus"></i> <?php esc_html_e( 'Add', 'evara-art' ); ?>
+											<i class="fa-solid fa-plus"></i> <?php esc_html_e( 'Add to cart', 'evara-art' ); ?>
 										</a>
 									<?php else : ?>
 										<a href="<?php the_permalink(); ?>" class="add-to-bag-btn">

@@ -272,6 +272,16 @@
 				$gallery.addClass('has-multiple-images');
 			}
 
+			// Clean any rogue inline styles that break Flexslider horizontal flow (removes 2000px auto margins)
+			$gallery.find('.woocommerce-product-gallery__image').each(function() {
+				this.style.removeProperty('margin-left');
+				this.style.removeProperty('margin-right');
+				this.style.removeProperty('float');
+				this.style.removeProperty('display');
+				this.style.removeProperty('justify-content');
+				this.style.removeProperty('align-items');
+			});
+
 			// Proactively remove any ghost zoom or Avada fusion rollover overlays
 			$gallery.find('.zoomImg, img.zoomImg, .fusion-rollover, .avada-image-rollover').remove();
 
@@ -296,6 +306,7 @@
 		}
 		enhanceProductGallery();
 		$(window).on('load', enhanceProductGallery);
+		$(document).on('wc-product-gallery-after-init', enhanceProductGallery);
 
 		// 9. Fail-Safe Cart Trigger Binding
 		$(document).on('click', '#evara-cart-open, .cart-trigger', function(e) {

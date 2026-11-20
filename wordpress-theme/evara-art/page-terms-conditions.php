@@ -38,7 +38,13 @@ get_header(); ?>
 		</div>
 
 		<div class="policy-section">
-			<h2><i class="fa-solid fa-scale-balanced" style="color: var(--evara-terracotta);"></i> 4. <?php esc_html_e( 'Pricing, Accuracy & Governing Law', 'evara-art' ); ?></h2>
+			<h2><i class="fa-solid fa-shield-halved" style="color: var(--evara-terracotta);"></i> 4. <?php esc_html_e( 'Returns, Replacement & Transit Guarantee', 'evara-art' ); ?></h2>
+			<p><?php esc_html_e( 'We stand 100% behind the condition and beauty of every artwork. Ready-to-ship catalog artworks may be returned within 7 calendar days of delivery in their original unmounted condition and protective packaging. For bespoke custom commissions, works are created to personal specifications and are non-returnable once approved and dispatched.', 'evara-art' ); ?></p>
+			<p><?php esc_html_e( 'Under our Zero-Risk Transit Guarantee, any transit damage reported with unboxing video or photos within 24 to 48 hours of delivery qualifies for an immediate free hand-painted replacement or 100% refund. For complete guidelines, please refer to our official ', 'evara-art' ); ?><a href="<?php echo esc_url( home_url( '/refund-returns/' ) ); ?>" style="color: var(--evara-terracotta); font-weight: 600; text-decoration: underline;"><?php esc_html_e( 'Returns & Refund Policy', 'evara-art' ); ?></a>.</p>
+		</div>
+
+		<div class="policy-section">
+			<h2><i class="fa-solid fa-scale-balanced" style="color: var(--evara-terracotta);"></i> 5. <?php esc_html_e( 'Pricing, Accuracy & Governing Law', 'evara-art' ); ?></h2>
 			<p><?php esc_html_e( 'All prices listed on the website are in Indian Rupees (INR) and include applicable taxes. We reserve the right to modify prices, dimensions, and specifications without prior notice.', 'evara-art' ); ?></p>
 			<p><?php esc_html_e( 'These terms and any disputes arising out of purchases from Evara Art shall be governed by and construed in accordance with the laws of India, under the exclusive jurisdiction of the competent courts in Gujarat, India.', 'evara-art' ); ?></p>
 		</div>

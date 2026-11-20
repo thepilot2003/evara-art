@@ -4933,8 +4933,11 @@ img.zoomImg,
 	z-index: -9999 !important;
 }
 
-/* Slide item internal styling — Fully compatible with WooCommerce Flexslider & Single Images */
-.woocommerce-product-gallery .woocommerce-product-gallery__image {
+/* Slide item internal styling — Strict Flexslider Horizontal Slide Architecture */
+.woocommerce-product-gallery .woocommerce-product-gallery__wrapper > .woocommerce-product-gallery__image,
+.woocommerce-product-gallery .woocommerce-product-gallery__image,
+.woocommerce-product-gallery .woocommerce-product-gallery__image.flex-active-slide,
+.woocommerce-product-gallery .woocommerce-product-gallery__image.clone {
 	padding: 16px !important;
 	box-sizing: border-box !important;
 	text-align: center !important;
@@ -4945,43 +4948,50 @@ img.zoomImg,
 	float: left !important;
 	display: block !important;
 	margin: 0 !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	clear: none !important;
 }
 
 /* Fallback for products with single images (no flexslider carousel) */
+.woocommerce-product-gallery.is-single-image .woocommerce-product-gallery__wrapper > .woocommerce-product-gallery__image,
+.woocommerce-product-gallery:not(.flexslider) .woocommerce-product-gallery__wrapper > .woocommerce-product-gallery__image,
 .woocommerce-product-gallery.is-single-image .woocommerce-product-gallery__image,
 .woocommerce-product-gallery:not(.flexslider) .woocommerce-product-gallery__image {
 	float: none !important;
 	display: block !important;
 	margin: 0 auto !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 	width: 100% !important;
 }
 
 .woocommerce-product-gallery .woocommerce-product-gallery__image a {
-	display: block !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
 	text-align: center !important;
 	width: 100% !important;
-	min-height: 0 !important;
-	height: auto !important;
+	min-height: 480px !important;
+	height: 100% !important;
 	text-decoration: none !important;
 	padding: 0 !important;
 	margin: 0 auto !important;
 	float: none !important;
 	clear: both !important;
-	line-height: 0 !important;
 }
 
-/* Artwork Image inside slide: full size, crisp, strictly centered horizontally */
+/* Artwork Image inside slide: full size, crisp, strictly centered horizontally and vertically */
 .woocommerce-product-gallery .woocommerce-product-gallery__image > a > img,
 .woocommerce-product-gallery .woocommerce-product-gallery__image > img:not(.zoomImg),
 .woocommerce-product-gallery img.wp-post-image:not(.zoomImg) {
 	width: auto !important;
 	max-width: 100% !important;
 	height: auto !important;
-	max-height: 520px !important;
+	max-height: 480px !important;
 	object-fit: contain !important;
 	display: block !important;
-	margin-left: auto !important;
-	margin-right: auto !important;
+	margin: 0 auto !important;
 	float: none !important;
 	border-radius: var(--radius-md, 10px) !important;
 	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
@@ -4993,13 +5003,18 @@ img.zoomImg,
 		height: auto !important;
 		max-height: 70vh !important;
 	}
+	.woocommerce-product-gallery .woocommerce-product-gallery__wrapper > .woocommerce-product-gallery__image,
 	.woocommerce-product-gallery .woocommerce-product-gallery__image {
 		padding: 12px !important;
 		display: block !important;
 		float: left !important;
 		text-align: center !important;
 		margin: 0 !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
 	}
+	.woocommerce-product-gallery.is-single-image .woocommerce-product-gallery__wrapper > .woocommerce-product-gallery__image,
+	.woocommerce-product-gallery:not(.flexslider) .woocommerce-product-gallery__wrapper > .woocommerce-product-gallery__image,
 	.woocommerce-product-gallery.is-single-image .woocommerce-product-gallery__image,
 	.woocommerce-product-gallery:not(.flexslider) .woocommerce-product-gallery__image {
 		float: none !important;
@@ -5008,13 +5023,14 @@ img.zoomImg,
 		width: 100% !important;
 	}
 	.woocommerce-product-gallery .woocommerce-product-gallery__image a {
-		min-height: 0 !important;
+		min-height: 320px !important;
 		height: auto !important;
-		display: block !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
 		text-align: center !important;
 		margin: 0 auto !important;
 		width: 100% !important;
-		line-height: 0 !important;
 	}
 	.woocommerce-product-gallery .woocommerce-product-gallery__image > a > img,
 	.woocommerce-product-gallery .woocommerce-product-gallery__image > img:not(.zoomImg),
@@ -5024,8 +5040,7 @@ img.zoomImg,
 		max-width: 100% !important;
 		height: auto !important;
 		object-fit: contain !important;
-		margin-left: auto !important;
-		margin-right: auto !important;
+		margin: 0 auto !important;
 		float: none !important;
 		display: block !important;
 	}
@@ -7643,6 +7658,59 @@ img.zoomImg,
 		align-items: flex-start;
 		gap: 6px;
 	}
+}
+
+/* ==========================================================================
+   STRICT 1:1 ASPECT RATIO CROP (ALIGN CARD HEIGHTS ACROSS ALL RATIOS)
+   ========================================================================== */
+.art-thumbnail-wrap,
+.art-thumbnail-wrap a {
+	aspect-ratio: 1 / 1 !important;
+	overflow: hidden !important;
+	display: block !important;
+	width: 100% !important;
+}
+
+.art-thumbnail-wrap img,
+.art-thumbnail-wrap a img,
+.art-img-primary,
+.woocommerce ul.products li.product a img,
+.woocommerce ul.products li.product img {
+	width: 100% !important;
+	height: 100% !important;
+	aspect-ratio: 1 / 1 !important;
+	object-fit: cover !important;
+	display: block !important;
+}
+
+/* ==========================================================================
+   NEUTRALIZE MODERN-CART PLUGIN & REDUNDANT UI CONTROLS
+   ========================================================================== */
+#moderncart-slide-out-modal,
+.moderncart-plugin,
+.moderncart-modal,
+.moderncart-floating-cart-button,
+.moderncart-floating-cart-wrapper,
+.moderncart-add-to-cart-notification,
+#moderncart-cart-wrapper,
+.moderncart-overlay,
+.moderncart-backdrop,
+[id*="moderncart"],
+[class*="moderncart"],
+.fusion-grid-list-view,
+.awb-grid-list-view,
+.fusion-sort-order,
+.awb-sort-order {
+	display: none !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+	position: fixed !important;
+	clip: rect(0, 0, 0, 0) !important;
+	width: 0 !important;
+	height: 0 !important;
+	overflow: hidden !important;
+	z-index: -9999 !important;
 }
 
 

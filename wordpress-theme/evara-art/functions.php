@@ -20,7 +20,7 @@ register_shutdown_function( function() {
 	}
 } );
 
-define( 'EVARA_VERSION', '1.4.9' );
+define( 'EVARA_VERSION', '1.5.0' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -267,8 +267,22 @@ function evara_redirect_old_category_pages() {
 		exit;
 	}
 
-	// 4. Product Slugs Aliases & Deleted Product Redirects (never 404)
-	if ( in_array( $raw_path, array( 'product/peacock-harmony', 'product/peacock-lippanart', 'product/annapakshi-lippan-wall-hanging-set-of-2', 'product/annapakshi', 'product/18-inch-lotus-pichwai-lippan-wall-hanging', 'product/lotus-pichwai' ) ) ) {
+	// 4. Product Slugs Aliases, Test Product & Deleted Product Redirects (never 404)
+	if ( 'product/test-product' === $raw_path || strpos( $raw_path, 'test-product' ) !== false || 'product-category/uncategorized' === $raw_path ) {
+		wp_safe_redirect( home_url( '/shop/' ), 301 );
+		exit;
+	}
+	if ( in_array( $raw_path, array(
+		'product/peacock-harmony',
+		'product/peacock-lippanart',
+		'product/annapakshi-lippan-wall-hanging-set-of-2',
+		'product/annapakshi',
+		'product/18-inch-lotus-pichwai-lippan-wall-hanging',
+		'product/lotus-pichwai',
+		'product/regal-mayur-jharokha',
+		'product/cow-lippan',
+		'product/colourful-flower-rangoli'
+	) ) ) {
 		wp_safe_redirect( home_url( '/product-category/clay-art-evara-art/' ), 301 );
 		exit;
 	}
@@ -1698,6 +1712,237 @@ function evara_render_order_support_card( $order ) {
 		</div>
 	</div>
 	<?php
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * EVARA ART v1.5.0: CRITICAL SITE INTEGRITY, CACHE PURGE, SEO & CATALOG CLEANUP
+ * --------------------------------------------------------------------------
+ */
+
+// 1. LiteSpeed Cache Full Server Purge on Version Bump + Anti-404-Caching Headers
+add_action( 'init', 'evara_litespeed_cache_manager' );
+function evara_litespeed_cache_manager() {
+	$last_purge = get_option( 'evara_cache_purge_v', '' );
+	if ( $last_purge !== EVARA_VERSION ) {
+		update_option( 'evara_cache_purge_v', EVARA_VERSION );
+		if ( class_exists( '\LiteSpeed\Purge' ) ) {
+			\LiteSpeed\Purge::purge_all();
+		}
+		do_action( 'litespeed_purge_all' );
+		if ( ! headers_sent() ) {
+			header( 'X-LiteSpeed-Purge: *' );
+		}
+		if ( function_exists( 'wp_cache_flush' ) ) {
+			wp_cache_flush();
+		}
+	}
+}
+
+// Never allow LiteSpeed or browsers to cache 404 error pages
+add_action( 'template_redirect', function() {
+	if ( is_404() ) {
+		header( 'X-LiteSpeed-Cache-Control: no-cache, no-store' );
+		header( 'Cache-Control: no-cache, no-store, must-revalidate, max-age=0' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
+	}
+}, 1 );
+
+// 2. Permanently Delete Any "Test Product" & Remove From Cart
+add_action( 'init', 'evara_purge_test_products', 5 );
+function evara_purge_test_products() {
+	// Query any product titled "test product", slug "test-product", or price <= 1
+	$test_query = new WP_Query( array(
+		'post_type'      => 'product',
+		'post_status'    => array( 'publish', 'draft', 'pending', 'private', 'trash' ),
+		'posts_per_page' => 10,
+		's'              => 'test product',
+		'fields'         => 'ids',
+	) );
+	if ( ! empty( $test_query->posts ) ) {
+		foreach ( $test_query->posts as $pid ) {
+			$prod = wc_get_product( $pid );
+			if ( $prod && ( stripos( $prod->get_name(), 'test product' ) !== false || $prod->get_slug() === 'test-product' || floatval( $prod->get_price() ) <= 1.00 ) ) {
+				wp_delete_post( $pid, true );
+			}
+		}
+	}
+
+	// Direct slug check
+	$by_slug = get_page_by_path( 'test-product', OBJECT, 'product' );
+	if ( $by_slug ) {
+		wp_delete_post( $by_slug->ID, true );
+	}
+
+	// Purge legacy pages from wp_posts if they exist
+	foreach ( array( 'coming-soon', 'canvas-paintings-home-decor', 'lippan-art-home-decor' ) as $legacy_slug ) {
+		$leg_page = get_page_by_path( $legacy_slug );
+		if ( $leg_page && 'trash' !== $leg_page->post_status ) {
+			wp_trash_post( $leg_page->ID );
+		}
+	}
+
+	// Sanitize Cart: Remove any item with price <= 1 or title "test product"
+	if ( class_exists( 'WooCommerce' ) && WC()->cart ) {
+		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+			$product = $cart_item['data'];
+			if ( $product && ( stripos( $product->get_name(), 'test product' ) !== false || floatval( $product->get_price() ) <= 1.00 ) ) {
+				WC()->cart->remove_cart_item( $cart_item_key );
+			}
+		}
+	}
+}
+
+// 3. Exclude "Uncategorized" & Test Products from Catalog Queries & Searches
+add_action( 'woocommerce_product_query', 'evara_filter_catalog_products' );
+function evara_filter_catalog_products( $q ) {
+	if ( is_admin() ) {
+		return;
+	}
+	// Exclude Uncategorized term
+	$tax_query = (array) $q->get( 'tax_query' );
+	$tax_query[] = array(
+		'taxonomy' => 'product_cat',
+		'field'    => 'slug',
+		'terms'    => array( 'uncategorized' ),
+		'operator' => 'NOT IN',
+	);
+	$q->set( 'tax_query', $tax_query );
+
+	// Exclude products with price <= 1.00
+	$meta_query = (array) $q->get( 'meta_query' );
+	$meta_query[] = array(
+		'key'     => '_price',
+		'value'   => 1.00,
+		'compare' => '>',
+		'type'    => 'NUMERIC',
+	);
+	$q->set( 'meta_query', $meta_query );
+}
+
+// 4. Dequeue Modern Cart Plugin Frontend Scripts (Kill Duplicate Cart Drawer)
+add_action( 'wp_enqueue_scripts', 'evara_neutralize_external_cart_plugins', 999 );
+function evara_neutralize_external_cart_plugins() {
+	wp_dequeue_script( 'moderncart-frontend-scripts' );
+	wp_dequeue_script( 'moderncart-scripts' );
+	wp_dequeue_script( 'moderncart' );
+	wp_dequeue_style( 'moderncart-frontend-styles' );
+	wp_dequeue_style( 'moderncart-styles' );
+	wp_dequeue_style( 'moderncart' );
+}
+
+// 5. SEO: Meta Descriptions, OpenGraph Tags & Clean Document Titles
+add_filter( 'document_title_parts', 'evara_seo_document_title_parts', 20 );
+function evara_seo_document_title_parts( $title ) {
+	if ( is_front_page() || is_home() ) {
+		$title['title']   = 'Evara Art';
+		$title['tagline'] = 'Original Handmade Canvas Paintings & Lippan Art | Lead Artist Shraddha Parmar';
+	} elseif ( is_product_category() ) {
+		$term = get_queried_object();
+		if ( $term && ! is_wp_error( $term ) ) {
+			$name = $term->name;
+			if ( stripos( $name, 'canvas painting' ) !== false ) {
+				$name = 'Canvas Paintings';
+			} elseif ( stripos( $name, 'clay art' ) !== false || stripos( $name, 'lippan' ) !== false ) {
+				$name = 'Lippan & Clay Art';
+			}
+			$title['title'] = $name;
+			$title['site']  = 'Evara Art';
+		}
+	}
+	return $title;
+}
+
+// Clean up Category Titles on WooCommerce category archives
+add_filter( 'woocommerce_page_title', 'evara_clean_category_page_title', 20 );
+function evara_clean_category_page_title( $title ) {
+	if ( is_product_category() ) {
+		if ( stripos( $title, 'canvas painting' ) !== false ) {
+			return __( 'Canvas Paintings', 'evara-art' );
+		}
+		if ( stripos( $title, 'clay art' ) !== false || stripos( $title, 'lippan' ) !== false ) {
+			return __( 'Lippan & Clay Art', 'evara-art' );
+		}
+	}
+	return $title;
+}
+
+// Breadcrumbs cleanup
+add_filter( 'woocommerce_get_breadcrumb', 'evara_clean_breadcrumbs', 20, 2 );
+function evara_clean_breadcrumbs( $crumbs, $breadcrumb ) {
+	foreach ( $crumbs as $k => $crumb ) {
+		if ( isset( $crumb[0] ) ) {
+			if ( stripos( $crumb[0], 'canvas painting' ) !== false ) {
+				$crumbs[ $k ][0] = 'Canvas Paintings';
+			} elseif ( stripos( $crumb[0], 'clay art' ) !== false || stripos( $crumb[0], 'lippan' ) !== false ) {
+				$crumbs[ $k ][0] = 'Lippan & Clay Art';
+			}
+		}
+	}
+	return $crumbs;
+}
+
+// Dynamic SEO Meta Description & OpenGraph Tags
+add_action( 'wp_head', 'evara_render_seo_meta_tags', 1 );
+function evara_render_seo_meta_tags() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$title = wp_get_document_title();
+	$url   = esc_url( home_url( add_query_arg( array(), $GLOBALS['wp']->request ?? '' ) ) );
+	$image = EVARA_URI . '/assets/images/hero-banner-krishna.png';
+	$desc  = 'Discover authentic original handmade canvas paintings and Gujarat Lippan mirror art by lead artist Shraddha Parmar. 100% hand-painted with certified authenticity and armored Pan-India delivery.';
+
+	if ( is_front_page() || is_home() ) {
+		$desc = 'Evara Art offers original handmade canvas paintings, sacred spiritual art (Krishna, Shiv Shakti, Jagannath), and authentic Gujarat Lippan mirror art by lead artist Shraddha Parmar. Free Pan-India insured delivery.';
+	} elseif ( is_product() ) {
+		global $product;
+		if ( $product ) {
+			$title = $product->get_name() . ' | Evara Art';
+			$short = $product->get_short_description();
+			if ( ! empty( $short ) ) {
+				$desc = wp_strip_all_tags( $short );
+			} else {
+				$desc = sprintf( 'Handmade %s artwork by lead artist Shraddha Parmar at Evara Art. Available with insured Pan-India transit guarantee.', $product->get_name() );
+			}
+			$img_id = $product->get_image_id();
+			if ( $img_id ) {
+				$img_src = wp_get_attachment_image_url( $img_id, 'full' );
+				if ( $img_src ) {
+					$image = $img_src;
+				}
+			}
+		}
+	} elseif ( is_product_category() ) {
+		$term = get_queried_object();
+		if ( $term && ! is_wp_error( $term ) ) {
+			$cat_name = evara_clean_category_page_title( $term->name );
+			$title    = $cat_name . ' | Evara Art';
+			$desc     = sprintf( 'Explore our curated collection of %s at Evara Art. Handcrafted by lead artist Shraddha Parmar with museum-grade materials and zero-risk transit guarantee.', $cat_name );
+		}
+	} elseif ( is_page( 'about' ) ) {
+		$title = 'About & Studio Story | Evara Art';
+		$desc  = 'Learn about Evara Art and lead artist Shraddha Parmar. Discover the sacred devotion, artistic philosophy, and handcrafted techniques behind our canvas paintings and Lippan craft.';
+	} elseif ( is_page( 'custom-art' ) ) {
+		$title = 'Custom Art Commissions | Evara Art';
+		$desc  = 'Commission a bespoke, personalized canvas painting or Lippan wall art tailored to your home interior and spiritual devotion by lead artist Shraddha Parmar.';
+	}
+
+	echo "\n<!-- Evara Art SEO & OpenGraph Meta Tags -->\n";
+	echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
+	echo '<meta property="og:site_name" content="Evara Art">' . "\n";
+	echo '<meta property="og:type" content="' . ( is_product() ? 'product' : 'website' ) . '">' . "\n";
+	echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
+	echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
+	echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
+	echo '<meta property="og:image" content="' . esc_url( $image ) . '">' . "\n";
+	echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+	echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '">' . "\n";
+	echo '<meta name="twitter:description" content="' . esc_attr( $desc ) . '">' . "\n";
+	echo '<meta name="twitter:image" content="' . esc_url( $image ) . '">' . "\n";
+	echo "<!-- End Evara Art SEO Meta Tags -->\n\n";
 }
 
 
