@@ -263,21 +263,20 @@
 			var $gallery = $('.woocommerce-product-gallery');
 			if (!$gallery.length) return;
 
-			// Check image count
+			// Check image count & flexslider presence
+			var hasFlexViewport = $gallery.find('.flex-viewport').length > 0;
 			var slideCount = $gallery.find('.woocommerce-product-gallery__image').length;
-			if (slideCount <= 1) {
-				$gallery.addClass('is-single-image');
+			if (!hasFlexViewport && slideCount <= 1) {
+				$gallery.addClass('is-single-image').removeClass('has-multiple-images');
 				$gallery.find('.flex-direction-nav, .flex-control-thumbs').hide();
 			} else {
-				$gallery.addClass('has-multiple-images');
+				$gallery.addClass('has-multiple-images').removeClass('is-single-image');
 			}
 
-			// Clean any rogue inline styles that break Flexslider horizontal flow (removes 2000px auto margins)
+			// Clean rogue margins that break Flexslider horizontal track (retain float and display for Flexslider)
 			$gallery.find('.woocommerce-product-gallery__image').each(function() {
 				this.style.removeProperty('margin-left');
 				this.style.removeProperty('margin-right');
-				this.style.removeProperty('float');
-				this.style.removeProperty('display');
 				this.style.removeProperty('justify-content');
 				this.style.removeProperty('align-items');
 			});

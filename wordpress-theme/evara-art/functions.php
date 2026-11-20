@@ -20,7 +20,7 @@ register_shutdown_function( function() {
 	}
 } );
 
-define( 'EVARA_VERSION', '1.5.1' );
+define( 'EVARA_VERSION', '1.5.2' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
