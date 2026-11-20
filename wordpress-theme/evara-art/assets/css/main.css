@@ -4671,27 +4671,38 @@ textarea.studio-input {
 	border: none !important;
 	white-space: nowrap !important;
 }
+.woocommerce ul.products li.product .woocommerce-LoopProduct-link {
+	display: block !important;
+	width: 100% !important;
+	text-decoration: none !important;
+	color: inherit !important;
+	flex-grow: 1 !important;
+}
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
 	font-family: var(--font-serif) !important;
 	font-size: clamp(1.05rem, 1.8vw, 1.25rem) !important;
 	font-weight: 600 !important;
-	color: var(--evara-text-primary) !important;
+	color: var(--evara-text-primary, #1C1612) !important;
 	padding: 16px 16px 6px !important;
 	margin: 0 !important;
 	line-height: 1.35 !important;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
+	display: -webkit-box !important;
+	-webkit-line-clamp: 2 !important;
+	-webkit-box-orient: vertical !important;
+	overflow: hidden !important;
+	visibility: visible !important;
+	opacity: 1 !important;
 }
 .woocommerce ul.products li.product .price {
 	font-family: var(--font-sans) !important;
 	font-size: 1.05rem !important;
 	font-weight: 700 !important;
-	color: var(--evara-terracotta) !important;
+	color: var(--evara-terracotta, #B85034) !important;
 	padding: 0 16px 14px !important;
 	margin: 0 !important;
 	display: block !important;
+	visibility: visible !important;
+	opacity: 1 !important;
 }
 .woocommerce ul.products li.product .price del {
 	color: var(--evara-text-muted);
@@ -7677,7 +7688,7 @@ img.zoomImg,
 .woocommerce ul.products li.product a img,
 .woocommerce ul.products li.product img {
 	width: 100% !important;
-	height: 100% !important;
+	height: auto !important;
 	aspect-ratio: 1 / 1 !important;
 	object-fit: cover !important;
 	display: block !important;

@@ -20,7 +20,7 @@ register_shutdown_function( function() {
 	}
 } );
 
-define( 'EVARA_VERSION', '1.5.0' );
+define( 'EVARA_VERSION', '1.5.1' );
 define( 'EVARA_DIR', get_template_directory() );
 define( 'EVARA_URI', get_template_directory_uri() );
 define( 'EVARA_FREE_SHIPPING_THRESHOLD', 2999 );
@@ -1749,9 +1749,13 @@ add_action( 'template_redirect', function() {
 	}
 }, 1 );
 
-// 2. Permanently Delete Any "Test Product" & Remove From Cart
-add_action( 'init', 'evara_purge_test_products', 5 );
+// 2. Permanently Delete Any "Test Product" & Remove From Cart (Runs in Admin Once)
+add_action( 'admin_init', 'evara_purge_test_products' );
 function evara_purge_test_products() {
+	if ( get_option( 'evara_test_purged_v151', false ) ) {
+		return;
+	}
+	update_option( 'evara_test_purged_v151', '1' );
 	// Query any product titled "test product", slug "test-product", or price <= 1
 	$test_query = new WP_Query( array(
 		'post_type'      => 'product',
@@ -1883,66 +1887,74 @@ function evara_clean_breadcrumbs( $crumbs, $breadcrumb ) {
 	return $crumbs;
 }
 
-// Dynamic SEO Meta Description & OpenGraph Tags
+// Dynamic SEO Meta Description & OpenGraph Tags (100% Fail-Safe)
 add_action( 'wp_head', 'evara_render_seo_meta_tags', 1 );
 function evara_render_seo_meta_tags() {
 	if ( is_admin() ) {
 		return;
 	}
 
-	$title = wp_get_document_title();
-	$url   = esc_url( home_url( add_query_arg( array(), $GLOBALS['wp']->request ?? '' ) ) );
-	$image = EVARA_URI . '/assets/images/hero-banner-krishna.png';
-	$desc  = 'Discover authentic original handmade canvas paintings and Gujarat Lippan mirror art by lead artist Shraddha Parmar. 100% hand-painted with certified authenticity and armored Pan-India delivery.';
+	try {
+		global $wp;
+		$title = wp_get_document_title();
+		$url   = ( is_object( $wp ) && ! empty( $wp->request ) ) ? esc_url( home_url( $wp->request ) ) : esc_url( home_url() );
+		$image = EVARA_URI . '/assets/images/hero-banner-krishna.png';
+		$desc  = 'Discover authentic original handmade canvas paintings and Gujarat Lippan mirror art by lead artist Shraddha Parmar. 100% hand-painted with certified authenticity and armored Pan-India delivery.';
 
-	if ( is_front_page() || is_home() ) {
-		$desc = 'Evara Art offers original handmade canvas paintings, sacred spiritual art (Krishna, Shiv Shakti, Jagannath), and authentic Gujarat Lippan mirror art by lead artist Shraddha Parmar. Free Pan-India insured delivery.';
-	} elseif ( is_product() ) {
-		global $product;
-		if ( $product ) {
-			$title = $product->get_name() . ' | Evara Art';
-			$short = $product->get_short_description();
-			if ( ! empty( $short ) ) {
-				$desc = wp_strip_all_tags( $short );
-			} else {
-				$desc = sprintf( 'Handmade %s artwork by lead artist Shraddha Parmar at Evara Art. Available with insured Pan-India transit guarantee.', $product->get_name() );
-			}
-			$img_id = $product->get_image_id();
-			if ( $img_id ) {
-				$img_src = wp_get_attachment_image_url( $img_id, 'full' );
-				if ( $img_src ) {
-					$image = $img_src;
+		if ( is_front_page() || is_home() ) {
+			$desc = 'Evara Art offers original handmade canvas paintings, sacred spiritual art (Krishna, Shiv Shakti, Jagannath), and authentic Gujarat Lippan mirror art by lead artist Shraddha Parmar. Free Pan-India insured delivery.';
+		} elseif ( is_singular( 'product' ) ) {
+			$pid = get_the_ID();
+			$product = function_exists( 'wc_get_product' ) ? wc_get_product( $pid ) : null;
+			if ( $product && is_a( $product, 'WC_Product' ) ) {
+				$title = $product->get_name() . ' | Evara Art';
+				$short = $product->get_short_description();
+				if ( ! empty( $short ) ) {
+					$desc = wp_strip_all_tags( $short );
+				} else {
+					$desc = sprintf( 'Handmade %s artwork by lead artist Shraddha Parmar at Evara Art. Available with insured Pan-India transit guarantee.', $product->get_name() );
 				}
+				$img_id = $product->get_image_id();
+				if ( $img_id ) {
+					$img_src = wp_get_attachment_image_url( $img_id, 'full' );
+					if ( $img_src ) {
+						$image = $img_src;
+					}
+				}
+			} elseif ( $pid ) {
+				$title = get_the_title( $pid ) . ' | Evara Art';
 			}
+		} elseif ( is_product_category() ) {
+			$term = get_queried_object();
+			if ( $term && ! is_wp_error( $term ) && isset( $term->name ) ) {
+				$cat_name = evara_clean_category_page_title( $term->name );
+				$title    = $cat_name . ' | Evara Art';
+				$desc     = sprintf( 'Explore our curated collection of %s at Evara Art. Handcrafted by lead artist Shraddha Parmar with museum-grade materials and zero-risk transit guarantee.', $cat_name );
+			}
+		} elseif ( is_page( 'about' ) ) {
+			$title = 'About & Studio Story | Evara Art';
+			$desc  = 'Learn about Evara Art and lead artist Shraddha Parmar. Discover the sacred devotion, artistic philosophy, and handcrafted techniques behind our canvas paintings and Lippan craft.';
+		} elseif ( is_page( 'custom-art' ) ) {
+			$title = 'Custom Art Commissions | Evara Art';
+			$desc  = 'Commission a bespoke, personalized canvas painting or Lippan wall art tailored to your home interior and spiritual devotion by lead artist Shraddha Parmar.';
 		}
-	} elseif ( is_product_category() ) {
-		$term = get_queried_object();
-		if ( $term && ! is_wp_error( $term ) ) {
-			$cat_name = evara_clean_category_page_title( $term->name );
-			$title    = $cat_name . ' | Evara Art';
-			$desc     = sprintf( 'Explore our curated collection of %s at Evara Art. Handcrafted by lead artist Shraddha Parmar with museum-grade materials and zero-risk transit guarantee.', $cat_name );
-		}
-	} elseif ( is_page( 'about' ) ) {
-		$title = 'About & Studio Story | Evara Art';
-		$desc  = 'Learn about Evara Art and lead artist Shraddha Parmar. Discover the sacred devotion, artistic philosophy, and handcrafted techniques behind our canvas paintings and Lippan craft.';
-	} elseif ( is_page( 'custom-art' ) ) {
-		$title = 'Custom Art Commissions | Evara Art';
-		$desc  = 'Commission a bespoke, personalized canvas painting or Lippan wall art tailored to your home interior and spiritual devotion by lead artist Shraddha Parmar.';
-	}
 
-	echo "\n<!-- Evara Art SEO & OpenGraph Meta Tags -->\n";
-	echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
-	echo '<meta property="og:site_name" content="Evara Art">' . "\n";
-	echo '<meta property="og:type" content="' . ( is_product() ? 'product' : 'website' ) . '">' . "\n";
-	echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
-	echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
-	echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
-	echo '<meta property="og:image" content="' . esc_url( $image ) . '">' . "\n";
-	echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
-	echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '">' . "\n";
-	echo '<meta name="twitter:description" content="' . esc_attr( $desc ) . '">' . "\n";
-	echo '<meta name="twitter:image" content="' . esc_url( $image ) . '">' . "\n";
-	echo "<!-- End Evara Art SEO Meta Tags -->\n\n";
+		echo "\n<!-- Evara Art SEO & OpenGraph Meta Tags -->\n";
+		echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
+		echo '<meta property="og:site_name" content="Evara Art">' . "\n";
+		echo '<meta property="og:type" content="' . ( is_singular( 'product' ) ? 'product' : 'website' ) . '">' . "\n";
+		echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
+		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
+		echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
+		echo '<meta property="og:image" content="' . esc_url( $image ) . '">' . "\n";
+		echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+		echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '">' . "\n";
+		echo '<meta name="twitter:description" content="' . esc_attr( $desc ) . '">' . "\n";
+		echo '<meta name="twitter:image" content="' . esc_url( $image ) . '">' . "\n";
+		echo "<!-- End Evara Art SEO Meta Tags -->\n\n";
+	} catch ( Throwable $e ) {
+		// Silent fail-safe: never break head
+	}
 }
 
 
